@@ -64,7 +64,7 @@ body{font-size:16px;line-height:1.6;text-rendering:optimizeLegibility;-webkit-fo
 .office-map-copy h2 em{color:var(--gold)}
 .office-map-copy address{margin:38px 0 0;padding-top:28px;border-top:1px solid var(--line);font:400 20px/1.65 var(--font-cormorant),Georgia,serif;font-style:normal;color:#4d5a54}
 .office-map-copy a{align-self:flex-start;margin-top:34px;padding:11px 0;border-bottom:1px solid var(--line);font-size:12px;font-weight:600}.office-map-copy a span{margin-left:20px;color:var(--gold)}
-.office-map-frame{min-height:570px;background:#d8d3c7;overflow:hidden}.office-map-frame iframe{display:block;width:100%;height:100%;min-height:570px;border:0;filter:grayscale(.82) sepia(.1) saturate(.72) contrast(.96)}
+.office-map-frame{min-height:570px;background:#d8d3c7;overflow:hidden}.office-map-frame iframe{display:block;width:100%;height:100%;min-height:570px;border:0}
 
 @media(max-width:980px){.office-map-section{grid-template-columns:1fr}.office-map-copy{padding:75px 35px}.office-map-frame,.office-map-frame iframe{min-height:500px}}
 @media(max-width:620px){.mobile-menu summary{font-size:11px}.slide-copy>span{font-size:14px}.hero-links a{font-size:10px}.home-statement>div>span{font-size:14px}.portal-card p{font-size:14px}.footer-nav a,.footer-address{font-size:12px}.page-intro p,.practice-detail-list p{font-size:14px}.practice-detail-list li{font-size:12px}.lawyer-title>span{font-size:11px}.lawyer-values p{font-size:14px}.contact-lines span{font-size:9px}.contact-lines a,.contact-lines address,.contact-lines p{font-size:18px}.office-map-copy{padding:70px 24px}.office-map-copy address{font-size:19px}.office-map-frame,.office-map-frame iframe{min-height:420px}}
