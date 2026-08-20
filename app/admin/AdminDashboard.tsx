@@ -26,8 +26,8 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
   const load = useCallback(() => {
     fetch("/api/admin/posts", { headers: { Authorization: `Bearer ${accessToken}` } })
       .then(async (response) => {
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error);
+        const data = await response.json() as { posts?: Post[]; error?: string };
+        if (!response.ok) throw new Error(data.error || "Yazılar yüklenemedi");
         return data;
       })
       .then((data) => { setPosts(data.posts ?? []); setMessage(""); })
@@ -45,7 +45,7 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
       body: JSON.stringify({ ...form, id: editingId }),
     });
-    const data = await response.json();
+    const data = await response.json() as { error?: string };
     if (!response.ok) setMessage(data.error || "Yazı kaydedilemedi");
     else {
       setMessage(editingId ? "Değişiklikler kaydedildi." : "Yeni yazı kaydedildi.");

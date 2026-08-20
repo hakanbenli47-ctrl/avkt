@@ -19,7 +19,7 @@ export default function BlogFeed({ initialPosts }: { initialPosts: Article[] }) 
 
   useEffect(() => {
     fetch("/api/posts")
-      .then((response) => response.json())
+      .then(async (response) => await response.json() as { posts?: LivePost[] })
       .then((data) => setLivePosts(data.posts ?? []))
       .catch(() => undefined);
   }, []);

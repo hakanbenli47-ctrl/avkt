@@ -13,11 +13,12 @@ export default function AdminPortal() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let unsubscribe = () => undefined;
+    let unsubscribe: () => void = () => {};
     fetch("/api/supabase-config")
       .then(async (response) => {
-        const config = await response.json();
+        const config = await response.json() as { url?: string; publishableKey?: string; error?: string };
         if (!response.ok) throw new Error(config.error);
+        if (!config.url || !config.publishableKey) throw new Error("Supabase bağlantı bilgileri eksik.");
         const supabase = createClient(config.url, config.publishableKey);
         setClient(supabase);
         const { data } = await supabase.auth.getSession();

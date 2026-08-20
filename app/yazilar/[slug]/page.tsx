@@ -55,7 +55,7 @@ export default async function ArticlePage({ params }: PageProps) {
         <p className="article-deck">{article.excerpt}</p>
         <div className="article-rule"><span>RP</span></div>
         <div className="article-content">
-          {article.content.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+          {article.content.map((paragraph: string, index: number) => <p key={index}>{paragraph}</p>)}
         </div>
         <aside className="article-cta">
           <span>Bu konu, diğer hukuk alanlarıyla birlikte değerlendirilmesi gereken sonuçlar doğurabilir.</span>
