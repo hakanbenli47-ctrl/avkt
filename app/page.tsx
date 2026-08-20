@@ -23,9 +23,9 @@ export default function Home() {
       </section>
 
       <section className="home-portals">
-        <Link href="/calisma-alanlari" className="portal-card"><Image src="/law-library.jpg" alt="Hukuk kütüphanesi" fill /><div /><span>01</span><h2>Çalışma<br />Alanları</h2><p>Gayrimenkulden ticarete, göçten mirasa uzanan çok yönlü hukuk hizmetleri.</p><b>İnceleyin ↗</b></Link>
-        <Link href="/avukat-ruslana-pasecinic" className="portal-card"><Image src="/ruslana-pasecinic.jpg" alt="Avukat Ruslana Pasecinic" fill /><div /><span>02</span><h2>Avukat</h2><p>Doğrudan iletişim, çok dilli çalışma ve dosyaya özel hukuki yaklaşım.</p><b>Tanıyın ↗</b></Link>
-        <Link href="/yazilar" className="portal-card"><Image src="/antalya-architecture.jpg" alt="Antalya tarihi mimarisi" fill /><div /><span>03</span><h2>Hukuk<br />Notları</h2><p>Türkiye’de yaşam, yatırım ve iş için anlaşılır güncel hukuk yazıları.</p><b>Okuyun ↗</b></Link>
+        <Link href="/calisma-alanlari" className="portal-card"><Image src="/law-library.jpg" alt="Hukuk kütüphanesi" fill sizes="(max-width: 980px) 100vw, 40vw" /><div /><span>01</span><h2>Çalışma<br />Alanları</h2><p>Gayrimenkulden ticarete, göçten mirasa uzanan çok yönlü hukuk hizmetleri.</p><b>İnceleyin ↗</b></Link>
+        <Link href="/avukat-ruslana-pasecinic" className="portal-card"><Image src="/ruslana-pasecinic.jpg" alt="Avukat Ruslana Pasecinic" fill sizes="(max-width: 980px) 100vw, 34vw" /><div /><span>02</span><h2>Avukat</h2><p>Doğrudan iletişim, çok dilli çalışma ve dosyaya özel hukuki yaklaşım.</p><b>Tanıyın ↗</b></Link>
+        <Link href="/yazilar" className="portal-card"><Image src="/antalya-architecture.jpg" alt="Antalya tarihi mimarisi" fill sizes="(max-width: 980px) 100vw, 30vw" /><div /><span>03</span><h2>Hukuk<br />Notları</h2><p>Türkiye’de yaşam, yatırım ve iş için anlaşılır güncel hukuk yazıları.</p><b>Okuyun ↗</b></Link>
       </section>
 
       <section className="home-insights">

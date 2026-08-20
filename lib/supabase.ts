@@ -1,10 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-import { env } from "cloudflare:workers";
 
 export function getSupabaseConfig() {
-  const runtime = env as unknown as Record<string, unknown>;
-  const url = String(runtime.SUPABASE_URL ?? "").trim();
-  const publishableKey = String(runtime.SUPABASE_PUBLISHABLE_KEY ?? runtime.SUPABASE_ANON_KEY ?? "").trim();
+  const url = String(process.env.SUPABASE_URL ?? "").trim();
+  const publishableKey = String(process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY ?? "").trim();
   if (!url || !publishableKey) throw new Error("Supabase bağlantı bilgileri henüz tanımlanmadı.");
   return { url, publishableKey };
 }
