@@ -68,8 +68,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, updateLanguage] = useState<SiteLanguage>("tr");
 
   useEffect(() => {
-    const saved = window.localStorage.getItem("advocat-language") as SiteLanguage | null;
-    if (saved && supported.includes(saved)) updateLanguage(saved);
+    const timer = window.setTimeout(() => {
+      const saved = window.localStorage.getItem("advocat-language") as SiteLanguage | null;
+      if (saved && supported.includes(saved)) updateLanguage(saved);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
