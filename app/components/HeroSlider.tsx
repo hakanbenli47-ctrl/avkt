@@ -10,6 +10,7 @@ const slides = [
   { image: "/antalya-architecture.jpg", alt: "Antalya’da tarihi mimari", kicker: "TR · RU · EN · RO", title: <>Türkiye’de hukuki süreçler,<br />kendi dilinizde.</>, text: "Yerel hukuk bilgisini uluslararası bakışla birleştiren, doğrudan ve anlaşılır iletişim." },
 ];
 
+
 export default function HeroSlider() {
   const [active, setActive] = useState(0);
   useEffect(() => {
