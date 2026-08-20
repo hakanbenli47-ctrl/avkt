@@ -26,6 +26,10 @@ export default function HeroSlider() {
         </div>
       ))}
       <div className="hero-links"><Link href="/avukat-ruslana-pasecinic">Büroyu tanıyın <span>↗</span></Link><Link href="/calisma-alanlari">Çalışma alanları <span>↗</span></Link></div>
+      <aside className="hero-profile-card" aria-label="Avukat Ruslana Pasecinic">
+        <span>RP</span><div><small>Attorney at Law</small><strong>Ruslana Pasecinic</strong><b>Antalya · Türkiye</b></div>
+      </aside>
+      <div className="hero-edge-label">TR · RU · EN · RO</div>
       <div className="slider-controls" aria-label="Slayt seçimi">
         {slides.map((_, index) => <button key={index} aria-label={`${index + 1}. görsel`} className={index === active ? "active" : ""} onClick={() => setActive(index)}><span /></button>)}
       </div>

@@ -16,7 +16,7 @@ type Post = {
 
 const emptyForm = { title: "", slug: "", excerpt: "", content: "", category: "Gayrimenkul Hukuku", language: "tr", status: "draft" };
 
-export default function AdminDashboard({ email }: { email: string }) {
+export default function AdminDashboard({ email, accessToken, onSignOut }: { email: string; accessToken: string; onSignOut: () => void }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -24,7 +24,7 @@ export default function AdminDashboard({ email }: { email: string }) {
   const [saving, setSaving] = useState(false);
 
   const load = useCallback(() => {
-    fetch("/api/admin/posts")
+    fetch("/api/admin/posts", { headers: { Authorization: `Bearer ${accessToken}` } })
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
@@ -32,7 +32,7 @@ export default function AdminDashboard({ email }: { email: string }) {
       })
       .then((data) => { setPosts(data.posts ?? []); setMessage(""); })
       .catch((error) => setMessage(error.message));
-  }, []);
+  }, [accessToken]);
 
   useEffect(load, [load]);
 
@@ -42,7 +42,7 @@ export default function AdminDashboard({ email }: { email: string }) {
     setMessage("");
     const response = await fetch("/api/admin/posts", {
       method: editingId ? "PUT" : "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
       body: JSON.stringify({ ...form, id: editingId }),
     });
     const data = await response.json();
@@ -62,7 +62,7 @@ export default function AdminDashboard({ email }: { email: string }) {
 
   async function remove(id: number) {
     if (!window.confirm("Bu yazıyı kalıcı olarak silmek istediğinize emin misiniz?")) return;
-    await fetch(`/api/admin/posts?id=${id}`, { method: "DELETE" });
+    await fetch(`/api/admin/posts?id=${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${accessToken}` } });
     load();
   }
 
@@ -74,7 +74,7 @@ export default function AdminDashboard({ email }: { email: string }) {
         <small>{email}</small>
       </aside>
       <main className="admin-main" id="editor">
-        <header><div><span>İÇERİK STÜDYOSU</span><h1>{editingId ? "Yazıyı düzenle" : "Yeni bir hukuk notu yaz"}</h1></div><a href="/signout-with-chatgpt?return_to=/">Çıkış</a></header>
+        <header><div><span>İÇERİK STÜDYOSU</span><h1>{editingId ? "Yazıyı düzenle" : "Yeni bir hukuk notu yaz"}</h1></div><button className="admin-signout" type="button" onClick={onSignOut}>Çıkış</button></header>
         <form className="editor-form" onSubmit={save}>
           <label>Başlık<input required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Okuyucunun sorusunu net biçimde yanıtlayan başlık" /></label>
           <div className="form-grid">

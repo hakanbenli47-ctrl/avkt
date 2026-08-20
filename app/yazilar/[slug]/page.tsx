@@ -9,17 +9,15 @@ async function getArticle(slug: string) {
   const local = articles.find((article) => article.slug === slug);
   if (local) return local;
   try {
-    const { getDb } = await import("../../../db");
-    const { posts } = await import("../../../db/schema");
-    const { eq } = await import("drizzle-orm");
-    const [post] = await getDb().select().from(posts).where(eq(posts.slug, slug)).limit(1);
-    if (!post || post.status !== "published") return null;
+    const { createSupabaseServerClient } = await import("../../../lib/supabase");
+    const { data: post } = await createSupabaseServerClient().from("posts").select("*").eq("slug", slug).eq("status", "published").maybeSingle();
+    if (!post) return null;
     return {
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt,
       category: post.category,
-      date: new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" }).format(new Date(post.publishedAt || post.createdAt)),
+      date: new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" }).format(new Date(post.published_at || post.created_at)),
       readTime: `${Math.max(2, Math.round(post.content.split(/\s+/).length / 180))} dk`,
       content: post.content.split(/\n\s*\n/).filter(Boolean),
     };

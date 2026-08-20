@@ -11,8 +11,13 @@ export default function Home() {
       <SiteHeader overlay />
       <HeroSlider />
 
+      <section className="brand-ribbon" aria-label="Çalışma yaklaşımı">
+        <span>Hukuki öngörü</span><i>✦</i><span>Çok dilli iletişim</span><i>✦</i><span>Uluslararası bakış</span><i>✦</i><span>Yerel tecrübe</span>
+      </section>
+
       <section className="home-statement">
-        <p>Advocat in Türkiye</p>
+        <div className="statement-code"><span>01</span><small>Yaklaşım</small></div>
+        <p>Advocat in Türkiye · Antalya</p>
         <h2>Yabancı olduğunuz bir ülkede,<br />hukuki süreç <em>yabancı kalmasın.</em></h2>
         <div><span>Av. Ruslana Pasecinic; Türkiye’de yaşayan, yatırım yapan ve iş kuran yabancıların hukuki meselelerini dört dilde, doğrudan ve özenle takip eder.</span><Link href="/avukat-ruslana-pasecinic">Avukat hakkında <b>↗</b></Link></div>
       </section>
