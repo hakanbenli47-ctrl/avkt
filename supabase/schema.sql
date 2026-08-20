@@ -20,6 +20,8 @@ create table if not exists public.posts (
   published_at timestamptz
 );
 
+create index if not exists posts_publication_idx on public.posts (status, published_at desc);
+
 alter table public.admin_users enable row level security;
 alter table public.posts enable row level security;
 
@@ -51,4 +53,5 @@ grant usage, select on sequence public.posts_id_seq to authenticated;
 
 -- İlk kullanıcıyı Authentication > Users bölümünde oluşturduktan sonra e-posta adresini değiştirip çalıştırın:
 -- insert into public.admin_users (user_id, email)
--- select id, email from auth.users where email = 'avukat@example.com';
+-- select id, email from auth.users where lower(email) = lower('avukat@example.com')
+-- on conflict (user_id) do update set email = excluded.email;
