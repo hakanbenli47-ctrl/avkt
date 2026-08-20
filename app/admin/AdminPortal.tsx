@@ -13,6 +13,7 @@ export default function AdminPortal() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
     let unsubscribe: () => void = () => {};
     fetch("/api/supabase-config")
       .then(async (response) => {
@@ -20,16 +21,29 @@ export default function AdminPortal() {
         if (!response.ok) throw new Error(config.error);
         if (!config.url || !config.publishableKey) throw new Error("Supabase bağlantı bilgileri eksik.");
         const supabase = createClient(config.url, config.publishableKey);
+        if (!active) return;
         setClient(supabase);
-        const { data } = await supabase.auth.getSession();
-        setSession(data.session);
-        const listener = supabase.auth.onAuthStateChange((_event, nextSession) => setSession(nextSession));
+        const listener = supabase.auth.onAuthStateChange((_event, nextSession) => {
+          if (active) setSession(nextSession);
+        });
         unsubscribe = () => listener.data.subscription.unsubscribe();
         setMessage("");
+        setLoading(false);
+
+        void supabase.auth.getSession().then(({ data }) => {
+          if (active) setSession(data.session);
+        });
       })
-      .catch((error) => setMessage(error.message || "Supabase bağlantısı kurulamadı."))
-      .finally(() => setLoading(false));
-    return () => unsubscribe();
+      .catch((error) => {
+        if (active) setMessage(error.message || "Supabase bağlantısı kurulamadı.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+      unsubscribe();
+    };
   }, []);
 
   async function signIn(event: FormEvent) {

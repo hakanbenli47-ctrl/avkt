@@ -23,7 +23,7 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
       <div className="header-side"><LanguageSwitcher /></div>
       <details className="mobile-menu" ref={mobileMenu}>
         <summary aria-label="Menüyü aç">Menü</summary>
-        <nav><Link href="/calisma-alanlari" onClick={closeMobileMenu}>Çalışma Alanları</Link><Link href="/avukat-ruslana-pasecinic" onClick={closeMobileMenu}>Avukat</Link><Link href="/yazilar" onClick={closeMobileMenu}>Hukuk Notları</Link><Link href="/iletisim" onClick={closeMobileMenu}>İletişim</Link><LanguageSwitcher mobile /></nav>
+        <nav><Link href="/calisma-alanlari" onClick={closeMobileMenu}>Çalışma Alanları</Link><Link href="/avukat-ruslana-pasecinic" onClick={closeMobileMenu}>Avukat</Link><Link href="/yazilar" onClick={closeMobileMenu}>Hukuk Notları</Link><Link href="/iletisim" onClick={closeMobileMenu}>İletişim</Link><LanguageSwitcher mobile onSelect={closeMobileMenu} /></nav>
       </details>
     </header>
   );
