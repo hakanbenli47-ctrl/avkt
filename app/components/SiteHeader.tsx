@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef } from "react";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   const mobileMenu = useRef<HTMLDetailsElement>(null);
@@ -19,10 +20,10 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         <Link href="/yazilar">Hukuk Notları</Link>
         <Link href="/iletisim">İletişim</Link>
       </nav>
-      <div className="header-side"><span>TR</span><i /><span>RU</span><i /><span>EN</span><i /><span>RO</span></div>
+      <div className="header-side"><LanguageSwitcher /></div>
       <details className="mobile-menu" ref={mobileMenu}>
         <summary aria-label="Menüyü aç">Menü</summary>
-        <nav><Link href="/calisma-alanlari" onClick={closeMobileMenu}>Çalışma Alanları</Link><Link href="/avukat-ruslana-pasecinic" onClick={closeMobileMenu}>Avukat</Link><Link href="/yazilar" onClick={closeMobileMenu}>Hukuk Notları</Link><Link href="/iletisim" onClick={closeMobileMenu}>İletişim</Link></nav>
+        <nav><Link href="/calisma-alanlari" onClick={closeMobileMenu}>Çalışma Alanları</Link><Link href="/avukat-ruslana-pasecinic" onClick={closeMobileMenu}>Avukat</Link><Link href="/yazilar" onClick={closeMobileMenu}>Hukuk Notları</Link><Link href="/iletisim" onClick={closeMobileMenu}>İletişim</Link><LanguageSwitcher mobile /></nav>
       </details>
     </header>
   );

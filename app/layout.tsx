@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { headers } from "next/headers";
+import { LanguageProvider } from "./components/LanguageProvider";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -46,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className={`${manrope.variable} ${cormorant.variable}`}>
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
