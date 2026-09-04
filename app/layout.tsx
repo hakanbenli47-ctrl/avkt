@@ -7,6 +7,7 @@ import FloatingContactDock from "./components/FloatingContactDock";
 import VisitTracker from "./components/VisitTracker";
 import "./globals.css";
 import "./theme-refinements.css";
+import "./contact-brand-colors.css";
 
 const manrope = Manrope({
   variable: "--font-manrope",
