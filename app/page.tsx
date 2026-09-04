@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { articles } from "../lib/content";
 import HeroSlider from "./components/HeroSlider";
+import HomeInsights from "./components/HomeInsights";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 
@@ -42,10 +42,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-insights">
-        <header><div><p>Son hukuk notları</p><h2>Güncel meseleler,<br /><em>açık anlatımla.</em></h2></div><Link href="/yazilar">Tüm yazılar ↗</Link></header>
-        <div>{articles.slice(0, 3).map((article, index) => <Link href={`/yazilar/${article.slug}`} key={article.slug}><span>0{index + 1}</span><p>{article.category}</p><h3>{article.title}</h3><small>{article.date} · {article.readTime}</small></Link>)}</div>
-      </section>
+      <HomeInsights />
       <SiteFooter />
     </main>
   );
