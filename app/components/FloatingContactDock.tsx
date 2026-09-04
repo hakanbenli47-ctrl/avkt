@@ -9,6 +9,7 @@ const quickLinks: Array<{ label: string; href: string; icon: SocialIconName; ext
   { label: "Telefonla ara", href: contact.phoneHref, icon: "phone" },
   { label: "WhatsApp", href: contact.whatsappHref, icon: "whatsapp", external: true },
   { label: "Instagram", href: contact.instagramHref, icon: "instagram", external: true },
+  { label: "Facebook", href: contact.facebookHref, icon: "facebook", external: true },
   { label: "LinkedIn", href: contact.linkedinHref, icon: "linkedin", external: true },
 ];
 
