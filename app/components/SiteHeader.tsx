@@ -14,6 +14,7 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   const isAbout = pathname === "/hakkimizda" || pathname === "/avukat-ruslana-pasecinic";
   const isActivities = pathname === "/faaliyetlerimiz" || pathname === "/calisma-alanlari";
   const isBlog = pathname === "/yazilar" || pathname.startsWith("/yazilar/");
+  const isContact = pathname === "/iletisim";
 
   return (
     <header className={`main-header ${overlay ? "is-overlay" : ""}`}>
@@ -35,6 +36,7 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           </div>
         </details>
         <Link href="/yazilar" className={isBlog ? "active" : ""} aria-current={isBlog ? "page" : undefined}>Blog</Link>
+        <Link href="/iletisim" className={isContact ? "active" : ""} aria-current={isContact ? "page" : undefined}>İletişim</Link>
       </nav>
       <div className="header-side"><LanguageSwitcher /></div>
       <details className="mobile-menu" ref={mobileMenu}>
@@ -47,6 +49,7 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
             <div><Link href="/faaliyetlerimiz#faaliyet-turleri" onClick={closeMobileMenu}>Faaliyet Türleri</Link><Link href="/faaliyetlerimiz#faaliyet-alanlari" onClick={closeMobileMenu}>Faaliyet Alanları</Link></div>
           </details>
           <Link href="/yazilar" onClick={closeMobileMenu}>Blog</Link>
+          <Link href="/iletisim" onClick={closeMobileMenu}>İletişim</Link>
           <LanguageSwitcher mobile onSelect={closeMobileMenu} />
         </nav>
       </details>

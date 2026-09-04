@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { headers } from "next/headers";
 import { LanguageProvider } from "./components/LanguageProvider";
 import CookieConsent from "./components/CookieConsent";
+import FloatingContactDock from "./components/FloatingContactDock";
 import VisitTracker from "./components/VisitTracker";
 import "./globals.css";
 
@@ -49,7 +50,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className={`${manrope.variable} ${cormorant.variable}`}>
-        <LanguageProvider>{children}<CookieConsent /><VisitTracker /></LanguageProvider>
+        <LanguageProvider>{children}<FloatingContactDock /><CookieConsent /><VisitTracker /></LanguageProvider>
       </body>
     </html>
   );

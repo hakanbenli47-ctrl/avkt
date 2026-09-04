@@ -253,8 +253,94 @@ Object.assign(ro, {
   "İletişim bilgileri": "Date de contact",
 });
 
+Object.assign(en, {
+  "Altındağ Mahallesi, Tonguç Caddesi No: 26": "Altındağ Neighbourhood, Tonguç Avenue No: 26",
+  "Mehmet Zeki Balcı İş Merkezi, Kat: 5, Daire: 17": "Mehmet Zeki Balcı Business Centre, Floor: 5, Office: 17",
+  "Mehmet Zeki Balcı İş Merkezi": "Mehmet Zeki Balcı Business Centre",
+  "Kat: 5 · Daire: 17 · Muratpaşa · Antalya · Türkiye": "Floor: 5 · Office: 17 · Muratpaşa · Antalya · Türkiye",
+  "Altındağ Mah. · Tonguç Cad. No: 26": "Altındağ Neighbourhood · Tonguç Avenue No: 26",
+  "Mehmet Zeki Balcı İş Merkezi · K: 5 D: 17": "Mehmet Zeki Balcı Business Centre · Floor: 5 Office: 17",
+});
+
+Object.assign(ru, {
+  "Altındağ Mahallesi, Tonguç Caddesi No: 26": "Район Алтындаг, ул. Тонгуч, № 26",
+  "Mehmet Zeki Balcı İş Merkezi, Kat: 5, Daire: 17": "Бизнес-центр Mehmet Zeki Balcı, этаж 5, офис 17",
+  "Mehmet Zeki Balcı İş Merkezi": "Бизнес-центр Mehmet Zeki Balcı",
+  "Kat: 5 · Daire: 17 · Muratpaşa · Antalya · Türkiye": "Этаж 5 · офис 17 · Муратпаша · Анталья · Турция",
+  "Muratpaşa · Antalya · Türkiye": "Муратпаша · Анталья · Турция",
+  "Altındağ Mah. · Tonguç Cad. No: 26": "Район Алтындаг · ул. Тонгуч, № 26",
+  "Mehmet Zeki Balcı İş Merkezi · K: 5 D: 17": "Бизнес-центр Mehmet Zeki Balcı · этаж 5, офис 17",
+});
+
+Object.assign(ro, {
+  "Altındağ Mahallesi, Tonguç Caddesi No: 26": "Cartierul Altındağ, Strada Tonguç nr. 26",
+  "Mehmet Zeki Balcı İş Merkezi, Kat: 5, Daire: 17": "Centrul de afaceri Mehmet Zeki Balcı, etajul 5, biroul 17",
+  "Mehmet Zeki Balcı İş Merkezi": "Centrul de afaceri Mehmet Zeki Balcı",
+  "Kat: 5 · Daire: 17 · Muratpaşa · Antalya · Türkiye": "Etajul 5 · biroul 17 · Muratpaşa · Antalya · Turcia",
+  "Muratpaşa · Antalya · Türkiye": "Muratpaşa · Antalya · Turcia",
+  "Altındağ Mah. · Tonguç Cad. No: 26": "Cartierul Altındağ · Strada Tonguç nr. 26",
+  "Mehmet Zeki Balcı İş Merkezi · K: 5 D: 17": "Centrul de afaceri Mehmet Zeki Balcı · etajul 5, biroul 17",
+});
+
 Object.assign(en, { "Çerez ve Gizlilik": "Cookies & Privacy", "Çerez tercihleri": "Cookie preferences" });
 Object.assign(ru, { "Çerez ve Gizlilik": "Cookie и конфиденциальность", "Çerez tercihleri": "Настройки cookie" });
 Object.assign(ro, { "Çerez ve Gizlilik": "Cookie și confidențialitate", "Çerez tercihleri": "Preferințe cookie" });
+
+Object.assign(en, {
+  "Alt menü": "Footer navigation",
+  "Hukuki bir konuda görüşmek için": "To discuss a legal matter",
+  "Süreci birlikte": "Let us assess the process",
+  "değerlendirelim.": "together.",
+  "İletişime geçin": "Get in touch",
+  "Türkiye bağlantılı özel ve ticari meselelerde çok dilli hukuk hizmeti.": "Multilingual legal services for private and commercial matters connected with Türkiye.",
+  "Sayfalar": "Pages",
+  "Sosyal medya": "Social media",
+  "Konumu ve iletişimi görüntüle": "View location and contact details",
+  "Tüm hakları saklıdır.": "All rights reserved.",
+  "Hızlı iletişim": "Quick contact",
+  "Hızlı iletişim menüsünü aç": "Open quick contact menu",
+  "Telefonla ara": "Call by phone",
+  "Instagram profilini aç": "Open Instagram profile",
+  "LinkedIn profilini aç": "Open LinkedIn profile",
+  "Facebook profilini aç": "Open Facebook profile",
+});
+
+Object.assign(ru, {
+  "Alt menü": "Навигация в нижней части сайта",
+  "Hukuki bir konuda görüşmek için": "Чтобы обсудить юридический вопрос",
+  "Süreci birlikte": "Давайте вместе оценим",
+  "değerlendirelim.": "вашу ситуацию.",
+  "İletişime geçin": "Связаться",
+  "Türkiye bağlantılı özel ve ticari meselelerde çok dilli hukuk hizmeti.": "Многоязычная юридическая помощь по частным и коммерческим вопросам, связанным с Турцией.",
+  "Sayfalar": "Разделы",
+  "Sosyal medya": "Социальные сети",
+  "Konumu ve iletişimi görüntüle": "Посмотреть адрес и контакты",
+  "Tüm hakları saklıdır.": "Все права защищены.",
+  "Hızlı iletişim": "Быстрая связь",
+  "Hızlı iletişim menüsünü aç": "Открыть меню быстрой связи",
+  "Telefonla ara": "Позвонить",
+  "Instagram profilini aç": "Открыть профиль Instagram",
+  "LinkedIn profilini aç": "Открыть профиль LinkedIn",
+  "Facebook profilini aç": "Открыть профиль Facebook",
+});
+
+Object.assign(ro, {
+  "Alt menü": "Navigare subsol",
+  "Hukuki bir konuda görüşmek için": "Pentru a discuta o chestiune juridică",
+  "Süreci birlikte": "Să evaluăm procesul",
+  "değerlendirelim.": "împreună.",
+  "İletişime geçin": "Contactați-ne",
+  "Türkiye bağlantılı özel ve ticari meselelerde çok dilli hukuk hizmeti.": "Servicii juridice multilingve pentru chestiuni private și comerciale legate de Turcia.",
+  "Sayfalar": "Pagini",
+  "Sosyal medya": "Rețele sociale",
+  "Konumu ve iletişimi görüntüle": "Vedeți locația și datele de contact",
+  "Tüm hakları saklıdır.": "Toate drepturile rezervate.",
+  "Hızlı iletişim": "Contact rapid",
+  "Hızlı iletişim menüsünü aç": "Deschideți meniul de contact rapid",
+  "Telefonla ara": "Apelați telefonic",
+  "Instagram profilini aç": "Deschideți profilul Instagram",
+  "LinkedIn profilini aç": "Deschideți profilul LinkedIn",
+  "Facebook profilini aç": "Deschideți profilul Facebook",
+});
 
 export const translations: Record<Exclude<SiteLanguage, "tr">, Record<string, string>> = { en, ru, ro };
