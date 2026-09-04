@@ -1,14 +1,13 @@
 import { notFound } from "next/navigation";
-import { articles } from "../../../lib/content";
 import BlogPostImage from "../../components/BlogPostImage";
 import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
+export const dynamic = "force-dynamic";
+
 async function getArticle(slug: string) {
-  const local = articles.find((article) => article.slug === slug);
-  if (local) return { ...local, hasImage: false };
   try {
     const { createSupabaseServerClient, hasBlogImage } = await import("../../../lib/supabase");
     const { data: post } = await createSupabaseServerClient().from("posts").select("*").eq("slug", slug).eq("status", "published").maybeSingle();
@@ -26,10 +25,6 @@ async function getArticle(slug: string) {
   } catch {
     return null;
   }
-}
-
-export function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
