@@ -19,7 +19,7 @@ export default function SiteFooter() {
         <div className="footer-contact"><strong>İletişim bilgileri</strong><a href={contact.phoneHref}>{contact.phoneDisplay}</a><a href={`mailto:${contact.email}`}>{contact.email}</a><address>Altındağ Mah. · Tonguç Cad. No: 26<br />Mehmet Zeki Balcı İş Merkezi · K: 5 D: 17<br />Muratpaşa · Antalya · Türkiye</address><Link href="/iletisim">Konumu ve iletişimi görüntüle <span aria-hidden="true">↗</span></Link></div>
         <div className="footer-social"><strong>Sosyal medya</strong><div><a href={contact.instagramHref} target="_blank" rel="noreferrer" aria-label="Instagram profilini aç"><SocialIcon name="instagram" /><span>Instagram</span></a><a href={contact.linkedinHref} target="_blank" rel="noreferrer" aria-label="LinkedIn profilini aç"><SocialIcon name="linkedin" /><span>LinkedIn</span></a><a href={contact.facebookHref} target="_blank" rel="noreferrer" aria-label="Facebook profilini aç"><SocialIcon name="facebook" /><span>Facebook</span></a></div></div>
       </div>
-      <div className="footer-bottom"><span>© 2026 Advocat in Türkiye · <span>Tüm hakları saklıdır.</span></span><span>İçerikler genel bilgilendirme amaçlıdır.</span><Link href="/cerez-ve-gizlilik">Çerez ve Gizlilik</Link><CookieSettingsButton /></div>
+      <div className="footer-bottom"><span className="footer-confidentiality"><b>Gizlilik</b><span>Paylaştığınız bilgiler mesleki sır kapsamında korunur.</span></span><span>© 2026 Advocat in Türkiye · <span>Tüm hakları saklıdır.</span></span><span>İçerikler genel bilgilendirme amaçlıdır.</span><Link href="/cerez-ve-gizlilik#mesleki-gizlilik">Gizlilik</Link><CookieSettingsButton /></div>
     </footer>
   );
 }

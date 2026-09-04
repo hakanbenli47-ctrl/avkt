@@ -4,7 +4,7 @@ import { type SiteLanguage } from "../../lib/translations";
 import { useSiteLanguage } from "./LanguageProvider";
 
 const languages: Array<{ code: SiteLanguage; label: string }> = [
-  { code: "tr", label: "TR" }, { code: "ru", label: "RU" }, { code: "en", label: "EN" }, { code: "ro", label: "RO" },
+  { code: "ru", label: "RU" }, { code: "en", label: "EN" }, { code: "ro", label: "RO" }, { code: "tr", label: "TR" },
 ];
 
 export default function LanguageSwitcher({ mobile = false, onSelect }: { mobile?: boolean; onSelect?: () => void }) {

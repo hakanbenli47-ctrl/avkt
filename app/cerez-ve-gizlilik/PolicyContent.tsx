@@ -19,6 +19,7 @@ const content = {
       ["5. Saklama ve hizmet sağlayıcılar", "Ziyaret kayıtlarının en fazla 180 gün tutulması önerilir ve süre sonunda silinmelidir. Site Vercel üzerinde barındırılır; kayıtlar Supabase veritabanında saklanır. Verinin işlendiği bölge, bu hizmetlerde seçilen proje ayarlarına bağlıdır."],
       ["6. Tercihinizi değiştirme", "Sayfanın altındaki “Çerez tercihleri” düğmesini kullanarak analitik izninizi istediğiniz zaman kabul edebilir veya geri çekebilirsiniz. Geri çekme, sonraki ziyaret kayıtlarını durdurur."],
       ["7. Haklarınız", "Kişisel verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltme veya silme isteme ve mevzuatta tanınan diğer haklarınız için yukarıdaki iletişim adresine başvurabilirsiniz."],
+      ["8. Mesleki sır ve avukat–müvekkil gizliliği", "Avukata hukuki danışma veya temsil amacıyla aktarılan bilgi ve belgeler, Avukatlık Kanunu ve meslek kurallarındaki sır saklama yükümlülüğü çerçevesinde korunur. İnternet sitesi üzerinden ilk temas kurulması tek başına avukat–müvekkil ilişkisi oluşturmaz; hukuki hizmetin kapsamı ayrıca belirlenir."],
     ],
     storageTitle: "Kullanılan tarayıcı kayıtları",
     essential: "Zorunlu",
@@ -40,6 +41,7 @@ const content = {
       ["5. Retention and service providers", "Visit records should be retained for no longer than 180 days and deleted afterwards. The website is hosted on Vercel and records are stored in a Supabase database. The processing region depends on the project settings selected for those services."],
       ["6. Changing your choice", "You can accept or withdraw analytics permission at any time by using the “Cookie preferences” button in the footer. Withdrawal stops future visit recording."],
       ["7. Your rights", "You may contact the address above to ask whether your personal data is processed, request information, correction or deletion, and exercise other rights granted by applicable law."],
+      ["8. Professional secrecy and lawyer–client confidentiality", "Information and documents shared with a lawyer for legal advice or representation are protected under the duty of professional secrecy established by the Attorneyship Law and professional rules. Initial contact through this website does not by itself create a lawyer–client relationship; the scope of legal services is agreed separately."],
     ],
     storageTitle: "Browser records used",
     essential: "Essential",
@@ -61,6 +63,7 @@ const content = {
       ["5. Срок хранения и поставщики услуг", "Записи о посещениях рекомендуется хранить не более 180 дней, после чего их следует удалять. Сайт размещён на Vercel, а записи хранятся в базе Supabase. Регион обработки зависит от настроек проекта, выбранных в этих сервисах."],
       ["6. Изменение выбора", "Вы можете в любое время дать или отозвать разрешение на аналитику с помощью кнопки «Настройки cookie» в нижней части сайта. Отзыв останавливает последующую запись посещений."],
       ["7. Ваши права", "По указанному выше адресу вы можете узнать, обрабатываются ли ваши персональные данные, запросить информацию, исправление или удаление и воспользоваться другими правами, предусмотренными законодательством."],
+      ["8. Профессиональная тайна и конфиденциальность отношений адвоката с доверителем", "Информация и документы, переданные адвокату для получения юридической консультации или представительства, охраняются обязанностью соблюдения профессиональной тайны, установленной Законом об адвокатуре и профессиональными правилами. Первичное обращение через сайт само по себе не создаёт отношений адвоката и доверителя; объём юридических услуг согласовывается отдельно."],
     ],
     storageTitle: "Используемые записи браузера",
     essential: "Обязательные",
@@ -82,6 +85,7 @@ const content = {
       ["5. Păstrare și furnizori", "Se recomandă păstrarea înregistrărilor cel mult 180 de zile și ștergerea lor ulterior. Site-ul este găzduit pe Vercel, iar datele sunt stocate într-o bază Supabase. Regiunea de prelucrare depinde de setările proiectului alese în aceste servicii."],
       ["6. Modificarea opțiunii", "Puteți accepta sau retrage oricând permisiunea pentru analiză folosind butonul „Preferințe cookie” din subsol. Retragerea oprește înregistrările viitoare."],
       ["7. Drepturile dumneavoastră", "Puteți contacta adresa de mai sus pentru a afla dacă datele sunt prelucrate, pentru a solicita informații, rectificarea sau ștergerea și pentru a exercita celelalte drepturi acordate de lege."],
+      ["8. Secretul profesional și confidențialitatea avocat–client", "Informațiile și documentele comunicate avocatului pentru consultanță juridică sau reprezentare sunt protejate de obligația păstrării secretului profesional prevăzută de Legea avocaturii și de normele profesionale. Primul contact prin intermediul site-ului nu creează prin el însuși o relație avocat–client; întinderea serviciilor juridice se stabilește separat."],
     ],
     storageTitle: "Înregistrări utilizate în browser",
     essential: "Esențiale",
@@ -100,10 +104,10 @@ export default function PolicyContent() {
       <SiteHeader />
       <section className="policy-hero"><span>{page.eyebrow}</span><h1>{page.title}</h1><p>{page.intro}</p><small>{page.updated}</small></section>
       <section className="policy-content">
-        <aside><span>01—07</span><strong>{page.storageTitle}</strong></aside>
+        <aside><span>01—08</span><strong>{page.storageTitle}</strong></aside>
         <div className="policy-sections">
           <div className="policy-storage"><article><span>01</span><div><b>{page.essential}</b><p>{page.preference}</p></div></article><article><span>02</span><div><b>{page.analytics}</b><p>{page.anonymous}</p></div></article></div>
-          {page.sections.map(([title, text]) => <article className="policy-section" key={title}><h2>{title}</h2><p>{text}</p></article>)}
+          {page.sections.map(([title, text], index) => <article className="policy-section" id={index === page.sections.length - 1 ? "mesleki-gizlilik" : undefined} key={title}><h2>{title}</h2><p>{text}</p></article>)}
           <div className="policy-choice"><p>{page.action}</p><CookieSettingsButton /></div>
         </div>
       </section>

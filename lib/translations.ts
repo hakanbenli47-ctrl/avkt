@@ -343,4 +343,52 @@ Object.assign(ro, {
   "Facebook profilini aç": "Deschideți profilul Facebook",
 });
 
+Object.assign(en, {
+  "Neden tercih ediliyoruz?": "Why choose this practice?",
+  "Hukuki desteğin temeli,": "The foundation of legal support is",
+  "güven ve açıklıktır.": "trust and clarity.",
+  "Her dosyada doğrudan iletişim, anlaşılır bilgi ve somut olayın koşullarına göre şekillenen dikkatli bir çalışma esastır.": "Every matter is handled with direct communication, clear information and careful work shaped by its specific circumstances.",
+  "Dört dilde çalışma": "Service in four languages",
+  "Süreci, olası riskleri ve izlenecek adımları dosyanızı takip eden avukatla doğrudan görüşürsünüz.": "You discuss the process, potential risks and next steps directly with the lawyer handling your matter.",
+  "Türkçe, Rusça, İngilizce ve Romence iletişim sayesinde hukuki süreç sizin için anlaşılır kalır.": "Communication in Turkish, Russian, English and Romanian keeps the legal process clear and understandable.",
+  "Dosyaya özel yaklaşım": "Matter-specific approach",
+  "Hazır kalıplar yerine belgeleriniz, hedefleriniz ve dosyanın kendine özgü riskleri birlikte değerlendirilir.": "Your documents, objectives and the particular risks of the matter are assessed together instead of relying on standard templates.",
+  "Yerel bilgi, sınır ötesi bakış": "Local knowledge, cross-border perspective",
+  "Türkiye hukukuna ilişkin süreçler, yabancı müvekkillerin uluslararası bağlantıları da dikkate alınarak ele alınır.": "Processes under Turkish law are handled with due regard for the international connections of foreign clients.",
+  "Gizlilik": "Confidentiality",
+  "Paylaştığınız bilgiler mesleki sır kapsamında korunur.": "The information you share is protected by professional secrecy.",
+});
+
+Object.assign(ru, {
+  "Neden tercih ediliyoruz?": "Почему выбирают нас?",
+  "Hukuki desteğin temeli,": "Основа юридической помощи —",
+  "güven ve açıklıktır.": "доверие и ясность.",
+  "Her dosyada doğrudan iletişim, anlaşılır bilgi ve somut olayın koşullarına göre şekillenen dikkatli bir çalışma esastır.": "В основе работы по каждому делу — прямое общение, понятная информация и внимательный подход с учётом конкретных обстоятельств.",
+  "Dört dilde çalışma": "Работа на четырёх языках",
+  "Süreci, olası riskleri ve izlenecek adımları dosyanızı takip eden avukatla doğrudan görüşürsünüz.": "Процесс, возможные риски и дальнейшие шаги вы обсуждаете напрямую с адвокатом, ведущим ваше дело.",
+  "Türkçe, Rusça, İngilizce ve Romence iletişim sayesinde hukuki süreç sizin için anlaşılır kalır.": "Общение на турецком, русском, английском и румынском языках делает юридический процесс понятным для вас.",
+  "Dosyaya özel yaklaşım": "Индивидуальный подход к делу",
+  "Hazır kalıplar yerine belgeleriniz, hedefleriniz ve dosyanın kendine özgü riskleri birlikte değerlendirilir.": "Вместо шаблонов совместно оцениваются ваши документы, цели и особые риски конкретного дела.",
+  "Yerel bilgi, sınır ötesi bakış": "Местное знание и международный взгляд",
+  "Türkiye hukukuna ilişkin süreçler, yabancı müvekkillerin uluslararası bağlantıları da dikkate alınarak ele alınır.": "Процессы по турецкому праву рассматриваются с учётом международных связей иностранных доверителей.",
+  "Gizlilik": "Конфиденциальность",
+  "Paylaştığınız bilgiler mesleki sır kapsamında korunur.": "Предоставленная вами информация охраняется профессиональной тайной.",
+});
+
+Object.assign(ro, {
+  "Neden tercih ediliyoruz?": "De ce să ne alegeți?",
+  "Hukuki desteğin temeli,": "Fundamentul asistenței juridice este",
+  "güven ve açıklıktır.": "încrederea și claritatea.",
+  "Her dosyada doğrudan iletişim, anlaşılır bilgi ve somut olayın koşullarına göre şekillenen dikkatli bir çalışma esastır.": "Fiecare dosar este gestionat prin comunicare directă, informații clare și o analiză atentă, adaptată circumstanțelor concrete.",
+  "Dört dilde çalışma": "Asistență în patru limbi",
+  "Süreci, olası riskleri ve izlenecek adımları dosyanızı takip eden avukatla doğrudan görüşürsünüz.": "Discutați procesul, riscurile posibile și pașii următori direct cu avocatul care vă gestionează dosarul.",
+  "Türkçe, Rusça, İngilizce ve Romence iletişim sayesinde hukuki süreç sizin için anlaşılır kalır.": "Comunicarea în turcă, rusă, engleză și română menține procesul juridic clar și ușor de înțeles.",
+  "Dosyaya özel yaklaşım": "Abordare adaptată dosarului",
+  "Hazır kalıplar yerine belgeleriniz, hedefleriniz ve dosyanın kendine özgü riskleri birlikte değerlendirilir.": "Documentele, obiectivele și riscurile specifice dosarului sunt evaluate împreună, în locul utilizării unor modele standard.",
+  "Yerel bilgi, sınır ötesi bakış": "Cunoaștere locală, perspectivă transfrontalieră",
+  "Türkiye hukukuna ilişkin süreçler, yabancı müvekkillerin uluslararası bağlantıları da dikkate alınarak ele alınır.": "Procedurile de drept turc sunt gestionate ținând cont și de legăturile internaționale ale clienților străini.",
+  "Gizlilik": "Confidențialitate",
+  "Paylaştığınız bilgiler mesleki sır kapsamında korunur.": "Informațiile comunicate de dumneavoastră sunt protejate prin secretul profesional.",
+});
+
 export const translations: Record<Exclude<SiteLanguage, "tr">, Record<string, string>> = { en, ru, ro };

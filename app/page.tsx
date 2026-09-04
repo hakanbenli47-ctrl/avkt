@@ -28,6 +28,20 @@ export default function Home() {
         <Link href="/yazilar" className="portal-card"><Image src="/antalya-architecture.jpg" alt="Antalya tarihi mimarisi" fill sizes="(max-width: 980px) 100vw, 30vw" /><div /><span>03</span><h2>Blog</h2><p>Türkiye’de yaşam, yatırım ve iş için anlaşılır güncel hukuk yazıları.</p><b>Okuyun ↗</b></Link>
       </section>
 
+      <section className="home-reasons" aria-labelledby="home-reasons-title">
+        <header>
+          <span>02</span>
+          <div><p>Neden tercih ediliyoruz?</p><h2 id="home-reasons-title">Hukuki desteğin temeli,<br /><em>güven ve açıklıktır.</em></h2></div>
+          <p>Her dosyada doğrudan iletişim, anlaşılır bilgi ve somut olayın koşullarına göre şekillenen dikkatli bir çalışma esastır.</p>
+        </header>
+        <div className="reason-grid">
+          <article><span>01</span><h3>Doğrudan iletişim</h3><p>Süreci, olası riskleri ve izlenecek adımları dosyanızı takip eden avukatla doğrudan görüşürsünüz.</p></article>
+          <article><span>02</span><h3>Dört dilde çalışma</h3><p>Türkçe, Rusça, İngilizce ve Romence iletişim sayesinde hukuki süreç sizin için anlaşılır kalır.</p></article>
+          <article><span>03</span><h3>Dosyaya özel yaklaşım</h3><p>Hazır kalıplar yerine belgeleriniz, hedefleriniz ve dosyanın kendine özgü riskleri birlikte değerlendirilir.</p></article>
+          <article><span>04</span><h3>Yerel bilgi, sınır ötesi bakış</h3><p>Türkiye hukukuna ilişkin süreçler, yabancı müvekkillerin uluslararası bağlantıları da dikkate alınarak ele alınır.</p></article>
+        </div>
+      </section>
+
       <section className="home-insights">
         <header><div><p>Son hukuk notları</p><h2>Güncel meseleler,<br /><em>açık anlatımla.</em></h2></div><Link href="/yazilar">Tüm yazılar ↗</Link></header>
         <div>{articles.slice(0, 3).map((article, index) => <Link href={`/yazilar/${article.slug}`} key={article.slug}><span>0{index + 1}</span><p>{article.category}</p><h3>{article.title}</h3><small>{article.date} · {article.readTime}</small></Link>)}</div>

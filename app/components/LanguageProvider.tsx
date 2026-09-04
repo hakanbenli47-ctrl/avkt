@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { translations, type SiteLanguage } from "../../lib/translations";
 
 type LanguageContextValue = { language: SiteLanguage; setLanguage: (language: SiteLanguage) => void };
@@ -67,19 +67,22 @@ function translateTree(root: Node, language: SiteLanguage) {
 }
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, updateLanguage] = useState<SiteLanguage>("tr");
+  const [language, updateLanguage] = useState<SiteLanguage>("ru");
+  const preferenceLoaded = useRef(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       const saved = window.localStorage.getItem("advocat-language") as SiteLanguage | null;
       if (saved && supported.includes(saved)) updateLanguage(saved);
+      else window.localStorage.setItem("advocat-language", "ru");
+      preferenceLoaded.current = true;
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     document.documentElement.lang = language;
-    window.localStorage.setItem("advocat-language", language);
+    if (preferenceLoaded.current) window.localStorage.setItem("advocat-language", language);
     translateTree(document.body, language);
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
