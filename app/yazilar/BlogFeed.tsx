@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Article } from "../../lib/content";
+import BlogPostImage from "../components/BlogPostImage";
 
 type LivePost = {
   id: number;
@@ -11,6 +12,7 @@ type LivePost = {
   excerpt: string;
   category: string;
   publishedAt: string | null;
+  hasImage?: boolean;
 };
 
 export default function BlogFeed({ initialPosts }: { initialPosts: Article[] }) {
@@ -35,8 +37,9 @@ export default function BlogFeed({ initialPosts }: { initialPosts: Article[] }) 
         ? new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" }).format(new Date(post.publishedAt))
         : "Yeni",
       readTime: "5 dk",
+      hasImage: Boolean(post.hasImage),
     })),
-    ...initialPosts,
+    ...initialPosts.map((post) => ({ ...post, hasImage: false })),
   ];
   const filtered = filter === "Tümü" ? all : all.filter((post) => post.category === filter);
 
@@ -51,9 +54,10 @@ export default function BlogFeed({ initialPosts }: { initialPosts: Article[] }) 
       </div>
       <div className="blog-list">
         {filtered.map((post, index) => (
-          <Link className="blog-row" href={`/yazilar/${post.slug}`} key={post.slug}>
+          <Link className={`blog-row ${post.hasImage ? "has-image" : ""}`} href={`/yazilar/${post.slug}`} key={post.slug}>
             <span className="blog-row-no">{String(index + 1).padStart(2, "0")}</span>
-            <div>
+            {post.hasImage && <BlogPostImage slug={post.slug} title={post.title} />}
+            <div className="blog-row-copy">
               <p>{post.category} · {post.date}</p>
               <h2>{post.title}</h2>
               <span>{post.excerpt}</span>
