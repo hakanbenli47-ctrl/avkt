@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 
 type Post = {
   id: number;
@@ -12,9 +12,10 @@ type Post = {
   language: string;
   status: string;
   updatedAt: string;
+  hasImage?: boolean;
 };
 
-type FormState = Omit<Post, "id" | "updatedAt">;
+type FormState = Omit<Post, "id" | "updatedAt" | "hasImage">;
 
 const emptyForm: FormState = {
   title: "",
@@ -33,6 +34,47 @@ const languageNames: Record<string, string> = {
   ro: "Română",
 };
 
+const blogImageWidth = 1600;
+const blogImageHeight = 900;
+
+async function normalizeBlogImage(file: File) {
+  const sourceUrl = URL.createObjectURL(file);
+  try {
+    const image = new window.Image();
+    image.decoding = "async";
+    image.src = sourceUrl;
+    await new Promise<void>((resolve, reject) => {
+      image.onload = () => resolve();
+      image.onerror = () => reject(new Error("Görsel tarayıcı tarafından okunamadı."));
+    });
+
+    if (!image.naturalWidth || !image.naturalHeight) throw new Error("Görsel boyutları okunamadı.");
+
+    const canvas = document.createElement("canvas");
+    canvas.width = blogImageWidth;
+    canvas.height = blogImageHeight;
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Görsel dönüştürülemedi.");
+
+    const scale = Math.max(blogImageWidth / image.naturalWidth, blogImageHeight / image.naturalHeight);
+    const drawWidth = image.naturalWidth * scale;
+    const drawHeight = image.naturalHeight * scale;
+    const offsetX = (blogImageWidth - drawWidth) / 2;
+    const offsetY = (blogImageHeight - drawHeight) / 2;
+
+    context.fillStyle = "#f4efe5";
+    context.fillRect(0, 0, blogImageWidth, blogImageHeight);
+    context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob((result) => result ? resolve(result) : reject(new Error("JPEG oluşturulamadı.")), "image/jpeg", 0.88);
+    });
+    return new File([blob], "blog-cover.jpg", { type: "image/jpeg", lastModified: Date.now() });
+  } finally {
+    URL.revokeObjectURL(sourceUrl);
+  }
+}
+
 export default function AdminDashboard({ email, accessToken, onSignOut }: { email: string; accessToken: string; onSignOut: () => void }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [form, setForm] = useState<FormState>(emptyForm);
@@ -41,9 +83,19 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState("");
+  const [imageProcessing, setImageProcessing] = useState(false);
+  const [existingImage, setExistingImage] = useState(false);
+  const [removeImage, setRemoveImage] = useState(false);
 
   const publishedCount = useMemo(() => posts.filter((post) => post.status === "published").length, [posts]);
   const contentLength = form.content.trim().length;
+  const displayedImage = imagePreview || (existingImage && form.slug ? `/api/blog-image/${encodeURIComponent(form.slug)}` : "");
+
+  useEffect(() => () => {
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+  }, [imagePreview]);
 
   const load = useCallback(async (quiet = false) => {
     if (!quiet) setLoadingPosts(true);
@@ -68,7 +120,47 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
   function resetEditor() {
     setEditingId(null);
     setForm(emptyForm);
+    setImageFile(null);
+    setImagePreview("");
+    setImageProcessing(false);
+    setExistingImage(false);
+    setRemoveImage(false);
     setMessage("");
+  }
+
+  async function selectImage(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    const selected = input.files?.[0];
+    input.value = "";
+    if (!selected) return;
+
+    setImageProcessing(true);
+    setMessage("");
+    try {
+      const normalized = await normalizeBlogImage(selected);
+      setImageFile(normalized);
+      setImagePreview(URL.createObjectURL(normalized));
+      setRemoveImage(false);
+      setMessage("Görsel 1600 × 900 px ölçüsünde JPEG olarak hazırlandı.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Görsel hazırlanamadı.");
+    } finally {
+      setImageProcessing(false);
+    }
+  }
+
+  function clearImage() {
+    if (imageFile) {
+      setImageFile(null);
+      setImagePreview("");
+      setMessage(existingImage ? "Yeni görsel seçimi kaldırıldı; mevcut görsel korunacak." : "Görsel seçimi kaldırıldı.");
+      return;
+    }
+    if (existingImage) {
+      setExistingImage(false);
+      setRemoveImage(true);
+      setMessage("Mevcut görsel, yazıyı kaydettiğinizde kaldırılacak.");
+    }
   }
 
   async function save(event: FormEvent) {
@@ -81,12 +173,41 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
         body: JSON.stringify({ ...form, id: editingId }),
       });
-      const data = await response.json() as { error?: string };
+      const data = await response.json() as { error?: string; post?: { slug?: string } };
       if (!response.ok) throw new Error(data.error || "Yazı kaydedilemedi.");
+
+      const savedSlug = data.post?.slug || form.slug;
+      let imageWarning = "";
+      if (savedSlug) {
+        try {
+          if (removeImage) {
+            const deleteResponse = await fetch(`/api/admin/post-image?slug=${encodeURIComponent(savedSlug)}`, {
+              method: "DELETE",
+              headers: { Authorization: `Bearer ${accessToken}` },
+            });
+            if (!deleteResponse.ok) throw new Error("Mevcut görsel kaldırılamadı.");
+          }
+          if (imageFile) {
+            const imageData = new FormData();
+            imageData.append("slug", savedSlug);
+            imageData.append("file", imageFile, `${savedSlug}.jpg`);
+            const imageResponse = await fetch("/api/admin/post-image", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${accessToken}` },
+              body: imageData,
+            });
+            const imageResult = await imageResponse.json() as { error?: string };
+            if (!imageResponse.ok) throw new Error(imageResult.error || "Görsel yüklenemedi.");
+          }
+        } catch (error) {
+          imageWarning = ` Yazı kaydedildi ancak ${error instanceof Error ? error.message.toLocaleLowerCase("tr-TR") : "görsel işlemi tamamlanamadı."}`;
+        }
+      }
+
       const successMessage = editingId ? "Değişiklikler kaydedildi." : form.status === "published" ? "Yazı yayınlandı." : "Taslak kaydedildi.";
       resetEditor();
       await load(true);
-      setMessage(successMessage);
+      setMessage(`${successMessage}${imageWarning}`);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Yazı kaydedilemedi.");
     } finally {
@@ -97,6 +218,10 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
   function edit(post: Post) {
     setEditingId(post.id);
     setForm({ title: post.title, slug: post.slug, excerpt: post.excerpt, content: post.content, category: post.category, language: post.language, status: post.status });
+    setImageFile(null);
+    setImagePreview("");
+    setExistingImage(Boolean(post.hasImage));
+    setRemoveImage(false);
     setMessage(`“${post.title}” düzenleniyor.`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -109,6 +234,9 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
       const response = await fetch(`/api/admin/posts?id=${post.id}`, { method: "DELETE", headers: { Authorization: `Bearer ${accessToken}` } });
       const data = await response.json() as { error?: string };
       if (!response.ok) throw new Error(data.error || "Yazı silinemedi.");
+      if (post.hasImage) {
+        await fetch(`/api/admin/post-image?slug=${encodeURIComponent(post.slug)}`, { method: "DELETE", headers: { Authorization: `Bearer ${accessToken}` } }).catch(() => undefined);
+      }
       if (editingId === post.id) resetEditor();
       await load(true);
       setMessage("Yazı silindi.");
@@ -134,7 +262,7 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
 
       <main className="admin-main">
         <header className="admin-heading">
-          <div><span>İÇERİK STÜDYOSU</span><h1>{editingId ? "Yazıyı düzenle" : "Yeni yazı oluştur"}</h1><p>Başlığı ve metni yazın; taslak olarak saklayın veya hazır olduğunda yayınlayın.</p></div>
+          <div><span>İÇERİK STÜDYOSU</span><h1>{editingId ? "Yazıyı düzenle" : "Yeni yazı oluştur"}</h1><p>Başlığı ve metni yazın; isterseniz kapak görseli ekleyin, taslak olarak saklayın veya hazır olduğunda yayınlayın.</p></div>
           <button className="admin-signout" type="button" onClick={onSignOut}>Güvenli çıkış</button>
         </header>
 
@@ -153,13 +281,28 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
             </fieldset>
 
             <fieldset>
-              <legend><b>2</b><span>Yazı metni<small>Paragrafları boş bir satırla ayırabilirsiniz.</small></span></legend>
+              <legend><b>2</b><span>Kapak görseli<small>İsteğe bağlıdır. Boyut ve format otomatik düzenlenir.</small></span></legend>
+              <div className="admin-image-editor">
+                <div className={`admin-image-preview ${displayedImage ? "has-image" : ""}`} style={displayedImage ? { backgroundImage: `url(${JSON.stringify(displayedImage).slice(1, -1)})` } : undefined} aria-label={displayedImage ? "Seçili blog kapak görseli" : "Henüz kapak görseli seçilmedi"}>
+                  {!displayedImage && <span>16:9<br /><small>1600 × 900</small></span>}
+                </div>
+                <div className="admin-image-controls">
+                  <div><b>Blog kapak görseli</b><p>Seçtiğiniz görsel merkezden 16:9 oranında kırpılır, 1600 × 900 piksele getirilir ve kaynak formatı ne olursa olsun JPEG olarak yüklenir.</p></div>
+                  <label className="admin-file-picker">{imageProcessing ? "Hazırlanıyor…" : displayedImage ? "Görseli değiştir" : "Görsel seç"}<input type="file" accept="image/*" disabled={imageProcessing || saving} onChange={(event) => void selectImage(event)} /></label>
+                  {(imageFile || existingImage) && <button className="admin-image-remove" type="button" disabled={imageProcessing || saving} onClick={clearImage}>{imageFile && existingImage ? "Yeni seçimi kaldır" : imageFile ? "Seçimi kaldır" : "Mevcut görseli kaldır"}</button>}
+                  {removeImage && <button className="admin-image-undo" type="button" onClick={() => { setRemoveImage(false); setExistingImage(true); setMessage("Görsel kaldırma işlemi geri alındı."); }}>Kaldırmayı geri al</button>}
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend><b>3</b><span>Yazı metni<small>Paragrafları boş bir satırla ayırabilirsiniz.</small></span></legend>
               <label className="admin-content-field">İçerik<textarea required className="content-editor" rows={16} value={form.content} onChange={(event) => setForm({ ...form, content: event.target.value })} placeholder="Yazınızı buraya yazın…" /><small className="editor-counter">{contentLength.toLocaleString("tr-TR")} karakter</small></label>
             </fieldset>
 
             <div className="form-actions">
               <p aria-live="polite">{message || (form.status === "published" ? "Kaydettiğinizde yazı sitede görünür." : "Henüz yalnızca taslak olarak saklanacak.")}</p>
-              <div>{editingId && <button className="secondary-action" type="button" onClick={resetEditor}>Vazgeç</button>}<button className="primary-action" type="submit" disabled={saving}>{saving ? "Kaydediliyor…" : form.status === "published" ? "Kaydet ve yayınla" : "Taslağı kaydet"}</button></div>
+              <div>{editingId && <button className="secondary-action" type="button" onClick={resetEditor}>Vazgeç</button>}<button className="primary-action" type="submit" disabled={saving || imageProcessing}>{saving ? "Kaydediliyor…" : imageProcessing ? "Görsel hazırlanıyor…" : form.status === "published" ? "Kaydet ve yayınla" : "Taslağı kaydet"}</button></div>
             </div>
           </form>
         </section>
@@ -172,7 +315,7 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
             {posts.map((post) => (
               <article className="admin-post-row" key={post.id}>
                 <span className={`status-dot ${post.status}`} aria-hidden="true" />
-                <div className="admin-post-copy"><b>{post.title}</b><small>{post.category} · {languageNames[post.language] ?? post.language} · {post.status === "published" ? "Yayında" : "Taslak"}</small></div>
+                <div className="admin-post-copy"><b>{post.title}</b><small>{post.category} · {languageNames[post.language] ?? post.language} · {post.status === "published" ? "Yayında" : "Taslak"}{post.hasImage ? " · Görselli" : ""}</small></div>
                 <div className="admin-post-actions"><button type="button" onClick={() => edit(post)}>Düzenle</button><button className="delete" type="button" disabled={deletingId === post.id} onClick={() => void remove(post)}>{deletingId === post.id ? "Siliniyor…" : "Sil"}</button></div>
               </article>
             ))}
