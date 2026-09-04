@@ -26,7 +26,7 @@ export default function HeroSlider() {
           <div className="slide-copy"><p>{slide.kicker}</p><h1>{slide.title}</h1><span>{slide.text}</span></div>
         </div>
       ))}
-      <div className="hero-links"><Link href="/avukat-ruslana-pasecinic">Büroyu tanıyın <span>↗</span></Link><Link href="/calisma-alanlari">Çalışma alanları <span>↗</span></Link></div>
+      <div className="hero-links"><Link href="/hakkimizda">Hakkımızda <span>↗</span></Link><Link href="/faaliyetlerimiz">Faaliyetlerimiz <span>↗</span></Link></div>
       <aside className="hero-profile-card" aria-label="Avukat Ruslana Pasecinic">
         <span>RP</span><div><small>Attorney at Law</small><strong>Ruslana Pasecinic</strong><b>Antalya · Türkiye</b></div>
       </aside>

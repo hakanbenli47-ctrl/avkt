@@ -50,6 +50,8 @@ function translateAttributes(element: Element, language: SiteLanguage) {
 }
 
 function translateTree(root: Node, language: SiteLanguage) {
+  const rootElement = root.nodeType === Node.TEXT_NODE ? root.parentElement : root as Element;
+  if (rootElement?.closest("script, style, textarea, [data-no-translate]")) return;
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
       const parent = node.nodeType === Node.TEXT_NODE ? node.parentElement : node as Element;
@@ -81,7 +83,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     translateTree(document.body, language);
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
-        if (mutation.type === "characterData") translateText(mutation.target as Text, language);
+        if (mutation.type === "characterData" && !mutation.target.parentElement?.closest("[data-no-translate]")) translateText(mutation.target as Text, language);
         mutation.addedNodes.forEach((node) => translateTree(node, language));
       }
     });

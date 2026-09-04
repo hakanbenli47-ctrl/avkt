@@ -15,6 +15,15 @@ export function createSupabaseServerClient(accessToken?: string) {
   });
 }
 
+export function createSupabaseAdminClient() {
+  const { url } = getSupabaseConfig();
+  const secretKey = String(process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? "").trim();
+  if (!secretKey) throw new Error("SUPABASE_SECRET_KEY henüz tanımlanmadı.");
+  return createClient(url, secretKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+}
+
 export function toPublicPost(row: Record<string, unknown>) {
   return {
     id: row.id,

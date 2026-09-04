@@ -116,12 +116,13 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
   }
 
   return (
-    <div className="admin-shell">
+    <div className="admin-shell" data-no-translate>
       <aside className="admin-sidebar">
         <div className="admin-sidebar-brand"><div className="admin-logo">RP</div><div><strong>İçerik Paneli</strong><small>Advocat in Türkiye</small></div></div>
         <nav aria-label="Yönetim menüsü">
           <a className="active" href="#post-editor"><span>01</span> Yeni yazı</a>
           <a href="#post-list"><span>02</span> Yazılarım</a>
+          <a href="/admin/ziyaretler"><span>03</span> Giriş–çıkış verileri</a>
           <a href="/" target="_blank" rel="noreferrer"><span>↗</span> Siteyi gör</a>
         </nav>
         <div className="admin-account"><small>Giriş yapan hesap</small><strong title={email}>{email}</strong></div>
@@ -172,6 +173,7 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
             ))}
           </div>
         </section>
+
       </main>
     </div>
   );
