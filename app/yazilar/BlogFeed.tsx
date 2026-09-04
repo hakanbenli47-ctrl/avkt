@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import type { Article } from "../../lib/content";
 import BlogPostImage from "../components/BlogPostImage";
 
 type LivePost = {
@@ -15,32 +14,36 @@ type LivePost = {
   hasImage?: boolean;
 };
 
-export default function BlogFeed({ initialPosts }: { initialPosts: Article[] }) {
-  const [livePosts, setLivePosts] = useState<LivePost[]>([]);
+export default function BlogFeed() {
+  const [livePosts, setLivePosts] = useState<LivePost[] | null>(null);
   const [filter, setFilter] = useState("Tümü");
 
   useEffect(() => {
     fetch("/api/posts")
       .then(async (response) => await response.json() as { posts?: LivePost[] })
       .then((data) => setLivePosts(data.posts ?? []))
-      .catch(() => undefined);
+      .catch(() => setLivePosts([]));
   }, []);
 
   const categories = useMemo(
-    () => ["Tümü", ...Array.from(new Set([...initialPosts.map((p) => p.category), ...livePosts.map((p) => p.category)]))],
-    [initialPosts, livePosts],
+    () => ["Tümü", ...Array.from(new Set((livePosts ?? []).map((post) => post.category)))],
+    [livePosts],
   );
-  const all = [
-    ...livePosts.map((post) => ({
-      ...post,
-      date: post.publishedAt
-        ? new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" }).format(new Date(post.publishedAt))
-        : "Yeni",
-      readTime: "5 dk",
-      hasImage: Boolean(post.hasImage),
-    })),
-    ...initialPosts.map((post) => ({ ...post, hasImage: false })),
-  ];
+
+  if (livePosts === null) return null;
+
+  if (livePosts.length === 0) {
+    return <div className="blog-empty">Henüz yayınlanmış hukuk notu bulunmuyor.</div>;
+  }
+
+  const all = livePosts.map((post) => ({
+    ...post,
+    date: post.publishedAt
+      ? new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" }).format(new Date(post.publishedAt))
+      : "Yeni",
+    readTime: "5 dk",
+    hasImage: Boolean(post.hasImage),
+  }));
   const filtered = filter === "Tümü" ? all : all.filter((post) => post.category === filter);
 
   return (
