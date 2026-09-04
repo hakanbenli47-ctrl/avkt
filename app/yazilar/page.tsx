@@ -1,4 +1,3 @@
-import { articles } from "../../lib/content";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 import BlogFeed from "./BlogFeed";
@@ -17,7 +16,7 @@ export default function BlogPage() {
         <h1>Hukuku daha<br /><em>anlaşılır kılmak.</em></h1>
         <p>Türkiye’de yaşam, yatırım ve ticaret için güncel, sade ve uygulanabilir hukuk notları.</p>
       </section>
-      <BlogFeed initialPosts={articles} />
+      <BlogFeed />
       <SiteFooter />
     </main>
   );
