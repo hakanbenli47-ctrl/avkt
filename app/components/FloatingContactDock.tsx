@@ -38,7 +38,15 @@ export default function FloatingContactDock() {
       <summary aria-label="Hızlı iletişim menüsünü aç"><SocialIcon name="contact" /><span>İletişim</span></summary>
       <nav className="floating-contact-menu" aria-label="Hızlı iletişim">
         {quickLinks.map((item) => (
-          <a key={item.label} href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noreferrer" : undefined} aria-label={item.label} onClick={() => dock.current?.removeAttribute("open")}>
+          <a
+            className={`floating-service floating-service-${item.icon}`}
+            key={item.label}
+            href={item.href}
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noreferrer" : undefined}
+            aria-label={item.label}
+            onClick={() => dock.current?.removeAttribute("open")}
+          >
             <span>{item.label}</span><i><SocialIcon name={item.icon} /></i>
           </a>
         ))}
