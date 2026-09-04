@@ -1,4 +1,4 @@
-import { createSupabaseServerClient, toPublicPost } from "../../../lib/supabase";
+import { createSupabaseServerClient, hasBlogImage, listBlogImageSlugs, toPublicPost } from "../../../lib/supabase";
 
 export const dynamic = "force-dynamic";
 
@@ -9,10 +9,11 @@ export async function GET(request: Request) {
     if (slug) {
       const { data: post } = await db.from("posts").select("*").eq("slug", slug).eq("status", "published").maybeSingle();
       if (!post) return Response.json({ error: "Yazı bulunamadı" }, { status: 404 });
-      return Response.json({ post: toPublicPost(post) });
+      return Response.json({ post: { ...toPublicPost(post), hasImage: await hasBlogImage(slug) } });
     }
     const { data } = await db.from("posts").select("*").eq("status", "published").order("published_at", { ascending: false });
-    return Response.json({ posts: (data ?? []).map(toPublicPost) });
+    const imageSlugs = await listBlogImageSlugs();
+    return Response.json({ posts: (data ?? []).map((post) => ({ ...toPublicPost(post), hasImage: imageSlugs.has(post.slug) })) });
   } catch {
     return Response.json({ posts: [] });
   }
