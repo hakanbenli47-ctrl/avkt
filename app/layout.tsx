@@ -6,6 +6,7 @@ import CookieConsent from "./components/CookieConsent";
 import FloatingContactDock from "./components/FloatingContactDock";
 import VisitTracker from "./components/VisitTracker";
 import "./globals.css";
+import "./theme-refinements.css";
 
 const manrope = Manrope({
   variable: "--font-manrope",
