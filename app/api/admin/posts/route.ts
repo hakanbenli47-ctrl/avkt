@@ -1,4 +1,4 @@
-import { createSupabaseServerClient, toPublicPost } from "../../../../lib/supabase";
+import { createSupabaseServerClient, listBlogImageSlugs, toPublicPost } from "../../../../lib/supabase";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +22,8 @@ export async function GET(request: Request) {
   if (access.error) return access.error;
   const { data, error } = await access.client!.from("posts").select("*").order("updated_at", { ascending: false });
   if (error) return Response.json({ error: "Yazılar yüklenemedi" }, { status: 500 });
-  return Response.json({ posts: (data ?? []).map(toPublicPost), user: access.user });
+  const imageSlugs = await listBlogImageSlugs();
+  return Response.json({ posts: (data ?? []).map((post) => ({ ...toPublicPost(post), hasImage: imageSlugs.has(post.slug) })), user: access.user });
 }
 
 export async function POST(request: Request) {
