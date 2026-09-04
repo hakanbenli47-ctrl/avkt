@@ -30,9 +30,21 @@
 
 .floating-service-phone>i{
   background:linear-gradient(145deg,#244f42,#16372e);
-  box-shadow:0 10px 28px rgba(16,49,39,.28),inset 0 0 0 1px rgba(255,255,255,.1)!important;
+  border-color:rgba(208,185,128,.72)!important;
+  color:#fff!important;
+  box-shadow:0 10px 28px rgba(16,49,39,.34),inset 0 0 0 1px rgba(255,255,255,.11)!important;
 }
-.floating-service-phone:hover>span{border-color:rgba(23,51,44,.34)!important;background:#f2f6f4!important}
+.floating-service-phone>span{
+  background:linear-gradient(145deg,#244f42,#17372e)!important;
+  border-color:rgba(208,185,128,.58)!important;
+  color:#fff!important;
+  box-shadow:0 9px 28px rgba(16,49,39,.24)!important;
+}
+.floating-service-phone:hover>span{
+  background:linear-gradient(145deg,#2d5b4d,#1b4035)!important;
+  border-color:rgba(208,185,128,.82)!important;
+  color:#fff!important;
+}
 
 .floating-service-whatsapp>i{
   background:linear-gradient(145deg,#2bd66f,#1fb85a)!important;
