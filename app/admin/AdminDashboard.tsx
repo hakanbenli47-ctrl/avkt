@@ -37,7 +37,8 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
   const [posts, setPosts] = useState<Post[]>([]);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [message, setMessage] = useState("Yazılar yükleniyor…");
+  const [message, setMessage] = useState("");
+  const [loadingPosts, setLoadingPosts] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
@@ -45,6 +46,7 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
   const contentLength = form.content.trim().length;
 
   const load = useCallback(async (quiet = false) => {
+    if (!quiet) setLoadingPosts(true);
     try {
       const response = await fetch("/api/admin/posts", { headers: { Authorization: `Bearer ${accessToken}` } });
       const data = await response.json() as { posts?: Post[]; error?: string };
@@ -53,6 +55,8 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
       if (!quiet) setMessage("");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Yazılar yüklenemedi.");
+    } finally {
+      if (!quiet) setLoadingPosts(false);
     }
   }, [accessToken]);
 
@@ -122,7 +126,7 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
         <nav aria-label="Yönetim menüsü">
           <a className="active" href="#post-editor"><span>01</span> Yeni yazı</a>
           <a href="#post-list"><span>02</span> Yazılarım</a>
-          <a href="/admin/ziyaretler"><span>03</span> Giriş–çıkış verileri</a>
+          <a href="/admin/ziyaretler"><span>03</span> Ziyaretler</a>
           <a href="/" target="_blank" rel="noreferrer"><span>↗</span> Siteyi gör</a>
         </nav>
         <div className="admin-account"><small>Giriş yapan hesap</small><strong title={email}>{email}</strong></div>
@@ -161,8 +165,9 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
         </section>
 
         <section className="admin-posts" id="post-list" aria-labelledby="post-list-title">
-          <div className="admin-section-title"><div><span>ARŞİV</span><h2 id="post-list-title">Yazılarım</h2></div><p><b>{publishedCount}</b> yayında · <b>{posts.length - publishedCount}</b> taslak</p></div>
-          {posts.length === 0 && !message && <div className="admin-empty"><b>Henüz yazı yok.</b><span>İlk hukuk notunuzu yukarıdaki formdan oluşturabilirsiniz.</span></div>}
+          <div className="admin-section-title"><div><span>ARŞİV</span><h2 id="post-list-title">Yazılarım</h2></div><p>{loadingPosts ? "Yükleniyor…" : <><b>{publishedCount}</b> yayında · <b>{posts.length - publishedCount}</b> taslak</>}</p></div>
+          {loadingPosts && <div className="admin-empty admin-loading-state" role="status"><b>Yazılar hazırlanıyor…</b><span>Yayın ve taslaklar güvenli biçimde getiriliyor.</span></div>}
+          {!loadingPosts && posts.length === 0 && !message && <div className="admin-empty"><b>Henüz yazı yok.</b><span>İlk hukuk notunuzu yukarıdaki formdan oluşturabilirsiniz.</span></div>}
           <div className="admin-post-list">
             {posts.map((post) => (
               <article className="admin-post-row" key={post.id}>

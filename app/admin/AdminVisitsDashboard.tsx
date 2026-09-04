@@ -37,8 +37,8 @@ function formatDate(value: string | null) {
 
 export default function AdminVisitsDashboard({ email, accessToken, onSignOut }: { email: string; accessToken: string; onSignOut: () => void }) {
   const [visits, setVisits] = useState<Visit[]>([]);
-  const [message, setMessage] = useState("Ziyaret verileri yükleniyor…");
-  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const stats = useMemo(() => {
     const today = new Date().toLocaleDateString("tr-TR");
@@ -76,7 +76,7 @@ export default function AdminVisitsDashboard({ email, accessToken, onSignOut }: 
         <div className="admin-sidebar-brand"><div className="admin-logo">RP</div><div><strong>Yönetim Paneli</strong><small>Advocat in Türkiye</small></div></div>
         <nav aria-label="Yönetim menüsü">
           <a href="/admin"><span>01</span> İçerik stüdyosu</a>
-          <a className="active" href="/admin/ziyaretler"><span>02</span> Giriş–çıkış verileri</a>
+          <a className="active" href="/admin/ziyaretler"><span>02</span> Ziyaretler</a>
           <a href="/" target="_blank" rel="noreferrer"><span>↗</span> Siteyi gör</a>
         </nav>
         <div className="admin-account"><small>Giriş yapan hesap</small><strong title={email}>{email}</strong></div>
@@ -90,14 +90,15 @@ export default function AdminVisitsDashboard({ email, accessToken, onSignOut }: 
 
         <section className="admin-visits" aria-labelledby="visit-stats-title">
           <div className="admin-section-title admin-visit-heading"><div><span>SON 30 GÜN</span><h2 id="visit-stats-title">Ziyaret özeti</h2><p>Rakamlar en son 500 izinli oturum üzerinden hazırlanır.</p></div><button type="button" onClick={() => void loadVisits()} disabled={loading}>{loading ? "Yenileniyor…" : "Verileri yenile"}</button></div>
-          <div className="admin-stat-grid">
+          <div className="admin-stat-grid" aria-busy={loading}>
             <article><span>OTURUM</span><strong>{stats.total}</strong><small>Son 30 gün</small></article>
             <article><span>TEKİL ZİYARETÇİ</span><strong>{stats.unique}</strong><small>Anonim tarayıcı kimliği</small></article>
             <article><span>BUGÜN</span><strong>{stats.today}</strong><small>Başlayan oturum</small></article>
             <article><span>SAYFA GÖRÜNTÜLEME</span><strong>{stats.pages}</strong><small>İzinli oturumlarda</small></article>
           </div>
-          {message && <div className="admin-visit-message" role="status">{message}</div>}
-          {!message && visits.length === 0 && <div className="admin-empty"><b>Henüz ziyaret kaydı yok.</b><span>İlk kayıt, bir ziyaretçi analitik izni verdikten sonra burada görünecek.</span></div>}
+          {loading && <div className="admin-empty admin-loading-state" role="status"><b>Ziyaretler hazırlanıyor…</b><span>Son 30 güne ait izinli oturumlar getiriliyor.</span></div>}
+          {!loading && message && <div className="admin-visit-message" role="status">{message}</div>}
+          {!loading && !message && visits.length === 0 && <div className="admin-empty"><b>Henüz ziyaret kaydı yok.</b><span>İlk kayıt, bir ziyaretçi analitik izni verdikten sonra burada görünecek.</span></div>}
           {visits.length > 0 && <div className="admin-visit-table" role="table" aria-label="Anonim ziyaret oturumları">
             <div className="admin-visit-row admin-visit-table-head" role="row"><span>Ziyaretçi</span><span>Giriş / çıkış</span><span>Sayfalar</span><span>Kaynak / konum</span><span>Teknik</span></div>
             {visits.map((visit) => <div className="admin-visit-row" role="row" key={visit.sessionId}>
