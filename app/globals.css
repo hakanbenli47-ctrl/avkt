@@ -321,7 +321,7 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 @media(prefers-reduced-motion:reduce){.reason-grid article{transition:none}}
 
 /* Shorter homepage opening image; preserve the full-width composition */
-.pro-hero.pro-hero-compact{height:360px;min-height:360px;margin:0}
+.pro-hero.pro-hero-compact{height:420px;min-height:420px;margin:0}
 .pro-hero-compact .pro-hero-copy{padding:30px 0 48px}
 .pro-hero-compact .pro-hero-copy h1{font-size:clamp(40px,4.2vw,62px)}
 .pro-hero-compact .pro-hero-copy>span{max-width:620px;margin-top:18px;font-size:15px;line-height:1.55}
@@ -337,4 +337,4 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 .simple-activity-panel>a:last-child{border-bottom:0}
 .simple-activity-panel>a:hover{background:#f3efe6;color:#8b6a31}
 
-@media(max-width:620px){.pro-hero.pro-hero-compact{height:430px;min-height:430px}.pro-hero-compact .pro-hero-copy{padding:34px 0 54px}.pro-hero-compact .pro-hero-copy h1{font-size:38px}.pro-hero-compact .pro-hero-copy>span{margin-top:14px;font-size:13px}.pro-hero-compact .pro-hero-copy>div{margin-top:18px}.pro-hero-compact .pro-hero-copy a{padding:11px 16px}.pro-scroll-cue{bottom:9px}}
+@media(max-width:620px){.pro-hero.pro-hero-compact{height:470px;min-height:470px}.pro-hero-compact .pro-hero-copy{padding:34px 0 54px}.pro-hero-compact .pro-hero-copy h1{font-size:38px}.pro-hero-compact .pro-hero-copy>span{margin-top:14px;font-size:13px}.pro-hero-compact .pro-hero-copy>div{margin-top:18px}.pro-hero-compact .pro-hero-copy a{padding:11px 16px}.pro-scroll-cue{bottom:9px}}
