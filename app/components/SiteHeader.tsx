@@ -18,11 +18,11 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
 
   return (
     <header className={`main-header ${overlay ? "is-overlay" : ""}`}>
-      <Link className="brand" href="/" aria-label="Advocat in Türkiye ana sayfa">
+      <Link className="brand" href="/" aria-label="Avukat Ruslana Pasecinic ana sayfa">
         <span className="brand-mark" aria-hidden="true">
           <span className="brand-monogram">RP</span>
         </span>
-        <span><strong>ADVOCAT</strong><small>IN TÜRKİYE</small></span>
+        <span><strong>RUSLANA PASECINIC</strong><small>AVUKAT · ANTALYA</small></span>
       </Link>
       <nav className="desktop-nav" aria-label="Ana menü">
         <Link href="/" className={pathname === "/" ? "active" : ""} aria-current={pathname === "/" ? "page" : undefined}>Anasayfa</Link>
