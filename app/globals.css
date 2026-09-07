@@ -231,7 +231,7 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 .hero-slide img{object-position:center 44%}.slide-copy{top:51%;width:min(680px,65vw);transform:translateY(-42%)}
 .slide-copy h1{font-size:clamp(46px,4.7vw,72px);line-height:.91}.slide-copy>p{margin-bottom:17px}.slide-copy>span{max-width:570px;margin-top:17px;font-size:14px;line-height:1.6}
 .hero-links{bottom:38px}.slider-controls{bottom:40px}.slider-count{bottom:70px}
-.hero-profile-card{top:142px;right:clamp(62px,7vw,112px);width:278px;padding:18px;transform:none}.hero-profile-card>span{width:52px;height:52px}.hero-profile-card strong{font-size:19px}
+.hero-profile-card{top:50%;right:clamp(72px,7vw,118px);width:278px;padding:18px;transform:translateY(-44%)}.hero-profile-card>span{width:52px;height:52px}.hero-profile-card strong{font-size:19px}
 .slider-hero:before{inset:94px clamp(24px,3.5vw,58px) 0}
 
 @media(max-width:1180px){.hero-profile-card{display:none}.slide-copy{width:min(720px,76vw)}}
