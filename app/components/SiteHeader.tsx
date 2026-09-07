@@ -22,7 +22,7 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         <span className="brand-mark" aria-hidden="true">
           <span className="brand-monogram">RP</span>
         </span>
-        <span><strong>RUSLANA PASECINIC</strong><small>AVUKAT · ANTALYA</small></span>
+        <span><strong>Ruslana Pasecinic</strong><small>AVUKAT · ANTALYA</small></span>
       </Link>
       <nav className="desktop-nav" aria-label="Ana menü">
         <Link href="/" className={pathname === "/" ? "active" : ""} aria-current={pathname === "/" ? "page" : undefined}>Anasayfa</Link>
