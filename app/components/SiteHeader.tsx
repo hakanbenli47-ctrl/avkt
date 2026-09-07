@@ -29,10 +29,9 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         <Link href="/hakkimizda" className={isAbout ? "active" : ""} aria-current={isAbout ? "page" : undefined}>Hakkımızda</Link>
         <details className={`activity-menu ${isActivities ? "active" : ""}`} ref={activityMenu}>
           <summary aria-label="Faaliyetlerimiz menüsünü aç">Faaliyetlerimiz <span aria-hidden="true">⌄</span></summary>
-          <div className="activity-panel">
-            <div className="activity-panel-intro"><small>Faaliyetlerimiz</small><strong>Hukuki ihtiyacı, doğru hizmet biçimi ve doğru hukuk alanıyla eşleştiriyoruz.</strong></div>
-            <Link href="/faaliyetlerimiz#faaliyet-turleri" onClick={closeActivityMenu}><span>01</span><div><b>Faaliyet Türleri</b><small>Nasıl destek veriyoruz?</small></div><i aria-hidden="true">↗</i></Link>
-            <Link href="/faaliyetlerimiz#faaliyet-alanlari" onClick={closeActivityMenu}><span>02</span><div><b>Faaliyet Alanları</b><small>Hangi hukuk alanlarında çalışıyoruz?</small></div><i aria-hidden="true">↗</i></Link>
+          <div className="activity-panel simple-activity-panel">
+            <Link href="/faaliyetlerimiz#faaliyet-turleri" onClick={closeActivityMenu}>Faaliyet Türleri</Link>
+            <Link href="/faaliyetlerimiz#faaliyet-alanlari" onClick={closeActivityMenu}>Faaliyet Alanları</Link>
           </div>
         </details>
         <Link href="/yazilar" className={isBlog ? "active" : ""} aria-current={isBlog ? "page" : undefined}>Blog</Link>
