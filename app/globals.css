@@ -86,6 +86,13 @@ body{font-size:16px;line-height:1.6;text-rendering:optimizeLegibility;-webkit-fo
 .lawyer-title>p{font-size:10px}.lawyer-title>span{font-size:12px}.lawyer-values p{font-size:14px;line-height:1.75}
 .contact-copy>p{font-size:10px}.contact-lines span{font-size:9px}.contact-lines a,.contact-lines address,.contact-lines p{font-size:21px}
 .contact-lines>div{align-items:start}.contact-lines>div>span{display:block;padding-top:7px;line-height:1}.contact-email-list{display:flex;flex-direction:column;align-items:flex-start;gap:5px}.contact-email-list a{display:block}
+
+/* Breathing room between homepage image-and-copy stories */
+.professional-home{background:#ebe9e3}
+.professional-home .pro-hero,.professional-home .pro-credentials,.professional-home .pro-contact-band,.professional-home .main-footer{margin-right:0;margin-left:0}
+.professional-home .pro-split{margin-top:28px;margin-bottom:28px}
+.footer-contact .footer-phone{margin:0;color:var(--cream);font:500 18px/1.5 var(--font-cormorant),Georgia,serif}
+@media(max-width:620px){.professional-home .pro-split{margin-top:18px;margin-bottom:18px}}
 .blog-intro>p:last-child{font-size:15px}.blog-filters button{font-size:11px}.blog-row p{font-size:10px}.blog-row div>span{font-size:14px}.blog-row>b{font-size:10px}.simple-footer{font-size:10px}.article-meta{font-size:10px}
 .admin-login-card>p{font-size:10px}.admin-login-card small{font-size:14px}.admin-login-card a{font-size:12px}.admin-sidebar nav a{font-size:12px}.admin-sidebar small{font-size:10px}.admin-main header span,.admin-main header>a{font-size:10px}.editor-form label{font-size:10px}.editor-form input,.editor-form textarea,.editor-form select{font-size:15px}.form-actions span,.form-actions button,.admin-section-title span,.admin-post-row button{font-size:11px}.admin-post-row small{font-size:10px}
 
