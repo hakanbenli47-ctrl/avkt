@@ -71,7 +71,6 @@ export default function Home() {
       </div>
 
       <HomeInsights />
-      <section className="pro-contact-band" data-no-translate><div><p>{t.contactKicker}</p><h2>{t.contactTitle}</h2></div><Link href="/iletisim">{t.contactLink} <span>→</span></Link></section>
       <SiteFooter />
     </main>
   );
