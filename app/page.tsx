@@ -1,45 +1,78 @@
 import Image from "next/image";
 import Link from "next/link";
-import HeroSlider from "./components/HeroSlider";
 import HomeInsights from "./components/HomeInsights";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 import { practiceAreas } from "../lib/content";
 
+const processSteps = [
+  { no: "01", title: "İlk değerlendirme", text: "Hukuki mesele, mevcut belgeler ve ulaşılmak istenen sonuç birlikte değerlendirilir." },
+  { no: "02", title: "Yol haritası", text: "Uygulanabilecek hukuki yollar, olası riskler ve izlenecek adımlar açık biçimde aktarılır." },
+  { no: "03", title: "Sürecin takibi", text: "Başvuru, sözleşme, müzakere veya dava süreci doğrudan avukat tarafından takip edilir." },
+];
+
 export default function Home() {
   return (
-    <main>
+    <main className="professional-home">
       <SiteHeader />
-      <HeroSlider />
-      <section className="brand-ribbon" aria-label="Çalışma yaklaşımı"><span>Hukuki öngörü</span><i>✦</i><span>Çok dilli iletişim</span><i>✦</i><span>Uluslararası bakış</span><i>✦</i><span>Yerel tecrübe</span></section>
-      <section className="law-intro" aria-labelledby="law-intro-title">
-        <div className="law-intro-copy">
-          <span className="editorial-kicker">Advocat in Türkiye · Antalya</span>
-          <h2 id="law-intro-title">Türkiye’deki hukuki süreçlerinizde<br /><em>açık ve doğrudan yaklaşım.</em></h2>
-          <p>Türkiye’de yaşayan, yatırım yapan veya ticari faaliyette bulunan yabancı gerçek ve tüzel kişilere; sürecin her aşamasında anlaşılır, dikkatli ve çok dilli hukuki destek sunulur.</p>
-          <div className="law-intro-actions"><Link href="/faaliyetlerimiz">Faaliyet alanlarını inceleyin <b>↗</b></Link><Link href="/iletisim">İletişime geçin <b>↗</b></Link></div>
+
+      <section className="pro-hero">
+        <Image src="/justice.jpg" alt="Adalet heykeli ve hukuk kitapları" fill priority sizes="100vw" />
+        <div className="pro-hero-shade" />
+        <div className="pro-hero-copy">
+          <p>Antalya · Türkiye</p>
+          <h1>Türkiye’de yabancılar için<br /><em>çok dilli hukuk hizmetleri</em></h1>
+          <span>Gayrimenkul, göç, vatandaşlık, ticaret, aile ve uyuşmazlık süreçlerinde Türkçe, Rusça, İngilizce ve Romence hukuki destek.</span>
+          <div><Link href="/faaliyetlerimiz">Faaliyet alanları</Link><Link href="/iletisim">İletişim</Link></div>
         </div>
-        <div className="law-intro-visual"><Image src="/law-library.jpg" alt="Hukuk kitapları ve çalışma masası" fill sizes="(max-width: 980px) 100vw, 46vw" /><div className="law-intro-seal"><strong>TR · RU<br />EN · RO</strong><span>Dört dilde<br />hukuki iletişim</span></div></div>
+        <div className="pro-hero-signature"><small>Avukat</small><strong>Ruslana Pasecinic</strong><span>Antalya Barosu</span></div>
       </section>
-      <section className="home-practice" aria-labelledby="home-practice-title">
-        <header><span>01</span><div><p>Faaliyet alanları</p><h2 id="home-practice-title">Hukuki ihtiyacınıza<br /><em>bütüncül bakış.</em></h2></div><p>Her dosya kendi koşulları, belgeleri ve hedefleri içinde ele alınır. Çalışmalar; önleyici danışmanlıktan dava ve uyuşmazlık süreçlerine kadar uzanır.</p></header>
-        <div className="home-practice-grid">{practiceAreas.map((area) => <Link href="/faaliyetlerimiz" key={area.no}><span>{area.no}</span><h3>{area.title}</h3><p>{area.text}</p><b>Detaylı bilgi ↗</b></Link>)}</div>
+
+      <section className="pro-credentials" aria-label="Mesleki bilgiler">
+        <div><strong>2018</strong><span>Antalya Barosu’na kayıt</span></div>
+        <div><strong>04</strong><span>Çalışma dili</span></div>
+        <div><strong>06</strong><span>Temel faaliyet alanı</span></div>
+        <div><strong>TR</strong><span>Türkiye bağlantılı süreçler</span></div>
       </section>
-      <section className="home-lawyer" aria-labelledby="home-lawyer-title">
-        <div className="home-lawyer-copy">
-          <span className="editorial-kicker">Avukatlık yaklaşımı</span><h2 id="home-lawyer-title">Av. Ruslana<br /><em>Pasecinic</em></h2>
-          <blockquote>“Hukuki güven, müvekkilin süreci kendi dilinde ve bütün açıklığıyla anlayabilmesiyle başlar.”</blockquote>
-          <p>Antalya Barosu’na kayıtlı Av. Ruslana Pasecinic; Türkiye bağlantılı özel hukuk ve ticaret hukuku süreçlerinde, yabancı müvekkillerin ihtiyaçlarına odaklanan çok dilli bir çalışma yürütür.</p>
-          <dl><div><dt>2018</dt><dd>Antalya Barosu</dd></div><div><dt>04</dt><dd>Çalışma dili</dd></div><div><dt>TR</dt><dd>Türkiye bağlantılı dosyalar</dd></div></dl>
-          <Link href="/hakkimizda">Mesleki profili inceleyin <b>↗</b></Link>
+
+      <section className="pro-about" aria-labelledby="pro-about-title">
+        <div className="pro-about-photo"><Image src="/ruslana-pasecinic-portre.jpg" alt="Avukat Ruslana Pasecinic" fill sizes="(max-width: 900px) 100vw, 43vw" /></div>
+        <div className="pro-about-copy">
+          <p className="pro-kicker">Avukat hakkında</p>
+          <h2 id="pro-about-title">Hukuki süreçte<br /><em>doğrudan iletişim.</em></h2>
+          <h3>Av. Ruslana Pasecinic</h3>
+          <p>Türkiye’de yaşayan, yatırım yapan ve iş kuran yabancıların hukuki meselelerini; müvekkilin dili, hedefleri ve dosyanın somut koşulları çerçevesinde takip eder.</p>
+          <p>Çalışmanın temelinde hukuki durumun anlaşılır biçimde açıklanması, risklerin önceden değerlendirilmesi ve sürecin her aşamasında doğrudan iletişim yer alır.</p>
+          <ul><li>Türkçe</li><li>Русский</li><li>English</li><li>Română</li></ul>
+          <Link href="/hakkimizda">Mesleki profili inceleyin <span>→</span></Link>
         </div>
-        <div className="home-lawyer-photo"><Image src="/ruslana-pasecinic-portre.jpg" alt="Avukat Ruslana Pasecinic" fill sizes="(max-width: 980px) 100vw, 46vw" /></div>
       </section>
-      <section className="home-reasons" aria-labelledby="home-reasons-title">
-        <header><span>02</span><div><p>Çalışma ilkeleri</p><h2 id="home-reasons-title">Hukuki desteğin temeli,<br /><em>güven ve açıklıktır.</em></h2></div><p>Her dosyada doğrudan iletişim, anlaşılır bilgi ve somut olayın koşullarına göre şekillenen dikkatli bir çalışma esastır.</p></header>
-        <div className="reason-grid"><article><span>01</span><h3>Doğrudan iletişim</h3><p>Süreci, olası riskleri ve izlenecek adımları dosyanızı takip eden avukatla doğrudan görüşürsünüz.</p></article><article><span>02</span><h3>Dört dilde çalışma</h3><p>Türkçe, Rusça, İngilizce ve Romence iletişim sayesinde hukuki süreç sizin için anlaşılır kalır.</p></article><article><span>03</span><h3>Dosyaya özel yaklaşım</h3><p>Belgeleriniz, hedefleriniz ve dosyanın kendine özgü riskleri birlikte değerlendirilir.</p></article><article><span>04</span><h3>Yerel bilgi, sınır ötesi bakış</h3><p>Türkiye hukukuna ilişkin süreçler, yabancı müvekkillerin uluslararası bağlantıları da dikkate alınarak ele alınır.</p></article></div>
+
+      <section className="pro-practice" aria-labelledby="pro-practice-title">
+        <header><p className="pro-kicker">Faaliyet alanları</p><h2 id="pro-practice-title">Türkiye’deki hukuki ihtiyaçlarınız için<br /><em>kapsamlı çalışma alanları</em></h2><span>Özel kişiler ve şirketler için danışmanlık, işlem takibi ve uyuşmazlık yönetimi.</span></header>
+        <div className="pro-practice-grid">
+          {practiceAreas.map((area) => <Link href="/faaliyetlerimiz" key={area.no}><span>{area.no}</span><div><h3>{area.title}</h3><p>{area.text}</p></div><b>→</b></Link>)}
+        </div>
+        <Link className="pro-all-services" href="/faaliyetlerimiz">Tüm faaliyet alanlarını inceleyin <span>→</span></Link>
       </section>
+
+      <section className="pro-approach" aria-labelledby="pro-approach-title">
+        <div className="pro-approach-heading"><p className="pro-kicker">Çalışma biçimi</p><h2 id="pro-approach-title">Her dosyada açık,<br /><em>ölçülü ve dikkatli süreç.</em></h2></div>
+        <div className="pro-process">{processSteps.map((step) => <article key={step.no}><span>{step.no}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div>
+      </section>
+
+      <section className="pro-values">
+        <div><span>01</span><h3>Doğrudan iletişim</h3><p>Dosyanızı takip eden avukatla doğrudan görüşür, gelişmeleri kendi dilinizde öğrenirsiniz.</p></div>
+        <div><span>02</span><h3>Gizlilik</h3><p>Paylaşılan bilgiler ve dosya kapsamı mesleki gizlilik ilkesiyle ele alınır.</p></div>
+        <div><span>03</span><h3>Uluslararası bakış</h3><p>Türkiye hukukuna ilişkin süreçler, yabancı müvekkillerin sınır ötesi bağlantılarıyla birlikte değerlendirilir.</p></div>
+      </section>
+
       <HomeInsights />
+
+      <section className="pro-contact-band">
+        <div><p>Hukuki durumunuzu görüşmek için</p><h2>İletişime geçin.</h2></div>
+        <Link href="/iletisim">İletişim bilgileri <span>→</span></Link>
+      </section>
       <SiteFooter />
     </main>
   );
