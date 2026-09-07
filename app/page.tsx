@@ -1,78 +1,77 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import HomeInsights from "./components/HomeInsights";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
-import { practiceAreas } from "../lib/content";
+import { useSiteLanguage } from "./components/LanguageProvider";
+import type { SiteLanguage } from "../lib/translations";
 
-const processSteps = [
-  { no: "01", title: "İlk değerlendirme", text: "Hukuki mesele, mevcut belgeler ve ulaşılmak istenen sonuç birlikte değerlendirilir." },
-  { no: "02", title: "Yol haritası", text: "Uygulanabilecek hukuki yollar, olası riskler ve izlenecek adımlar açık biçimde aktarılır." },
-  { no: "03", title: "Sürecin takibi", text: "Başvuru, sözleşme, müzakere veya dava süreci doğrudan avukat tarafından takip edilir." },
-];
+const homeText: Record<SiteLanguage, {
+  location: string; heroTitle: string; heroAccent: string; heroText: string; services: string; contact: string; lawyer: string; bar: string;
+  stats: [string, string][]; aboutKicker: string; aboutTitle: string; aboutAccent: string; aboutName: string; aboutParagraphs: string[]; profile: string;
+  practiceKicker: string; practiceTitle: string; practiceAccent: string; practiceText: string; practice: { title: string; text: string }[]; allServices: string;
+  processKicker: string; processTitle: string; processAccent: string; process: { title: string; text: string }[];
+  values: { title: string; text: string }[]; contactKicker: string; contactTitle: string; contactLink: string;
+}> = {
+  tr: {
+    location: "Antalya · Türkiye", heroTitle: "Türkiye’de yabancılar için", heroAccent: "çok dilli hukuk hizmetleri", heroText: "Gayrimenkul, göç, vatandaşlık, ticaret, aile ve uyuşmazlık süreçlerinde Türkçe, Rusça, İngilizce ve Romence hukuki destek.", services: "Faaliyet alanları", contact: "İletişim", lawyer: "Avukat", bar: "Antalya Barosu",
+    stats: [["2018", "Antalya Barosu’na kayıt"], ["04", "Çalışma dili"], ["06", "Temel faaliyet alanı"], ["TR", "Türkiye bağlantılı süreçler"]],
+    aboutKicker: "Avukat hakkında", aboutTitle: "Hukuki süreçte", aboutAccent: "doğrudan iletişim.", aboutName: "Av. Ruslana Pasecinic", aboutParagraphs: ["Türkiye’de yaşayan, yatırım yapan ve iş kuran yabancıların hukuki meselelerini; müvekkilin dili, hedefleri ve dosyanın somut koşulları çerçevesinde takip eder.", "Çalışmanın temelinde hukuki durumun anlaşılır biçimde açıklanması, risklerin önceden değerlendirilmesi ve sürecin her aşamasında doğrudan iletişim yer alır."], profile: "Mesleki profili inceleyin",
+    practiceKicker: "Faaliyet alanları", practiceTitle: "Türkiye’deki hukuki ihtiyaçlarınız için", practiceAccent: "kapsamlı çalışma alanları", practiceText: "Özel kişiler ve şirketler için danışmanlık, işlem takibi ve uyuşmazlık yönetimi.",
+    practice: [{ title: "Gayrimenkul & Yatırım", text: "Satın alma, tapu incelemesi, yatırım ve uyuşmazlık süreçleri." }, { title: "Şirketler & Ticaret", text: "Şirket kuruluşu, sözleşmeler ve sınır ötesi ticari işlemler." }, { title: "Göç & Vatandaşlık", text: "İkamet, çalışma izni, vatandaşlık ve idari başvurular." }, { title: "Aile & Miras", text: "Boşanma, velayet, miras ve uluslararası aile dosyaları." }, { title: "Dava & Uyuşmazlık", text: "Mahkeme, icra, müzakere ve uyuşmazlık yönetimi." }, { title: "Kaza & Tazminat", text: "Trafik kazaları, sigorta ve tazminat talepleri." }], allServices: "Tüm faaliyet alanlarını inceleyin",
+    processKicker: "Çalışma biçimi", processTitle: "Her dosyada açık,", processAccent: "ölçülü ve dikkatli süreç.", process: [{ title: "İlk değerlendirme", text: "Hukuki mesele, mevcut belgeler ve ulaşılmak istenen sonuç birlikte değerlendirilir." }, { title: "Yol haritası", text: "Uygulanabilecek hukuki yollar, olası riskler ve izlenecek adımlar açık biçimde aktarılır." }, { title: "Sürecin takibi", text: "Başvuru, sözleşme, müzakere veya dava süreci doğrudan avukat tarafından takip edilir." }], values: [{ title: "Doğrudan iletişim", text: "Gelişmeleri dosyanızı takip eden avukattan kendi dilinizde öğrenirsiniz." }, { title: "Mesleki gizlilik", text: "Paylaşılan bilgiler ve dosya kapsamı gizlilik ilkesiyle ele alınır." }],
+    contactKicker: "Hukuki durumunuzu görüşmek için", contactTitle: "İletişime geçin.", contactLink: "İletişim bilgileri"
+  },
+  ru: {
+    location: "Анталья · Турция", heroTitle: "Для иностранцев в Турции", heroAccent: "юридические услуги на вашем языке", heroText: "Юридическая помощь на русском, турецком, английском и румынском языках по вопросам недвижимости, миграции, гражданства, бизнеса, семьи и судебных споров.", services: "Направления практики", contact: "Контакты", lawyer: "Адвокат", bar: "Палата адвокатов Антальи",
+    stats: [["2018", "Член Палаты адвокатов Антальи"], ["04", "Языка работы"], ["06", "Основных направлений"], ["TR", "Дела, связанные с Турцией"]],
+    aboutKicker: "Об адвокате", aboutTitle: "Прямое общение", aboutAccent: "на каждом этапе дела.", aboutName: "Адвокат Руслана Пасечиник", aboutParagraphs: ["Сопровождает юридические вопросы иностранцев, которые живут, инвестируют и ведут бизнес в Турции, учитывая язык клиента, его цели и конкретные обстоятельства дела.", "Основа работы — понятное объяснение правовой ситуации, предварительная оценка рисков и прямое общение на каждом этапе процесса."], profile: "Подробнее об адвокате",
+    practiceKicker: "Направления практики", practiceTitle: "Юридическая помощь в Турции", practiceAccent: "по ключевым направлениям", practiceText: "Консультации, сопровождение сделок и ведение споров для частных лиц и компаний.",
+    practice: [{ title: "Недвижимость и инвестиции", text: "Покупка, проверка ТАПУ, инвестиции и споры." }, { title: "Корпоративное и торговое право", text: "Регистрация компаний, договоры и международные сделки." }, { title: "Миграция и гражданство", text: "ВНЖ, разрешения на работу, гражданство и административные процедуры." }, { title: "Семейное и наследственное право", text: "Развод, опека, наследство и международные семейные дела." }, { title: "Суды и споры", text: "Судебные и исполнительные процессы, переговоры и урегулирование." }, { title: "ДТП и компенсации", text: "Дорожные происшествия, страховые дела и требования о компенсации." }], allServices: "Все направления практики",
+    processKicker: "Порядок работы", processTitle: "Ясный, взвешенный", processAccent: "и внимательный процесс.", process: [{ title: "Первичная оценка", text: "Совместно анализируются правовой вопрос, имеющиеся документы и желаемый результат." }, { title: "План действий", text: "Доступные правовые пути, возможные риски и последующие шаги разъясняются понятным языком." }, { title: "Ведение дела", text: "Заявление, договор, переговоры или судебный процесс ведутся непосредственно адвокатом." }], values: [{ title: "Прямое общение", text: "Вы получаете информацию от ведущего дело адвоката на вашем языке." }, { title: "Профессиональная тайна", text: "Информация и материалы дела рассматриваются с соблюдением конфиденциальности." }],
+    contactKicker: "Чтобы обсудить вашу ситуацию", contactTitle: "Свяжитесь с нами.", contactLink: "Контактная информация"
+  },
+  en: {
+    location: "Antalya · Türkiye", heroTitle: "For foreign clients in Türkiye", heroAccent: "multilingual legal services", heroText: "Legal assistance in Turkish, Russian, English and Romanian for real estate, immigration, citizenship, business, family and dispute matters.", services: "Practice areas", contact: "Contact", lawyer: "Attorney", bar: "Antalya Bar Association",
+    stats: [["2018", "Admitted to the Antalya Bar"], ["04", "Working languages"], ["06", "Core practice areas"], ["TR", "Türkiye-related matters"]],
+    aboutKicker: "About the attorney", aboutTitle: "Direct communication", aboutAccent: "throughout the legal process.", aboutName: "Atty. Ruslana Pasecinic", aboutParagraphs: ["She advises foreign clients who live, invest and do business in Türkiye, with close attention to the client’s language, objectives and the specific circumstances of each matter.", "Her work is grounded in clear explanations, early assessment of legal risks and direct communication at every stage."], profile: "View professional profile",
+    practiceKicker: "Practice areas", practiceTitle: "Legal support in Türkiye", practiceAccent: "across key areas of law", practiceText: "Advisory, transactional support and dispute management for individuals and companies.",
+    practice: [{ title: "Real Estate & Investment", text: "Purchases, title deed review, investments and disputes." }, { title: "Corporate & Commercial", text: "Company formation, contracts and cross-border transactions." }, { title: "Immigration & Citizenship", text: "Residence, work permits, citizenship and administrative procedures." }, { title: "Family & Inheritance", text: "Divorce, custody, inheritance and international family matters." }, { title: "Litigation & Disputes", text: "Court and enforcement proceedings, negotiation and settlement." }, { title: "Accidents & Compensation", text: "Traffic accidents, insurance matters and compensation claims." }], allServices: "View all practice areas",
+    processKicker: "How we work", processTitle: "A clear, measured", processAccent: "and attentive process.", process: [{ title: "Initial assessment", text: "The legal issue, available documents and intended outcome are reviewed together." }, { title: "Legal roadmap", text: "Available options, potential risks and the next steps are explained clearly." }, { title: "Matter management", text: "Applications, contracts, negotiations or proceedings are handled directly by the attorney." }], values: [{ title: "Direct communication", text: "Receive updates from the attorney handling your matter, in your own language." }, { title: "Professional confidentiality", text: "Information and case materials are handled in strict confidence." }],
+    contactKicker: "To discuss your legal situation", contactTitle: "Contact us.", contactLink: "Contact details"
+  },
+  ro: {
+    location: "Antalya · Turcia", heroTitle: "Pentru cetățenii străini în Turcia", heroAccent: "servicii juridice multilingve", heroText: "Asistență juridică în turcă, rusă, engleză și română pentru imobiliare, imigrare, cetățenie, afaceri, familie și litigii.", services: "Domenii de practică", contact: "Contact", lawyer: "Avocat", bar: "Baroul Antalya",
+    stats: [["2018", "Membră a Baroului Antalya"], ["04", "Limbi de lucru"], ["06", "Domenii principale"], ["TR", "Cauze legate de Turcia"]],
+    aboutKicker: "Despre avocat", aboutTitle: "Comunicare directă", aboutAccent: "pe tot parcursul procesului.", aboutName: "Av. Ruslana Pasecinic", aboutParagraphs: ["Oferă asistență cetățenilor străini care locuiesc, investesc și desfășoară activități în Turcia, ținând cont de limba clientului, obiectivele sale și circumstanțele concrete ale cauzei.", "Activitatea se bazează pe explicații clare, evaluarea din timp a riscurilor și comunicarea directă în fiecare etapă."], profile: "Vedeți profilul profesional",
+    practiceKicker: "Domenii de practică", practiceTitle: "Asistență juridică în Turcia", practiceAccent: "în domeniile esențiale", practiceText: "Consultanță, asistență pentru tranzacții și gestionarea litigiilor pentru persoane și companii.",
+    practice: [{ title: "Imobiliare și investiții", text: "Achiziții, verificarea titlului, investiții și litigii." }, { title: "Drept corporativ și comercial", text: "Înființarea societăților, contracte și tranzacții transfrontaliere." }, { title: "Imigrare și cetățenie", text: "Ședere, permise de muncă, cetățenie și proceduri administrative." }, { title: "Familie și succesiuni", text: "Divorț, custodie, moștenire și cauze internaționale de familie." }, { title: "Litigii și dispute", text: "Proceduri judiciare și de executare, negocieri și soluționare." }, { title: "Accidente și despăgubiri", text: "Accidente rutiere, asigurări și cereri de despăgubire." }], allServices: "Toate domeniile de practică",
+    processKicker: "Modul de lucru", processTitle: "Un proces clar, echilibrat", processAccent: "și atent.", process: [{ title: "Evaluarea inițială", text: "Problema juridică, documentele disponibile și rezultatul urmărit sunt analizate împreună." }, { title: "Planul juridic", text: "Opțiunile disponibile, riscurile posibile și pașii următori sunt explicați clar." }, { title: "Gestionarea cauzei", text: "Cererile, contractele, negocierile sau procedurile sunt gestionate direct de avocat." }], values: [{ title: "Comunicare directă", text: "Primiți informații de la avocatul care gestionează cauza, în limba dumneavoastră." }, { title: "Confidențialitate profesională", text: "Informațiile și materialele cauzei sunt tratate în strictă confidențialitate." }],
+    contactKicker: "Pentru a discuta situația juridică", contactTitle: "Contactați-ne.", contactLink: "Date de contact"
+  }
+};
 
 export default function Home() {
+  const { language } = useSiteLanguage();
+  const t = homeText[language];
   return (
     <main className="professional-home">
       <SiteHeader />
+      <div data-no-translate>
+        <section className="pro-hero"><Image src="/justice.jpg" alt="" fill priority sizes="100vw" /><div className="pro-hero-shade" /><div className="pro-hero-copy"><p>{t.location}</p><h1>{t.heroTitle}<br /><em>{t.heroAccent}</em></h1><span>{t.heroText}</span><div><Link href="/faaliyetlerimiz">{t.services}</Link><Link href="/iletisim">{t.contact}</Link></div></div><div className="pro-hero-signature"><small>{t.lawyer}</small><strong>Ruslana Pasecinic</strong><span>{t.bar}</span></div></section>
+        <section className="pro-credentials">{t.stats.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</section>
 
-      <section className="pro-hero">
-        <Image src="/justice.jpg" alt="Adalet heykeli ve hukuk kitapları" fill priority sizes="100vw" />
-        <div className="pro-hero-shade" />
-        <div className="pro-hero-copy">
-          <p>Antalya · Türkiye</p>
-          <h1>Türkiye’de yabancılar için<br /><em>çok dilli hukuk hizmetleri</em></h1>
-          <span>Gayrimenkul, göç, vatandaşlık, ticaret, aile ve uyuşmazlık süreçlerinde Türkçe, Rusça, İngilizce ve Romence hukuki destek.</span>
-          <div><Link href="/faaliyetlerimiz">Faaliyet alanları</Link><Link href="/iletisim">İletişim</Link></div>
-        </div>
-        <div className="pro-hero-signature"><small>Avukat</small><strong>Ruslana Pasecinic</strong><span>Antalya Barosu</span></div>
-      </section>
+        <section className="pro-split pro-about" aria-labelledby="pro-about-title"><div className="pro-split-image"><Image src="/ruslana-pasecinic-portre.jpg" alt={t.aboutName} fill sizes="(max-width: 900px) 100vw, 43vw" /></div><div className="pro-split-copy"><p className="pro-kicker">{t.aboutKicker}</p><h2 id="pro-about-title">{t.aboutTitle}<br /><em>{t.aboutAccent}</em></h2><h3>{t.aboutName}</h3>{t.aboutParagraphs.map((p) => <p key={p}>{p}</p>)}<ul><li>Türkçe</li><li>Русский</li><li>English</li><li>Română</li></ul><Link href="/hakkimizda">{t.profile} <span>→</span></Link></div></section>
 
-      <section className="pro-credentials" aria-label="Mesleki bilgiler">
-        <div><strong>2018</strong><span>Antalya Barosu’na kayıt</span></div>
-        <div><strong>04</strong><span>Çalışma dili</span></div>
-        <div><strong>06</strong><span>Temel faaliyet alanı</span></div>
-        <div><strong>TR</strong><span>Türkiye bağlantılı süreçler</span></div>
-      </section>
+        <section className="pro-split pro-practice-split" aria-labelledby="pro-practice-title"><div className="pro-split-image"><Image src="/law-library.jpg" alt="" fill sizes="(max-width: 900px) 100vw, 43vw" /></div><div className="pro-split-copy"><p className="pro-kicker">{t.practiceKicker}</p><h2 id="pro-practice-title">{t.practiceTitle}<br /><em>{t.practiceAccent}</em></h2><p className="pro-section-lead">{t.practiceText}</p><div className="pro-service-list">{t.practice.map((area, index) => <Link href="/faaliyetlerimiz" key={area.title}><span>0{index + 1}</span><div><h3>{area.title}</h3><p>{area.text}</p></div><b>→</b></Link>)}</div><Link className="pro-inline-link" href="/faaliyetlerimiz">{t.allServices} <span>→</span></Link></div></section>
 
-      <section className="pro-about" aria-labelledby="pro-about-title">
-        <div className="pro-about-photo"><Image src="/ruslana-pasecinic-portre.jpg" alt="Avukat Ruslana Pasecinic" fill sizes="(max-width: 900px) 100vw, 43vw" /></div>
-        <div className="pro-about-copy">
-          <p className="pro-kicker">Avukat hakkında</p>
-          <h2 id="pro-about-title">Hukuki süreçte<br /><em>doğrudan iletişim.</em></h2>
-          <h3>Av. Ruslana Pasecinic</h3>
-          <p>Türkiye’de yaşayan, yatırım yapan ve iş kuran yabancıların hukuki meselelerini; müvekkilin dili, hedefleri ve dosyanın somut koşulları çerçevesinde takip eder.</p>
-          <p>Çalışmanın temelinde hukuki durumun anlaşılır biçimde açıklanması, risklerin önceden değerlendirilmesi ve sürecin her aşamasında doğrudan iletişim yer alır.</p>
-          <ul><li>Türkçe</li><li>Русский</li><li>English</li><li>Română</li></ul>
-          <Link href="/hakkimizda">Mesleki profili inceleyin <span>→</span></Link>
-        </div>
-      </section>
-
-      <section className="pro-practice" aria-labelledby="pro-practice-title">
-        <header><p className="pro-kicker">Faaliyet alanları</p><h2 id="pro-practice-title">Türkiye’deki hukuki ihtiyaçlarınız için<br /><em>kapsamlı çalışma alanları</em></h2><span>Özel kişiler ve şirketler için danışmanlık, işlem takibi ve uyuşmazlık yönetimi.</span></header>
-        <div className="pro-practice-grid">
-          {practiceAreas.map((area) => <Link href="/faaliyetlerimiz" key={area.no}><span>{area.no}</span><div><h3>{area.title}</h3><p>{area.text}</p></div><b>→</b></Link>)}
-        </div>
-        <Link className="pro-all-services" href="/faaliyetlerimiz">Tüm faaliyet alanlarını inceleyin <span>→</span></Link>
-      </section>
-
-      <section className="pro-approach" aria-labelledby="pro-approach-title">
-        <div className="pro-approach-heading"><p className="pro-kicker">Çalışma biçimi</p><h2 id="pro-approach-title">Her dosyada açık,<br /><em>ölçülü ve dikkatli süreç.</em></h2></div>
-        <div className="pro-process">{processSteps.map((step) => <article key={step.no}><span>{step.no}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div>
-      </section>
-
-      <section className="pro-values">
-        <div><span>01</span><h3>Doğrudan iletişim</h3><p>Dosyanızı takip eden avukatla doğrudan görüşür, gelişmeleri kendi dilinizde öğrenirsiniz.</p></div>
-        <div><span>02</span><h3>Gizlilik</h3><p>Paylaşılan bilgiler ve dosya kapsamı mesleki gizlilik ilkesiyle ele alınır.</p></div>
-        <div><span>03</span><h3>Uluslararası bakış</h3><p>Türkiye hukukuna ilişkin süreçler, yabancı müvekkillerin sınır ötesi bağlantılarıyla birlikte değerlendirilir.</p></div>
-      </section>
+        <section className="pro-split pro-process-split" aria-labelledby="pro-process-title"><div className="pro-split-image"><Image src="/antalya-architecture.jpg" alt="" fill sizes="(max-width: 900px) 100vw, 43vw" /></div><div className="pro-split-copy"><p className="pro-kicker">{t.processKicker}</p><h2 id="pro-process-title">{t.processTitle}<br /><em>{t.processAccent}</em></h2><div className="pro-process-list">{t.process.map((step, index) => <article key={step.title}><span>0{index + 1}</span><div><h3>{step.title}</h3><p>{step.text}</p></div></article>)}</div><div className="pro-value-list">{t.values.map((value) => <div key={value.title}><h3>{value.title}</h3><p>{value.text}</p></div>)}</div></div></section>
+      </div>
 
       <HomeInsights />
-
-      <section className="pro-contact-band">
-        <div><p>Hukuki durumunuzu görüşmek için</p><h2>İletişime geçin.</h2></div>
-        <Link href="/iletisim">İletişim bilgileri <span>→</span></Link>
-      </section>
+      <section className="pro-contact-band" data-no-translate><div><p>{t.contactKicker}</p><h2>{t.contactTitle}</h2></div><Link href="/iletisim">{t.contactLink} <span>→</span></Link></section>
       <SiteFooter />
     </main>
   );
