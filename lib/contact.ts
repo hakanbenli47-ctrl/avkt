@@ -6,5 +6,5 @@ export const contact = {
   secondaryEmail: "av.ruslanapas@gmail.com",
   instagramHref: "https://www.instagram.com/advokat.turkiye/",
   linkedinHref: "https://www.linkedin.com/in/ruslana-pasecinic-93825a403/",
-  facebookHref: "https://www.facebook.com/p/Attorney-Lawyer-Ruslana-Pasecinic-100063610359214/",
+  facebookHref: "https://www.facebook.com/ruslana.pasecinic.5/",
 } as const;
