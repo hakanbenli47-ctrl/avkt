@@ -397,3 +397,12 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 .about-story-heading{justify-content:flex-end}
 @media(max-width:980px){.about-narrative aside{min-height:230px}.about-narrative aside>span{font-size:clamp(42px,8vw,62px)}}
 @media(max-width:620px){.about-narrative aside{min-height:170px}.about-narrative aside>span{font-size:42px}}
+/* About page single centered narrative */
+.about-narrative{display:block;padding:96px clamp(28px,8vw,128px);background:linear-gradient(180deg,#e7dfd2 0,#f3eee3 34%,#f3eee3 100%)}
+.about-story-panel{width:min(900px,100%);max-width:900px;margin:0 auto;padding:34px 22px 34px 38px;background:rgba(250,248,242,.96);box-shadow:0 28px 85px rgba(16,35,31,.12)}
+.about-story-heading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;margin:0 16px 26px 0;text-align:center}
+.about-story-heading>span{color:var(--ink);font:500 clamp(38px,4vw,56px)/1 var(--font-cormorant),Georgia,serif;letter-spacing:-.02em;text-transform:none}
+.about-story-heading small{color:var(--gold)}
+.about-story-scroll{max-height:460px;text-align:left}
+@media(max-width:980px){.about-narrative{display:block;padding:72px 35px}.about-story-panel{width:min(900px,100%);margin:0 auto}}
+@media(max-width:620px){.about-narrative{padding:52px 24px}.about-story-panel{width:100%;margin:0;padding:24px 14px 24px 22px}.about-story-heading{margin-right:8px}.about-story-heading>span{font-size:39px}.about-story-scroll{max-height:410px}}
