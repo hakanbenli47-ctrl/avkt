@@ -458,4 +458,59 @@ Object.assign(ro, {
   "Avukatlık ücreti nasıl belirlenir?": "Cum sunt stabilite onorariile avocatului?", "Ücret; işin kapsamı, hukuki sürecin türü, dosyanın gerektirdiği çalışma ve masraflar değerlendirilerek belirlenir. Kapsam ve ücretlendirme, işe başlanmadan önce açıklanır.": "Onorariul este stabilit în funcție de obiectul serviciilor, tipul procedurii juridice, activitatea necesară și cheltuieli. Obiectul serviciilor și modalitatea de tarifare sunt explicate înainte de începerea activității.",
   "Paylaşılan bilgi ve belgeler gizli tutulur mu?": "Informațiile și documentele transmise sunt păstrate confidențial?", "Evet. Müvekkil tarafından paylaşılan bilgi, belge ve kişisel veriler mesleki gizlilik ve sır saklama yükümlülüğü çerçevesinde korunur.": "Da. Informațiile, documentele și datele cu caracter personal transmise de client sunt protejate în cadrul confidențialității profesionale și al obligației de păstrare a secretului."
 });
+
+Object.assign(en, {
+  "Mesleki Belgeler": "Professional Documents",
+  "Eğitim, yetkinlik ve mesleki kayıtlar.": "Education, qualifications and professional records.",
+  "Mesleki gelişimi ve uzmanlık çalışmalarını belgeleyen seçili kayıtlar.": "Selected records documenting professional development and specialist training.",
+  "Adli Yardım Uygulama Esasları Eğitimi": "Legal Aid Implementation Principles Training",
+  "Çocuk Adalet Sistemi Eğitimi": "Child Justice System Training",
+  "Tahkimde Taraf Vekilliği Eğitimi": "Counsel in Arbitration Training",
+  "Ceza Muhakemesi Kanunu Eğitimi": "Criminal Procedure Law Training",
+  "Bilirkişilik Temel Eğitimi": "Basic Expert Witness Training",
+  "Arabuluculuk Eğitimi": "Mediation Training",
+  "Temel Arabuluculuk Eğitimi": "Basic Mediation Training",
+  "Ceza Muhakemesinde Uzlaştırmacı Eğitimi": "Criminal Conciliation Training",
+  "Uluslararası Mülteci Hukuku Çalıştayı": "International Refugee Law Workshop",
+  "Akdeniz Üniversitesi Hukuk Fakültesi": "Akdeniz University Faculty of Law",
+  "Diploma Denklik Belgesi": "Diploma Equivalency Certificate",
+  "Moldova Hukuk Diploması": "Moldovan Law Diploma",
+  "Avukatlık Ruhsatnamesi": "Attorney Licence"
+});
+Object.assign(ru, {
+  "Mesleki Belgeler": "Профессиональные документы",
+  "Eğitim, yetkinlik ve mesleki kayıtlar.": "Образование, квалификация и профессиональные документы.",
+  "Mesleki gelişimi ve uzmanlık çalışmalarını belgeleyen seçili kayıtlar.": "Избранные документы, подтверждающие профессиональное развитие и специализированную подготовку.",
+  "Adli Yardım Uygulama Esasları Eğitimi": "Обучение по принципам оказания юридической помощи",
+  "Çocuk Adalet Sistemi Eğitimi": "Обучение по системе ювенальной юстиции",
+  "Tahkimde Taraf Vekilliği Eğitimi": "Обучение представительству сторон в арбитраже",
+  "Ceza Muhakemesi Kanunu Eğitimi": "Обучение по уголовно-процессуальному законодательству",
+  "Bilirkişilik Temel Eğitimi": "Базовая подготовка судебных экспертов",
+  "Arabuluculuk Eğitimi": "Обучение медиации",
+  "Temel Arabuluculuk Eğitimi": "Базовая подготовка по медиации",
+  "Ceza Muhakemesinde Uzlaştırmacı Eğitimi": "Подготовка примирителя в уголовном процессе",
+  "Uluslararası Mülteci Hukuku Çalıştayı": "Семинар по международному праву беженцев",
+  "Akdeniz Üniversitesi Hukuk Fakültesi": "Юридический факультет Университета Акдениз",
+  "Diploma Denklik Belgesi": "Свидетельство о признании диплома",
+  "Moldova Hukuk Diploması": "Диплом о высшем юридическом образовании в Молдове",
+  "Avukatlık Ruhsatnamesi": "Свидетельство адвоката"
+});
+Object.assign(ro, {
+  "Mesleki Belgeler": "Documente profesionale",
+  "Eğitim, yetkinlik ve mesleki kayıtlar.": "Studii, calificări și documente profesionale.",
+  "Mesleki gelişimi ve uzmanlık çalışmalarını belgeleyen seçili kayıtlar.": "Documente selectate care atestă dezvoltarea profesională și formarea de specialitate.",
+  "Adli Yardım Uygulama Esasları Eğitimi": "Curs privind principiile acordării asistenței judiciare",
+  "Çocuk Adalet Sistemi Eğitimi": "Curs privind sistemul de justiție pentru minori",
+  "Tahkimde Taraf Vekilliği Eğitimi": "Curs de reprezentare a părților în arbitraj",
+  "Ceza Muhakemesi Kanunu Eğitimi": "Curs de drept procesual penal",
+  "Bilirkişilik Temel Eğitimi": "Formare de bază pentru experți judiciari",
+  "Arabuluculuk Eğitimi": "Curs de mediere",
+  "Temel Arabuluculuk Eğitimi": "Formare de bază în mediere",
+  "Ceza Muhakemesinde Uzlaştırmacı Eğitimi": "Formare pentru conciliere în procesul penal",
+  "Uluslararası Mülteci Hukuku Çalıştayı": "Atelier de drept internațional al refugiaților",
+  "Akdeniz Üniversitesi Hukuk Fakültesi": "Facultatea de Drept a Universității Akdeniz",
+  "Diploma Denklik Belgesi": "Certificat de echivalare a diplomei",
+  "Moldova Hukuk Diploması": "Diplomă de drept din Republica Moldova",
+  "Avukatlık Ruhsatnamesi": "Licență de avocat"
+});
 export const translations: Record<Exclude<SiteLanguage, "tr">, Record<string, string>> = { en, ru, ro };
