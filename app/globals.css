@@ -391,3 +391,9 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 .pro-about-languages .language-switcher button.active{border-color:#b08d4d;background:#b08d4d;color:#10231f!important;box-shadow:0 8px 22px rgba(176,141,77,.2);transform:none}
 @media(max-width:980px){.about-hero{grid-template-columns:1fr}.about-narrative{grid-template-columns:1fr;background:#f3eee3}.about-narrative aside{min-height:230px;padding:70px 35px}.about-story-panel{width:calc(100% - 70px);margin:60px auto}}
 @media(max-width:620px){.about-narrative aside{min-height:190px;padding:54px 24px}.about-story-panel{width:calc(100% - 48px);margin:44px auto;padding:22px 14px 22px 22px}.about-story-scroll{max-height:390px}.pro-about-languages .language-switcher{display:grid;grid-template-columns:repeat(4,1fr);width:100%}.pro-about-languages .language-switcher button{min-width:0;width:100%;height:40px}}
+/* About page centered section title */
+.about-narrative aside{display:grid;place-items:center;text-align:center}
+.about-narrative aside>span{max-width:none;color:var(--cream);font:500 clamp(42px,4.6vw,70px)/1 var(--font-cormorant),Georgia,serif;letter-spacing:-.025em;font-style:normal}
+.about-story-heading{justify-content:flex-end}
+@media(max-width:980px){.about-narrative aside{min-height:230px}.about-narrative aside>span{font-size:clamp(42px,8vw,62px)}}
+@media(max-width:620px){.about-narrative aside{min-height:170px}.about-narrative aside>span{font-size:42px}}
