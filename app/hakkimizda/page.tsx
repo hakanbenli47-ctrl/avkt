@@ -5,7 +5,7 @@ import SiteHeader from "../components/SiteHeader";
 
 export const metadata = {
   title: "Hakkımızda | Av. Ruslana Pasecinic",
-  description: "Antalya Barosu avukatı Ruslana Pasecinic'in çalışma yaklaşımı ve çok dilli hukuk hizmetleri.",
+  description: "Antalya Barosu avukatı Ruslana Pasecinic'in mesleki biyografisi ve çok dilli hukuk hizmetleri.",
 };
 
 const principles = [
@@ -19,18 +19,17 @@ export default function AboutPage() {
     <main>
       <SiteHeader />
       <section className="about-hero">
-        <div className="about-hero-image"><Image src="/ruslana-pasecinic-portre.jpg" alt="Avukat Ruslana Pasecinic" fill priority sizes="(max-width: 980px) 100vw, 48vw" /></div>
+        <div className="about-hero-image"><Image src="/ruslana-pasecinic-portre.jpg" alt="Avukat Ruslana Pasecinic" fill priority sizes="(max-width: 980px) 100vw, 50vw" /></div>
         <div className="about-hero-copy"><p>Hakkımızda</p><h1>Hukuki güven,<br /><em>anlaşılır iletişimle başlar.</em></h1><div><strong>Av. Ruslana Pasecinic</strong><span>Antalya Barosu · 2018</span></div></div>
       </section>
       <section className="about-narrative">
         <article className="about-story-static">
-          <h2>Avukat hakkında</h2>
+          <h2>Biyografi</h2>
           <div className="about-story-copy">
-            <p className="dropcap">Türkiye’de yaşayan, çalışan, yatırım yapan, iş kuran veya turistik amaçlarla bulunan yabancıların Türkiye’de karşılaşabilecekleri hukuki süreçleri; müvekkilin dili, ihtiyaçları, hedefleri ve dosyanın somut koşulları doğrultusunda takip eder.</p>
-            <p>Hukuki danışmanlık ve temsil hizmetlerinde temel amaç; hukuki durumun müvekkile açık ve anlaşılır şekilde aktarılması, olası risklerin önceden değerlendirilmesi ve sürecin her aşamasının dikkatle takip edilmesidir.</p>
-            <p>Yabancı müvekkillerle çalışırken, yalnızca hukuki sürecin değil, Türkiye’deki idari ve bürokratik uygulamaların da dikkate alınması önem taşır. Her dosya kendi koşulları içerisinde değerlendirilerek, müvekkile izlenebilecek yol, olası riskler ve süreç hakkında açık ve anlaşılır bilgi sunulur.</p>
-            <p>Müvekkil tarafından avukata aktarılan bilgi, belge ve kişisel veriler gizlilik ve mesleki sır saklama yükümlülüğü çerçevesinde korunur. Müvekkilin hukuki sürecine ilişkin paylaştığı bilgiler, kanunun öngördüğü istisnalar dışında üçüncü kişilerle paylaşılmaz ve gizliliğin korunmasına azami özen gösterilir.</p>
-            <p>Süreç boyunca doğrudan, düzenli ve güvene dayalı iletişim esas alınarak, müvekkilin Türkiye’deki hukuki işlemlerinin güvenli, anlaşılır ve sistematik bir şekilde yürütülmesine destek olunur.</p>
+            <p className="dropcap">Av. Ruslana Pasecinic, Antalya Barosu’na kayıtlı olarak Türkiye bağlantılı özel ve ticari hukuk meselelerinde hukuki danışmanlık ve temsil hizmeti sunmaktadır.</p>
+            <p>Mesleki çalışmaları; Türkiye’de yaşayan, çalışan, yatırım yapan, iş kuran veya geçici olarak bulunan yabancıların karşılaştığı hukuki süreçlere odaklanır. Gayrimenkul, göç ve vatandaşlık, şirketler ve ticaret, aile ve miras ile dava ve uyuşmazlık alanlarında dosyanın somut koşullarına göre çalışır.</p>
+            <p>Türkçe, Rusça, İngilizce ve Romence iletişim kurabilmesi, yabancı müvekkillerin hukuki süreci kendi dillerinde ve açık biçimde takip edebilmesine imkân sağlar.</p>
+            <p>Çalışma yaklaşımında doğrudan iletişim, dikkatli dosya incelemesi, risklerin önceden değerlendirilmesi ve mesleki gizlilik temel ilkeleri oluşturur.</p>
           </div>
         </article>
       </section>
