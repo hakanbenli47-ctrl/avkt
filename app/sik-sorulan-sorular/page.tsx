@@ -20,14 +20,24 @@ export default function FrequentlyAskedQuestionsPage() {
     <main>
       <SiteHeader />
       <section className="faq-page" aria-labelledby="faq-title">
-        <h1 id="faq-title">Sık Sorulan Sorular</h1>
-        <div className="faq-list">
-          {questions.map((item, index) => (
-            <details key={item.question}>
-              <summary><span>{String(index + 1).padStart(2, "0")}</span><strong>{item.question}</strong><i aria-hidden="true">+</i></summary>
-              <p>{item.answer}</p>
-            </details>
-          ))}
+        <div className="faq-shell">
+          <header className="faq-heading">
+            <span aria-hidden="true">01 — 06</span>
+            <h1 id="faq-title">Sık Sorulan Sorular</h1>
+            <i aria-hidden="true" />
+          </header>
+          <div className="faq-list">
+            {questions.map((item, index) => (
+              <details key={item.question}>
+                <summary>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{item.question}</strong>
+                  <i aria-hidden="true">+</i>
+                </summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
       <SiteFooter />
