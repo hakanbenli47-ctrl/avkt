@@ -368,3 +368,12 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 .simple-activity-panel>a:hover{background:#f3efe6;color:#8b6a31}
 
 @media(max-width:620px){.pro-hero.pro-hero-compact{height:470px;min-height:470px}.pro-hero-compact .pro-hero-copy{padding:34px 0 54px}.pro-hero-compact .pro-hero-copy h1{font-size:38px}.pro-hero-compact .pro-hero-copy>span{margin-top:14px;font-size:13px}.pro-hero-compact .pro-hero-copy>div{margin-top:18px}.pro-hero-compact .pro-hero-copy a{padding:11px 16px}.pro-scroll-cue{bottom:9px}}
+
+/* Homepage about text and language controls */
+.pro-about .pro-split-copy{padding-top:58px;padding-bottom:58px}
+.pro-about-scroll{max-height:255px;margin:12px 0 20px;padding:20px 22px;overflow-y:auto;border:1px solid rgba(16,35,31,.14);background:rgba(250,248,242,.7);scrollbar-width:thin;scrollbar-color:#b08d4d rgba(16,35,31,.08);outline:none}
+.pro-about-scroll::-webkit-scrollbar{width:6px}.pro-about-scroll::-webkit-scrollbar-track{background:rgba(16,35,31,.07)}.pro-about-scroll::-webkit-scrollbar-thumb{background:#b08d4d;border-radius:20px}
+.pro-about-scroll:focus-visible{box-shadow:0 0 0 2px rgba(176,141,77,.35)}
+.pro-about-scroll p{margin:0 0 18px;color:#59635f;font-size:15px;line-height:1.72;font-style:normal}.pro-about-scroll p:last-child{margin-bottom:0}
+.pro-about-languages{align-self:flex-start;margin:0 0 24px}.pro-about-languages .language-switcher{color:#263a33;background:#f4f0e6;border-color:rgba(176,141,77,.58)}
+@media(max-width:620px){.pro-about .pro-split-copy{padding-top:58px;padding-bottom:58px}.pro-about-scroll{max-height:310px;padding:18px}.pro-about-scroll p{font-size:15px;line-height:1.68}.pro-about-languages{margin-bottom:22px}}
