@@ -14,19 +14,18 @@ const principles = [
   { no: "03", title: "Çok yönlü bakış", text: "Türkiye hukuku ile sınır ötesi sonuçları birlikte ele alan dosya yönetimi.", href: "/faaliyetlerimiz#faaliyet-alanlari", cta: "İnceleyin" },
 ];
 const credentials = [
-  { no: "01", title: "Adli Yardım Uygulama Esasları Eğitimi", src: "/credentials/adli-yardim-egitimi-2018.jpg", orientation: "landscape" },
-  { no: "02", title: "Çocuk Adalet Sistemi Eğitimi", src: "/credentials/cocuk-adalet-sistemi-2017.jpg", orientation: "landscape" },
-  { no: "03", title: "Tahkimde Taraf Vekilliği Eğitimi", src: "/credentials/tahkim-taraf-vekilligi-2020.jpg", orientation: "landscape" },
-  { no: "04", title: "Ceza Muhakemesi Kanunu Eğitimi", src: "/credentials/cmk-egitimi-2017.jpg", orientation: "landscape" },
-  { no: "05", title: "Bilirkişilik Temel Eğitimi", src: "/credentials/bilirkisilik-temel-egitimi-2018.jpg", orientation: "landscape" },
-  { no: "06", title: "Arabuluculuk Eğitimi", src: "/credentials/arabuluculuk-egitimi-2019.jpg", orientation: "landscape" },
-  { no: "07", title: "Temel Arabuluculuk Eğitimi", src: "/credentials/temel-arabuluculuk-egitimi-2019.jpg", orientation: "landscape" },
-  { no: "08", title: "Ceza Muhakemesinde Uzlaştırmacı Eğitimi", src: "/credentials/uzlastirmaci-egitimi-2019.jpg", orientation: "landscape" },
-  { no: "09", title: "Uluslararası Mülteci Hukuku Çalıştayı", src: "/credentials/uluslararasi-multeci-hukuku-2018.jpg", orientation: "landscape" },
-  { no: "10", title: "Akdeniz Üniversitesi Hukuk Fakültesi", src: "/credentials/akdeniz-universitesi-hukuk.jpg", orientation: "landscape" },
-  { no: "11", title: "Diploma Denklik Belgesi", src: "/credentials/diploma-denklik-belgesi.jpg", orientation: "portrait" },
-  { no: "12", title: "Moldova Hukuk Diploması", src: "/credentials/moldova-hukuk-diplomasi.jpg", orientation: "portrait" },
-  { no: "13", title: "Avukatlık Ruhsatnamesi", src: "/credentials/avukatlik-ruhsatnamesi.jpg", orientation: "rotated" },
+  { no: "01", title: "Moldova Hukuk Diploması", src: "/credentials/moldova-hukuk-diplomasi.jpg", orientation: "portrait" },
+  { no: "02", title: "Diploma Denklik Belgesi", src: "/credentials/diploma-denklik-belgesi.jpg", orientation: "portrait" },
+  { no: "03", title: "Avukatlık Ruhsatnamesi", src: "/credentials/avukatlik-ruhsatnamesi.jpg", orientation: "landscape" },
+  { no: "04", title: "Adli Yardım Uygulama Esasları Eğitimi", src: "/credentials/adli-yardim-egitimi-2018.jpg", orientation: "landscape" },
+  { no: "05", title: "Çocuk Adalet Sistemi Eğitimi", src: "/credentials/cocuk-adalet-sistemi-2017.jpg", orientation: "landscape" },
+  { no: "06", title: "Tahkimde Taraf Vekilliği Eğitimi", src: "/credentials/tahkim-taraf-vekilligi-2020.jpg", orientation: "landscape" },
+  { no: "07", title: "Ceza Muhakemesi Kanunu Eğitimi", src: "/credentials/cmk-egitimi-2017.jpg", orientation: "landscape" },
+  { no: "08", title: "Bilirkişilik Temel Eğitimi", src: "/credentials/bilirkisilik-temel-egitimi-2018.jpg", orientation: "landscape" },
+  { no: "09", title: "Arabuluculuk Eğitimi", src: "/credentials/arabuluculuk-egitimi-2019.jpg", orientation: "landscape" },
+  { no: "10", title: "Temel Arabuluculuk Eğitimi", src: "/credentials/temel-arabuluculuk-egitimi-2019.jpg", orientation: "landscape" },
+  { no: "11", title: "Ceza Muhakemesinde Uzlaştırmacı Eğitimi", src: "/credentials/uzlastirmaci-egitimi-2019.jpg", orientation: "landscape" },
+  { no: "12", title: "Uluslararası Mülteci Hukuku Çalıştayı", src: "/credentials/uluslararasi-multeci-hukuku-2018.jpg", orientation: "landscape" },
 ];
 export default function AboutPage() {
   return (

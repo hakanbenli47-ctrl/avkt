@@ -472,7 +472,6 @@ Object.assign(en, {
   "Temel Arabuluculuk Eğitimi": "Basic Mediation Training",
   "Ceza Muhakemesinde Uzlaştırmacı Eğitimi": "Criminal Conciliation Training",
   "Uluslararası Mülteci Hukuku Çalıştayı": "International Refugee Law Workshop",
-  "Akdeniz Üniversitesi Hukuk Fakültesi": "Akdeniz University Faculty of Law",
   "Diploma Denklik Belgesi": "Diploma Equivalency Certificate",
   "Moldova Hukuk Diploması": "Moldovan Law Diploma",
   "Avukatlık Ruhsatnamesi": "Attorney Licence"
@@ -490,7 +489,6 @@ Object.assign(ru, {
   "Temel Arabuluculuk Eğitimi": "Базовая подготовка по медиации",
   "Ceza Muhakemesinde Uzlaştırmacı Eğitimi": "Подготовка примирителя в уголовном процессе",
   "Uluslararası Mülteci Hukuku Çalıştayı": "Семинар по международному праву беженцев",
-  "Akdeniz Üniversitesi Hukuk Fakültesi": "Юридический факультет Университета Акдениз",
   "Diploma Denklik Belgesi": "Свидетельство о признании диплома",
   "Moldova Hukuk Diploması": "Диплом о высшем юридическом образовании в Молдове",
   "Avukatlık Ruhsatnamesi": "Свидетельство адвоката"
@@ -508,7 +506,6 @@ Object.assign(ro, {
   "Temel Arabuluculuk Eğitimi": "Formare de bază în mediere",
   "Ceza Muhakemesinde Uzlaştırmacı Eğitimi": "Formare pentru conciliere în procesul penal",
   "Uluslararası Mülteci Hukuku Çalıştayı": "Atelier de drept internațional al refugiaților",
-  "Akdeniz Üniversitesi Hukuk Fakültesi": "Facultatea de Drept a Universității Akdeniz",
   "Diploma Denklik Belgesi": "Certificat de echivalare a diplomei",
   "Moldova Hukuk Diploması": "Diplomă de drept din Republica Moldova",
   "Avukatlık Ruhsatnamesi": "Licență de avocat"
