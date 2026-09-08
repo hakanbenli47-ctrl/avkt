@@ -27,7 +27,7 @@ export default function AboutPage() {
         <article className="about-story-panel">
           <div className="about-story-heading"><span>Avukat hakkında</span><small>Aşağı kaydırın <b aria-hidden="true">↓</b></small></div>
           <div className="about-story-scroll" tabIndex={0}>
-            <p className="dropcap">Türkiye’de yaşayan, yatırım yapan, iş kuran veya turistik amaçlarla bulunan yabancıların Türkiye’de karşılaşabilecekleri hukuki süreçleri; müvekkilin dili, ihtiyaçları, hedefleri ve dosyanın somut koşulları doğrultusunda takip eder.</p>
+            <p className="dropcap">Türkiye’de yaşayan, çalışan, yatırım yapan, iş kuran veya turistik amaçlarla bulunan yabancıların Türkiye’de karşılaşabilecekleri hukuki süreçleri; müvekkilin dili, ihtiyaçları, hedefleri ve dosyanın somut koşulları doğrultusunda takip eder.</p>
             <p>Hukuki danışmanlık ve temsil hizmetlerinde temel amaç; hukuki durumun müvekkile açık ve anlaşılır şekilde aktarılması, olası risklerin önceden değerlendirilmesi ve sürecin her aşamasının dikkatle takip edilmesidir.</p>
             <p>Yabancı müvekkillerle çalışırken, yalnızca hukuki sürecin değil, Türkiye’deki idari ve bürokratik uygulamaların da dikkate alınması önem taşır. Her dosya kendi koşulları içerisinde değerlendirilerek, müvekkile izlenebilecek yol, olası riskler ve süreç hakkında açık ve anlaşılır bilgi sunulur.</p>
             <p>Müvekkil tarafından avukata aktarılan bilgi, belge ve kişisel veriler gizlilik ve mesleki sır saklama yükümlülüğü çerçevesinde korunur. Müvekkilin hukuki sürecine ilişkin paylaştığı bilgiler, kanunun öngördüğü istisnalar dışında üçüncü kişilerle paylaşılmaz ve gizliliğin korunmasına azami özen gösterilir.</p>
