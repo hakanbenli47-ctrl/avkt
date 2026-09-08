@@ -23,9 +23,9 @@ export default function AboutPage() {
         <div className="about-hero-copy"><p>Hakkımızda</p><h1>Hukuki güven,<br /><em>anlaşılır iletişimle başlar.</em></h1><div><strong>Av. Ruslana Pasecinic</strong><span>Antalya Barosu · 2018</span></div></div>
       </section>
       <section className="about-narrative">
-        <article className="about-story-panel">
-          <div className="about-story-heading"><span>Avukat hakkında</span><small>Aşağı kaydırın <b aria-hidden="true">↓</b></small></div>
-          <div className="about-story-scroll" tabIndex={0}>
+        <article className="about-story-static">
+          <h2>Avukat hakkında</h2>
+          <div className="about-story-copy">
             <p className="dropcap">Türkiye’de yaşayan, çalışan, yatırım yapan, iş kuran veya turistik amaçlarla bulunan yabancıların Türkiye’de karşılaşabilecekleri hukuki süreçleri; müvekkilin dili, ihtiyaçları, hedefleri ve dosyanın somut koşulları doğrultusunda takip eder.</p>
             <p>Hukuki danışmanlık ve temsil hizmetlerinde temel amaç; hukuki durumun müvekkile açık ve anlaşılır şekilde aktarılması, olası risklerin önceden değerlendirilmesi ve sürecin her aşamasının dikkatle takip edilmesidir.</p>
             <p>Yabancı müvekkillerle çalışırken, yalnızca hukuki sürecin değil, Türkiye’deki idari ve bürokratik uygulamaların da dikkate alınması önem taşır. Her dosya kendi koşulları içerisinde değerlendirilerek, müvekkile izlenebilecek yol, olası riskler ve süreç hakkında açık ve anlaşılır bilgi sunulur.</p>
