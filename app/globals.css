@@ -485,3 +485,7 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 .pro-about-languages{margin-top:18px}
 @media(max-width:1180px) and (min-width:981px){.desktop-nav{gap:16px}.desktop-nav>a,.activity-menu>summary{font-size:10px}.main-header{padding-left:30px;padding-right:30px}}
 @media(max-width:620px){.pro-about-copy-text p{font-size:15px;line-height:1.72}}
+/* Contact messenger labels */
+.contact-messengers{margin-left:8px;color:#a78343;font:600 10px/1.4 var(--font-manrope),Arial,sans-serif;letter-spacing:.055em;white-space:nowrap}
+.main-footer .contact-messengers{color:#d0b980}
+@media(max-width:620px){.contact-messengers{display:block;margin:7px 0 0}}
