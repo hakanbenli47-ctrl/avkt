@@ -9,8 +9,6 @@ const content = {
   tr: {
     kicker: "Müvekkil deneyimleri",
     title: "Güven, paylaşılan deneyimlerle görünür olur.",
-    intro: "Google Haritalar’da yayımlanan yorumlardan kısa, birebir alıntılar.",
-    source: "Google yorumundan alıntı",
     rating: "5 yıldız",
     open: "Google Haritalar’da görüntüle",
     previous: "Önceki yorumu göster",
@@ -24,8 +22,6 @@ const content = {
   ru: {
     kicker: "Опыт доверителей",
     title: "Доверие становится заметным благодаря опыту клиентов.",
-    intro: "Короткие дословные цитаты из отзывов, опубликованных в Google Картах.",
-    source: "Цитата из отзыва Google",
     rating: "5 звёзд",
     open: "Посмотреть в Google Картах",
     previous: "Показать предыдущий отзыв",
@@ -39,8 +35,6 @@ const content = {
   en: {
     kicker: "Client experiences",
     title: "Trust becomes visible through shared experience.",
-    intro: "Short verbatim excerpts from reviews published on Google Maps.",
-    source: "Excerpt from a Google review",
     rating: "5 stars",
     open: "View on Google Maps",
     previous: "Show previous review",
@@ -54,8 +48,6 @@ const content = {
   ro: {
     kicker: "Experiențele clienților",
     title: "Încrederea devine vizibilă prin experiențele împărtășite.",
-    intro: "Fragmente scurte, reproduse fidel, din recenziile publicate pe Google Maps.",
-    source: "Fragment dintr-o recenzie Google",
     rating: "5 stele",
     open: "Vedeți pe Google Maps",
     previous: "Afișați recenzia precedentă",
@@ -86,7 +78,6 @@ export default function TestimonialsCarousel() {
           <span>{copy.kicker}</span>
           <h2 id="testimonials-title">{copy.title}</h2>
         </div>
-        <p>{copy.intro}</p>
       </header>
       <div className="testimonials-stage" aria-live="polite">
         {visible.map((reviewIndex, position) => {
@@ -94,7 +85,6 @@ export default function TestimonialsCarousel() {
           const isActive = position === 1;
           return (
             <article className={`testimonial-card ${isActive ? "is-active" : "is-side"}`} aria-hidden={!isActive} key={`${language}-${review.author}`}>
-              <div className="testimonial-source"><span className="google-g" aria-hidden="true">G</span><small>{copy.source}</small></div>
               <div className="testimonial-stars" aria-label={copy.rating}>★★★★★</div>
               <blockquote>{review.text}</blockquote>
               <footer><strong>{review.author}</strong><a href={googleMapsHref} target="_blank" rel="noreferrer" tabIndex={isActive ? 0 : -1}>{copy.open}<span aria-hidden="true">↗</span></a></footer>
