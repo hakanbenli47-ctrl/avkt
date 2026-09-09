@@ -67,14 +67,18 @@ function translateTree(root: Node, language: SiteLanguage) {
 }
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, updateLanguage] = useState<SiteLanguage>("ru");
+  const [language, updateLanguage] = useState<SiteLanguage>("tr");
   const preferenceLoaded = useRef(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       const saved = window.localStorage.getItem("advocat-language") as SiteLanguage | null;
       if (saved && supported.includes(saved)) updateLanguage(saved);
-      else window.localStorage.setItem("advocat-language", "ru");
+      else {
+        const defaultLanguage: SiteLanguage = window.matchMedia("(max-width: 980px)").matches ? "tr" : "ru";
+        updateLanguage(defaultLanguage);
+        window.localStorage.setItem("advocat-language", defaultLanguage);
+      }
       preferenceLoaded.current = true;
     }, 0);
     return () => window.clearTimeout(timer);

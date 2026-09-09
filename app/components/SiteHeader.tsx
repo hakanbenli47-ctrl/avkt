@@ -45,6 +45,7 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
       <details className="mobile-menu" ref={mobileMenu}>
         <summary aria-label="Menüyü aç">Menü</summary>
         <nav>
+          <LanguageSwitcher mobile onSelect={closeMobileMenu} />
           <Link href="/" onClick={closeMobileMenu}>Anasayfa</Link>
           <Link href="/hakkimizda" onClick={closeMobileMenu}>Hakkımızda</Link>
           <details className="mobile-activity-menu" ref={mobileActivityMenu}>
@@ -54,7 +55,6 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           <Link href="/yazilar" onClick={closeMobileMenu}>Blog</Link>
           <Link href="/sik-sorulan-sorular" onClick={closeMobileMenu}>Sık Sorulan Sorular</Link>
           <Link href="/iletisim" onClick={closeMobileMenu}>İletişim</Link>
-          <LanguageSwitcher mobile onSelect={closeMobileMenu} />
         </nav>
       </details>
     </header>
