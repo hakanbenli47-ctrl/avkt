@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
+import BiographyContent from "./BiographyContent";
 
 export const metadata = {
   title: "Hakkımızda | Av. Ruslana Pasecinic",
@@ -33,20 +34,10 @@ export default function AboutPage() {
       <SiteHeader />
       <section className="about-hero">
         <div className="about-hero-image"><Image src="/ruslana-pasecinic-portre.jpg" alt="Avukat Ruslana Pasecinic" fill priority sizes="(max-width: 980px) 100vw, 50vw" /></div>
-        <div className="about-hero-copy"><p>Hakkımızda</p><h1>Hukuki güven,<br /><em>anlaşılır iletişimle başlar.</em></h1><div><strong>Av. Ruslana Pasecinic</strong><span>Antalya Barosu · 2018</span></div></div>
+        <div className="about-hero-copy"><p>Hakkımızda</p><h1>Hukuki güven,<br /><em>anlaşılır iletişimle başlar.</em></h1><div><strong>Av. Ruslana Pasecinic</strong><span>Antalya Barosu · 2017</span></div></div>
       </section>
-      <section className="about-narrative">
-        <article className="about-story-static">
-          <h2>Biyografi</h2>
-          <div className="about-story-copy">
-            <p className="dropcap">Av. Ruslana Pasecinic, Antalya Barosu’na kayıtlı olarak Türkiye bağlantılı özel ve ticari hukuk meselelerinde hukuki danışmanlık ve temsil hizmeti sunmaktadır.</p>
-            <p>Mesleki çalışmaları; Türkiye’de yaşayan, çalışan, yatırım yapan, iş kuran veya geçici olarak bulunan yabancıların karşılaştığı hukuki süreçlere odaklanır. Gayrimenkul, göç ve vatandaşlık, şirketler ve ticaret, aile ve miras ile dava ve uyuşmazlık alanlarında dosyanın somut koşullarına göre çalışır.</p>
-            <p>Türkçe, Rusça, İngilizce ve Romence iletişim kurabilmesi, yabancı müvekkillerin hukuki süreci kendi dillerinde ve açık biçimde takip edebilmesine imkân sağlar.</p>
-            <p>Çalışma yaklaşımında doğrudan iletişim, dikkatli dosya incelemesi, risklerin önceden değerlendirilmesi ve mesleki gizlilik temel ilkeleri oluşturur.</p>
-          </div>
-        </article>
-      </section>
-      <section className="about-record"><div><span>2018</span><p>Antalya Barosu’na katılım</p></div><div><span>04</span><p>Çalışma dili</p></div><div><span>TR</span><p>Türkiye bağlantılı dosyalar</p></div></section>
+      <section className="about-narrative"><BiographyContent /></section>
+      <section className="about-record"><div><span>2017</span><p>Antalya Barosu’na katılım</p></div><div><span>04</span><p>Çalışma dili</p></div><div><span>TR</span><p>Türkiye bağlantılı dosyalar</p></div></section>
       <section className="about-credentials" aria-labelledby="credentials-title">
         <header>
           <span>Mesleki Belgeler</span>

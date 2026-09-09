@@ -489,3 +489,17 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 .contact-messengers{margin-left:8px;color:#a78343;font:600 10px/1.4 var(--font-manrope),Arial,sans-serif;letter-spacing:.055em;white-space:nowrap}
 .main-footer .contact-messengers{color:#d0b980}
 @media(max-width:620px){.contact-messengers{display:block;margin:7px 0 0}}
+/* Expandable full biography */
+.about-biography-intro{position:relative}
+.about-biography-section{position:relative;margin-top:58px;padding-top:48px;border-top:1px solid rgba(16,35,31,.17)}
+.about-biography-index{display:block;margin-bottom:14px;color:#a78343;font:700 10px/1 var(--font-manrope),Arial,sans-serif;letter-spacing:.16em}
+.about-story-copy .about-biography-section h3{max-width:720px;margin:0 0 28px;color:var(--ink);font:500 clamp(29px,3.2vw,42px)/1.08 var(--font-cormorant),Georgia,serif;letter-spacing:-.018em}
+.about-story-copy .about-biography-section p{font-size:18px}
+.about-biography-section ul{margin:28px 0 32px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;border-top:1px solid rgba(16,35,31,.13);border-left:1px solid rgba(16,35,31,.13)}
+.about-biography-section li{position:relative;min-height:58px;padding:15px 18px 15px 38px;display:flex;align-items:center;border-right:1px solid rgba(16,35,31,.13);border-bottom:1px solid rgba(16,35,31,.13);color:#4f5b56;font:500 12px/1.6 var(--font-manrope),Arial,sans-serif}
+.about-biography-section li:before{content:"";position:absolute;left:18px;width:5px;height:5px;border:1px solid #a78343;transform:rotate(45deg)}
+.about-biography-toggle{margin:50px auto 0;padding:14px 0;display:flex;align-items:center;gap:28px;border:0;border-bottom:1px solid #a78343;background:transparent;color:var(--ink);font:700 12px/1 var(--font-manrope),Arial,sans-serif;cursor:pointer}
+.about-biography-toggle span{color:#a78343;font-size:15px;transition:transform .2s ease}
+.about-biography-toggle:hover{color:#8b6a31}
+.about-biography-toggle:focus-visible{outline:2px solid #b08d4d;outline-offset:6px}
+@media(max-width:620px){.about-biography-section{margin-top:46px;padding-top:38px}.about-story-copy .about-biography-section h3{font-size:30px}.about-story-copy .about-biography-section p{font-size:17px}.about-biography-section ul{grid-template-columns:1fr}.about-biography-section li{min-height:54px}.about-biography-toggle{margin-top:38px}}
