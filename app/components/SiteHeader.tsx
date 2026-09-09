@@ -31,7 +31,7 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         <Link href="/" className={pathname === "/" ? "active" : ""} aria-current={pathname === "/" ? "page" : undefined}>Anasayfa</Link>
         <Link href="/hakkimizda" className={isAbout ? "active" : ""} aria-current={isAbout ? "page" : undefined}>Hakkımızda</Link>
         <details className={`activity-menu ${isActivities ? "active" : ""}`} ref={activityMenu} onMouseLeave={closeActivityMenu} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) closeActivityMenu(); }}>
-          <summary aria-label="Faaliyetlerimiz menüsünü aç">Faaliyetlerimiz <span aria-hidden="true">⌄</span></summary>
+          <summary aria-label="Faaliyetlerimiz menüsü"><Link href="/faaliyetlerimiz" onClick={closeActivityMenu}>Faaliyetlerimiz</Link><span aria-hidden="true">⌄</span></summary>
           <div className="activity-panel simple-activity-panel">
             <Link href="/faaliyetlerimiz#faaliyet-turleri" onClick={closeActivityMenu}>Faaliyet Türleri</Link>
             <Link href="/faaliyetlerimiz#faaliyet-alanlari" onClick={closeActivityMenu}>Faaliyet Alanları</Link>
@@ -48,7 +48,7 @@ export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
           <Link href="/" onClick={closeMobileMenu}>Anasayfa</Link>
           <Link href="/hakkimizda" onClick={closeMobileMenu}>Hakkımızda</Link>
           <details className="mobile-activity-menu" ref={mobileActivityMenu}>
-            <summary>Faaliyetlerimiz <span aria-hidden="true">+</span></summary>
+            <summary><Link href="/faaliyetlerimiz" onClick={closeMobileMenu}>Faaliyetlerimiz</Link><span aria-hidden="true">+</span></summary>
             <div><Link href="/faaliyetlerimiz#faaliyet-turleri" onClick={closeMobileMenu}>Faaliyet Türleri</Link><Link href="/faaliyetlerimiz#faaliyet-alanlari" onClick={closeMobileMenu}>Faaliyet Alanları</Link></div>
           </details>
           <Link href="/yazilar" onClick={closeMobileMenu}>Blog</Link>
