@@ -6,6 +6,7 @@ import Link from "next/link";
 import HomeInsights from "./components/HomeInsights";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
+import TestimonialsCarousel from "./components/TestimonialsCarousel";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useSiteLanguage } from "./components/LanguageProvider";
 import type { SiteLanguage } from "../lib/translations";
@@ -74,6 +75,7 @@ export default function Home() {
       </div>
 
       <HomeInsights />
+      <TestimonialsCarousel />
       <SiteFooter />
     </main>
   );
