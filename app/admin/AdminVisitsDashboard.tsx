@@ -76,7 +76,8 @@ export default function AdminVisitsDashboard({ email, accessToken, onSignOut }: 
         <div className="admin-sidebar-brand"><div className="admin-logo">RP</div><div><strong>Yönetim Paneli</strong><small>Advocat in Türkiye</small></div></div>
         <nav aria-label="Yönetim menüsü">
           <a href="/admin"><span>01</span> İçerik stüdyosu</a>
-          <a className="active" href="/admin/ziyaretler"><span>02</span> Ziyaretler</a>
+          <a href="/admin/site-icerikleri"><span>02</span> Site içerikleri</a>
+          <a className="active" href="/admin/ziyaretler"><span>03</span> Ziyaretler</a>
           <a href="/" target="_blank" rel="noreferrer"><span>↗</span> Siteyi gör</a>
         </nav>
         <div className="admin-account"><small>Giriş yapan hesap</small><strong title={email}>{email}</strong></div>

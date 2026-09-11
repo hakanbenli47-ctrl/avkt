@@ -4,6 +4,7 @@ import { createClient, type Session, type SupabaseClient } from "@supabase/supab
 import { FormEvent, useEffect, useState } from "react";
 import AdminDashboard from "./AdminDashboard";
 import AdminVisitsDashboard from "./AdminVisitsDashboard";
+import SiteContentDashboard from "./site-icerikleri/SiteContentDashboard";
 
 let adminClient: SupabaseClient | null = null;
 let adminClientConfig = "";
@@ -42,7 +43,7 @@ function getAdminClient(url: string, publishableKey: string) {
   return adminClient;
 }
 
-export default function AdminPortal({ view = "posts" }: { view?: "posts" | "visits" }) {
+export default function AdminPortal({ view = "posts" }: { view?: "posts" | "visits" | "content" }) {
   const [client, setClient] = useState<SupabaseClient | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [email, setEmail] = useState("");
@@ -95,14 +96,16 @@ export default function AdminPortal({ view = "posts" }: { view?: "posts" | "visi
 
   if (session && client) {
     const props = { email: session.user.email ?? email, accessToken: session.access_token, onSignOut: () => client.auth.signOut() };
-    return view === "visits" ? <AdminVisitsDashboard {...props} /> : <AdminDashboard {...props} />;
+    if (view === "visits") return <AdminVisitsDashboard {...props} />;
+    if (view === "content") return <SiteContentDashboard {...props} />;
+    return <AdminDashboard {...props} />;
   }
 
   return (
     <main className="admin-login" data-no-translate>
       <div className="admin-login-card">
-        <span>RP</span><p>ADVOCAT IN TÜRKİYE</p><h1>{view === "visits" ? "Ziyaret analitiği" : "İçerik stüdyosu"}</h1>
-        <small>{view === "visits" ? "İzinli ve anonim ziyaret oturumlarını güvenli yönetim ekranından inceleyin." : "Hukuk notlarınızı güvenli biçimde hazırlayın, taslak kaydedin ve yayınlayın."}</small>
+        <span>RP</span><p>ADVOCAT IN TÜRKİYE</p><h1>{view === "visits" ? "Ziyaret analitiği" : view === "content" ? "Site yönetimi" : "İçerik stüdyosu"}</h1>
+        <small>{view === "visits" ? "İzinli ve anonim ziyaret oturumlarını güvenli yönetim ekranından inceleyin." : view === "content" ? "Sitenin dört dildeki metinlerini tek bir güvenli ekrandan düzenleyin." : "Hukuk notlarınızı güvenli biçimde hazırlayın, taslak kaydedin ve yayınlayın."}</small>
         <form className="admin-login-form" onSubmit={signIn}>
           <label>E-posta<input type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} /></label>
           <label>Şifre<input type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} /></label>

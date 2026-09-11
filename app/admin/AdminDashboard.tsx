@@ -254,7 +254,8 @@ export default function AdminDashboard({ email, accessToken, onSignOut }: { emai
         <nav aria-label="Yönetim menüsü">
           <a className="active" href="#post-editor"><span>01</span> Yeni yazı</a>
           <a href="#post-list"><span>02</span> Yazılarım</a>
-          <a href="/admin/ziyaretler"><span>03</span> Ziyaretler</a>
+          <a href="/admin/site-icerikleri"><span>03</span> Site içerikleri</a>
+          <a href="/admin/ziyaretler"><span>04</span> Ziyaretler</a>
           <a href="/" target="_blank" rel="noreferrer"><span>↗</span> Siteyi gör</a>
         </nav>
         <div className="admin-account"><small>Giriş yapan hesap</small><strong title={email}>{email}</strong></div>
