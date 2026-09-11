@@ -15,7 +15,7 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
   const [fields, setFields] = useState<Field[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
   const [values, setValues] = useState<Record<string, Values>>({});
-  const [selectedSection, setSelectedSection] = useState("Tümü");
+  const [selectedSection, setSelectedSection] = useState("Ana Sayfa");
   const [selectedLanguage, setSelectedLanguage] = useState<Language>("tr");
   const [query, setQuery] = useState("");
   const [dirtyKeys, setDirtyKeys] = useState<Set<string>>(new Set());
@@ -44,7 +44,7 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
   const visibleFields = useMemo(() => {
     const normalized = query.trim().toLocaleLowerCase("tr-TR");
     return fields.filter((field) => {
-      const sectionMatches = selectedSection === "Tümü" || field.section === selectedSection;
+      const sectionMatches = field.section === selectedSection;
       const current = values[field.contentKey] ?? field.defaults;
       const textMatches = !normalized || [field.label, field.source, current[selectedLanguage]].join(" ").toLocaleLowerCase("tr-TR").includes(normalized);
       return sectionMatches && textMatches;
@@ -94,10 +94,14 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
             {languages.map((language) => <button type="button" key={language.code} className={selectedLanguage === language.code ? styles.activeLanguage : ""} aria-pressed={selectedLanguage === language.code} onClick={() => setSelectedLanguage(language.code)}><b>{language.short}</b><span>{language.name}</span></button>)}
           </div>
         </nav>
-        <section className={styles.toolbar} aria-label="İçerik filtreleri"><label><span>Metin ara</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Başlık, cümle veya çeviri ara…" /></label><label><span>Sayfa / bölüm</span><select value={selectedSection} onChange={(event) => setSelectedSection(event.target.value)}><option>Tümü</option>{sections.map((section) => <option key={section.name}>{section.name}</option>)}</select></label><div><span>Gösterilen alan</span><strong>{visibleFields.length}</strong></div></section>
+        <section className={styles.sectionPicker} aria-label="Düzenlenecek içerik bölümü">
+          <header><div><span>İÇERİK BÖLÜMLERİ</span><strong>{selectedSection}</strong></div><p>Bir bölüm seçin; yalnızca o bölüme ait metinler aşağıda gösterilsin.</p></header>
+          <div className={styles.sectionButtons}>{sections.map((section) => <button type="button" key={section.name} className={selectedSection === section.name ? styles.activeSection : ""} aria-pressed={selectedSection === section.name} onClick={() => { setSelectedSection(section.name); setQuery(""); }}><strong>{section.name}</strong><span>{section.description}</span></button>)}</div>
+        </section>
+        <section className={styles.toolbar} aria-label="İçerik filtreleri"><label><span>Seçili bölümde metin ara</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`${activeLanguage.name} metinlerinde ara…`} /></label><div><span>Bu bölümdeki alan</span><strong>{visibleFields.length}</strong></div></section>
         {loading && <div className={styles.empty}><strong>İçerikler hazırlanıyor…</strong><span>Tüm dil alanları yükleniyor.</span></div>}
         {!loading && !visibleFields.length && <div className={styles.empty}><strong>Eşleşen içerik bulunamadı.</strong><span>Arama kelimesini veya bölüm filtresini değiştirin.</span></div>}
-        <div className={styles.sectionList}>{groupedFields.map((section, sectionIndex) => <details className={styles.section} open={selectedSection !== "Tümü" || sectionIndex === 0} key={section.name}><summary><div><span>{String(sectionIndex + 1).padStart(2, "0")}</span><div><h2>{section.name}</h2><p>{section.description}</p></div></div><b>{section.fields.length} alan</b></summary><div className={styles.fields}>{section.fields.map((field) => { const current = values[field.contentKey] ?? field.defaults; const changed = dirtyKeys.has(field.contentKey); return <article className={`${styles.field} ${changed ? styles.changed : ""}`} key={field.contentKey}><header><div><span>{field.section}</span><h3>{field.label}</h3><p>Bu metnin {activeLanguage.name} dilinde sitede gösterilecek karşılığı.</p></div><div>{changed && <b>Kaydedilmedi</b>}<button type="button" onClick={() => restore(field)}>İlk metne dön</button></div></header><div className={styles.languageGrid}><label><span><b>{activeLanguage.short}</b>{activeLanguage.name}</span><textarea dir="auto" rows={current[selectedLanguage].length > 240 ? 6 : current[selectedLanguage].length > 100 ? 4 : 2} value={current[selectedLanguage]} onChange={(event) => updateValue(field.contentKey, selectedLanguage, event.target.value)} disabled={saving || setupRequired} /></label></div></article>; })}</div></details>)}</div>
+        <div className={styles.sectionList}>{groupedFields.map((section, sectionIndex) => <details className={styles.section} open key={section.name}><summary><div><span>{String(sectionIndex + 1).padStart(2, "0")}</span><div><h2>{section.name}</h2><p>{section.description}</p></div></div><b>{section.fields.length} alan</b></summary><div className={styles.fields}>{section.fields.map((field) => { const current = values[field.contentKey] ?? field.defaults; const changed = dirtyKeys.has(field.contentKey); return <article className={`${styles.field} ${changed ? styles.changed : ""}`} key={field.contentKey}><header><div><span>{field.section}</span><h3>{field.label}</h3><p>Bu metnin {activeLanguage.name} dilinde sitede gösterilecek karşılığı.</p></div><div>{changed && <b>Kaydedilmedi</b>}<button type="button" onClick={() => restore(field)}>İlk metne dön</button></div></header><div className={styles.languageGrid}><label><span><b>{activeLanguage.short}</b>{activeLanguage.name}</span><textarea dir="auto" rows={current[selectedLanguage].length > 240 ? 6 : current[selectedLanguage].length > 100 ? 4 : 2} value={current[selectedLanguage]} onChange={(event) => updateValue(field.contentKey, selectedLanguage, event.target.value)} disabled={saving || setupRequired} /></label></div></article>; })}</div></details>)}</div>
         <div className={styles.saveBar}><div><strong>{dirtyKeys.size ? `${dirtyKeys.size} kaydedilmemiş alan` : "Tüm değişiklikler kayıtlı"}</strong><span>Seçili dilde yaptığınız değişiklikler kaydedilir; diğer diller korunur.</span></div><button type="button" onClick={() => void save()} disabled={!dirtyKeys.size || saving || setupRequired}>{saving ? "Kaydediliyor…" : "Değişiklikleri kaydet"}</button></div>
       </main>
     </div>
