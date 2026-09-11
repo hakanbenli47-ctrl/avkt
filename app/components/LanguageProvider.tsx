@@ -44,6 +44,7 @@ function translatedValue(value: string, language: SiteLanguage, overrides: Conte
 }
 
 function translateText(node: Text, language: SiteLanguage, overrides: ContentOverrides) {
+  if (node.parentElement?.closest(".admin-shell, .admin-login")) return;
   const isProtected = Boolean(node.parentElement?.closest("[data-no-translate]"));
   const current = node.nodeValue ?? "";
   const initial = isProtected ? current : originalText.get(node) ?? current;
