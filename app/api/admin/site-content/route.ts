@@ -30,7 +30,16 @@ export async function GET(request: Request) {
     const setupRequired = error.code === "42P01" || error.code === "42501" || error.code === "PGRST205";
     return Response.json({ fields: fieldsWithValues(), sections: siteContentSections, setupRequired, error: setupRequired ? "Site içerikleri tablosu henüz kurulmadı. Supabase SQL Editor’de supabase/site-content.sql dosyasını çalıştırın." : "Site içerikleri yüklenemedi." }, { headers: { "Cache-Control": "no-store" } });
   }
-  return Response.json({ fields: fieldsWithValues(data ?? []), sections: siteContentSections, setupRequired: false }, { headers: { "Cache-Control": "no-store" } });
+  const currentRows = data ?? [];
+  const savedKeys = new Set(currentRows.map((row) => row.content_key));
+  const missingFields = Array.from(siteContentByKey.values()).filter((field) => !savedKeys.has(field.contentKey));
+  if (missingFields.length) {
+    const now = new Date().toISOString();
+    const seedRows = missingFields.map((field) => ({ content_key: field.contentKey, section: field.section, label: field.label, source_text: field.source, tr: field.defaults.tr, ru: field.defaults.ru, en: field.defaults.en, ro: field.defaults.ro, updated_at: now, updated_by: access.user!.id }));
+    const { data: inserted, error: seedError } = await access.client!.from("site_content").upsert(seedRows, { onConflict: "content_key", ignoreDuplicates: true }).select("*");
+    if (!seedError && inserted?.length) currentRows.push(...inserted);
+  }
+  return Response.json({ fields: fieldsWithValues(currentRows), sections: siteContentSections, setupRequired: false }, { headers: { "Cache-Control": "no-store" } });
 }
 
 export async function PUT(request: Request) {

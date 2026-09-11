@@ -1,13 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./SiteContentDashboard.module.css";
 
 type Language = "tr" | "ru" | "en" | "ro";
-type Values = Record<Language, string>;
-type Field = { contentKey: string; section: string; sectionDescription: string; block: string; blockDescription: string; order: number; label: string; source: string; defaults: Values; values: Values; updatedAt: string | null };
-type Section = { name: string; description: string };
-type ContentBlock = { name: string; description: string; fields: Field[] };
+type Mode = "edit" | "browse";
+type StoredRow = { content_key: string; section: string; label: string; source_text: string; tr: string; ru: string; en: string; ro: string; updated_at: string };
+type Selection = { contentKey?: string; sourceText: string; shownText: string; context: string };
 
 const languages: Array<{ code: Language; name: string; short: string }> = [
   { code: "tr", name: "Türkçe", short: "TR" },
@@ -16,92 +15,155 @@ const languages: Array<{ code: Language; name: string; short: string }> = [
   { code: "ro", name: "Română", short: "RO" },
 ];
 
+const pages = [
+  { name: "Ana Sayfa", path: "/" },
+  { name: "Hakkımızda", path: "/hakkimizda" },
+  { name: "Faaliyetlerimiz", path: "/faaliyetlerimiz" },
+  { name: "Çalışma Alanları", path: "/calisma-alanlari" },
+  { name: "Sık Sorulan Sorular", path: "/sik-sorulan-sorular" },
+  { name: "Blog", path: "/yazilar" },
+  { name: "İletişim", path: "/iletisim" },
+  { name: "Çerez ve Gizlilik", path: "/cerez-ve-gizlilik" },
+];
+
+function textNodeAtPoint(document: Document, event: MouseEvent) {
+  const browserDocument = document as Document & { caretRangeFromPoint?: (x: number, y: number) => Range | null; caretPositionFromPoint?: (x: number, y: number) => { offsetNode: Node } | null };
+  const rangeNode = browserDocument.caretRangeFromPoint?.(event.clientX, event.clientY)?.startContainer;
+  const positionNode = browserDocument.caretPositionFromPoint?.(event.clientX, event.clientY)?.offsetNode;
+  for (const node of [rangeNode, positionNode]) if (node?.nodeType === Node.TEXT_NODE && node.nodeValue?.trim()) return node as Text;
+  const target = event.target instanceof Element ? event.target : null;
+  if (!target) return null;
+  const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT);
+  let node = walker.nextNode();
+  while (node) {
+    if (node.nodeValue?.trim()) return node as Text;
+    node = walker.nextNode();
+  }
+  return null;
+}
+
+function contextFor(element: Element) {
+  const tag = element.tagName.toLocaleLowerCase("tr-TR");
+  const section = element.closest("section, header, footer, nav, article");
+  const className = section?.className && typeof section.className === "string" ? section.className.split(" ")[0] : "sayfa";
+  return `${className} · ${tag}`;
+}
+
 export default function SiteContentDashboard({ email, accessToken, onSignOut }: { email: string; accessToken: string; onSignOut: () => void }) {
-  const [fields, setFields] = useState<Field[]>([]);
-  const [sections, setSections] = useState<Section[]>([]);
-  const [values, setValues] = useState<Record<string, Values>>({});
-  const [selectedSection, setSelectedSection] = useState("Ana Sayfa");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const highlightedRef = useRef<Element | null>(null);
+  const [rows, setRows] = useState<StoredRow[]>([]);
   const [selectedLanguage, setSelectedLanguage] = useState<Language>("tr");
-  const [query, setQuery] = useState("");
-  const [dirtyKeys, setDirtyKeys] = useState<Set<string>>(new Set());
+  const [selectedPage, setSelectedPage] = useState(pages[0]);
+  const [currentPath, setCurrentPath] = useState("/");
+  const [mode, setMode] = useState<Mode>("edit");
+  const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
+  const [selection, setSelection] = useState<Selection | null>(null);
+  const [draft, setDraft] = useState("");
+  const [savedValue, setSavedValue] = useState("");
   const [loading, setLoading] = useState(true);
+  const [frameLoading, setFrameLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [setupRequired, setSetupRequired] = useState(false);
   const [message, setMessage] = useState("");
 
-  const load = useCallback(async () => {
+  const loadRows = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/admin/site-content", { headers: { Authorization: `Bearer ${accessToken}` }, cache: "no-store" });
-      const data = await response.json() as { fields?: Field[]; sections?: Section[]; setupRequired?: boolean; error?: string };
-      if (!response.ok) throw new Error(data.error || "Site içerikleri yüklenemedi.");
-      const loadedFields = data.fields ?? [];
-      setFields(loadedFields);
-      setSections(data.sections ?? []);
-      setValues(Object.fromEntries(loadedFields.map((field) => [field.contentKey, field.values])));
-      setSetupRequired(Boolean(data.setupRequired));
-      setMessage(data.error ?? "");
-      setDirtyKeys(new Set());
+      await fetch("/api/admin/site-content", { headers: { Authorization: `Bearer ${accessToken}` }, cache: "no-store" });
+      const response = await fetch("/api/admin/visual-content", { headers: { Authorization: `Bearer ${accessToken}` }, cache: "no-store" });
+      const data = await response.json() as { rows?: StoredRow[]; error?: string };
+      if (!response.ok) throw new Error(data.error || "İçerik kayıtları yüklenemedi.");
+      setRows(data.rows ?? []);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Site içerikleri yüklenemedi.");
+      setMessage(error instanceof Error ? error.message : "İçerik kayıtları yüklenemedi.");
     } finally {
       setLoading(false);
     }
   }, [accessToken]);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => { void load(); }, 0);
-    return () => window.clearTimeout(timer);
-  }, [load]);
+  useEffect(() => { void loadRows(); }, [loadRows]);
 
-  const activeLanguage = languages.find((language) => language.code === selectedLanguage) ?? languages[0];
-  const activeSection = sections.find((section) => section.name === selectedSection);
+  const clearHighlight = useCallback(() => {
+    highlightedRef.current?.removeAttribute("data-visual-editor-selected");
+    highlightedRef.current = null;
+  }, []);
 
-  const visibleFields = useMemo(() => {
-    const normalized = query.trim().toLocaleLowerCase("tr-TR");
-    return fields.filter((field) => {
-      if (field.section !== selectedSection) return false;
-      if (!normalized) return true;
-      const current = values[field.contentKey] ?? field.defaults;
-      return [field.block, field.label, field.source, current[selectedLanguage]].join(" ").toLocaleLowerCase("tr-TR").includes(normalized);
-    });
-  }, [fields, query, selectedLanguage, selectedSection, values]);
-
-  const contentBlocks = useMemo(() => {
-    const grouped = new Map<string, ContentBlock>();
-    for (const field of visibleFields) {
-      const existing = grouped.get(field.block);
-      if (existing) existing.fields.push(field);
-      else grouped.set(field.block, { name: field.block, description: field.blockDescription, fields: [field] });
-    }
-    return Array.from(grouped.values());
-  }, [visibleFields]);
-
-  function updateValue(contentKey: string, language: Language, value: string) {
-    setValues((current) => ({ ...current, [contentKey]: { ...current[contentKey], [language]: value } }));
-    setDirtyKeys((current) => new Set(current).add(contentKey));
+  const selectText = useCallback((textNode: Text) => {
+    const shownText = textNode.nodeValue?.trim() ?? "";
+    if (!shownText) return;
+    const element = textNode.parentElement;
+    if (!element || element.closest("script, style, textarea, input, select, option, iframe")) return;
+    clearHighlight();
+    element.setAttribute("data-visual-editor-selected", "true");
+    highlightedRef.current = element;
+    const stored = rows.find((row) => row.source_text === shownText || languages.some((language) => row[language.code] === shownText));
+    const value = stored?.[selectedLanguage]?.trim() || shownText;
+    setSelection({ contentKey: stored?.content_key, sourceText: stored?.source_text || shownText, shownText, context: contextFor(element) });
+    setDraft(value);
+    setSavedValue(value);
     setMessage("");
+  }, [clearHighlight, rows, selectedLanguage]);
+
+  const handleFrameLoad = useCallback(() => {
+    const frame = iframeRef.current;
+    const document = frame?.contentDocument;
+    if (!frame || !document) return;
+    setFrameLoading(false);
+    try { setCurrentPath(frame.contentWindow?.location.pathname || selectedPage.path); } catch { setCurrentPath(selectedPage.path); }
+    document.querySelector(".cookie-consent")?.remove();
+    const style = document.createElement("style");
+    style.dataset.visualEditorStyle = "true";
+    style.textContent = '[data-visual-editor-selected="true"]{outline:3px solid #d4ae57!important;outline-offset:4px!important;background:rgba(255,238,184,.16)!important}';
+    document.head.appendChild(style);
+    document.addEventListener("click", (event) => {
+      if (mode === "browse") return;
+      const mouseEvent = event as MouseEvent;
+      const node = textNodeAtPoint(document, mouseEvent);
+      if (!node) return;
+      event.preventDefault();
+      event.stopPropagation();
+      selectText(node);
+    }, true);
+  }, [mode, selectText, selectedPage.path]);
+
+  function reloadFrame() {
+    clearHighlight();
+    setSelection(null);
+    setDraft("");
+    setFrameLoading(true);
+    iframeRef.current?.contentWindow?.location.reload();
   }
 
-  function restore(field: Field) {
-    setValues((current) => ({ ...current, [field.contentKey]: { ...field.defaults } }));
-    setDirtyKeys((current) => new Set(current).add(field.contentKey));
-    setMessage(`“${field.label}” ilk metne döndürüldü. Kalıcı olması için değişiklikleri kaydedin.`);
+  function changeLanguage(language: Language) {
+    window.localStorage.setItem("advocat-language", language);
+    setSelectedLanguage(language);
+    window.setTimeout(reloadFrame, 0);
+  }
+
+  function changePage(page: typeof pages[number]) {
+    clearHighlight();
+    setSelection(null);
+    setDraft("");
+    setSelectedPage(page);
+    setCurrentPath(page.path);
+    setFrameLoading(true);
   }
 
   async function save() {
-    if (!dirtyKeys.size || setupRequired) return;
+    if (!selection || !draft.trim() || draft.trim() === savedValue.trim()) return;
     setSaving(true);
     setMessage("");
     try {
-      const updates = Array.from(dirtyKeys).map((contentKey) => ({ contentKey, values: values[contentKey] }));
-      const response = await fetch("/api/admin/site-content", { method: "PUT", headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` }, body: JSON.stringify({ updates }) });
-      const data = await response.json() as { error?: string; updated?: number };
-      if (!response.ok) throw new Error(data.error || "İçerikler kaydedilemedi.");
-      setDirtyKeys(new Set());
-      setMessage(`${data.updated ?? updates.length} içerik alanı kaydedildi. Değişiklikler canlı sitede sayfa yenilendiğinde görünür.`);
+      const response = await fetch("/api/admin/visual-content", { method: "PUT", headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` }, body: JSON.stringify({ contentKey: selection.contentKey, sourceText: selection.sourceText, language: selectedLanguage, value: draft, page: currentPath, label: `${selection.context}: ${selection.sourceText.slice(0, 80)}` }) });
+      const data = await response.json() as { row?: StoredRow; error?: string };
+      if (!response.ok || !data.row) throw new Error(data.error || "Metin kaydedilemedi.");
+      setRows((current) => [data.row!, ...current.filter((row) => row.content_key !== data.row!.content_key)]);
+      setSavedValue(draft.trim());
+      setSelection((current) => current ? { ...current, contentKey: data.row!.content_key, sourceText: data.row!.source_text } : current);
+      setMessage(`${languages.find((item) => item.code === selectedLanguage)?.name} metni kaydedildi.`);
+      window.setTimeout(reloadFrame, 150);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "İçerikler kaydedilemedi.");
+      setMessage(error instanceof Error ? error.message : "Metin kaydedilemedi.");
     } finally {
       setSaving(false);
     }
@@ -116,48 +178,32 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
       </aside>
 
       <main className={`admin-main ${styles.main}`}>
-        <header className="admin-heading"><div><span>SİTE YÖNETİMİ</span><h1>Sayfa düzenine göre içerikler</h1><p>Önce sayfayı, sonra dili seçin. Metinler sitede göründükleri bölüm ve ekran sırasına göre listelenir.</p></div><button className="admin-signout" type="button" onClick={onSignOut}>Güvenli çıkış</button></header>
-        {setupRequired ? <section className={styles.setupNotice} role="alert"><strong>Bir kerelik veritabanı kurulumu gerekiyor.</strong><p>GitHub’daki <code>supabase/site-content.sql</code> dosyasını Supabase SQL Editor’de çalıştırın. Ardından bu sayfayı yenileyin.</p></section> : null}
+        <header className="admin-heading"><div><span>GÖRSEL İÇERİK DÜZENLEYİCİ</span><h1>Metni siteden seçerek düzenleyin</h1><p>Sayfayı ve dili seçin; önizlemede değiştirmek istediğiniz yazıya tıklayın.</p></div><button className="admin-signout" type="button" onClick={onSignOut}>Güvenli çıkış</button></header>
         {message ? <div className={styles.message} role="status">{message}</div> : null}
 
-        <nav className={styles.languageTabs} aria-label="Düzenlenecek dil">
-          <div><span>DÜZENLENECEK DİL</span><strong>{activeLanguage.name}</strong></div>
-          <div className={styles.languageButtons}>
-            {languages.map((language) => <button type="button" key={language.code} className={selectedLanguage === language.code ? styles.activeLanguage : ""} aria-pressed={selectedLanguage === language.code} onClick={() => setSelectedLanguage(language.code)}><b>{language.short}</b><span>{language.name}</span></button>)}
-          </div>
-        </nav>
-
-        <section className={styles.pagePicker} aria-label="Düzenlenecek site sayfası">
-          <header><div><span>SİTE SAYFALARI</span><strong>{selectedSection}</strong></div><p>{activeSection?.description}</p></header>
-          <div className={styles.pageButtons}>{sections.map((section, index) => <button type="button" key={section.name} className={selectedSection === section.name ? styles.activePage : ""} aria-pressed={selectedSection === section.name} onClick={() => { setSelectedSection(section.name); setQuery(""); }}><span>{String(index + 1).padStart(2, "0")}</span><strong>{section.name}</strong></button>)}</div>
+        <section className={styles.controlPanel}>
+          <div className={styles.controlGroup}><span>DİL</span><div className={styles.languageButtons}>{languages.map((language) => <button type="button" key={language.code} className={selectedLanguage === language.code ? styles.activeControl : ""} onClick={() => changeLanguage(language.code)} aria-pressed={selectedLanguage === language.code}><b>{language.short}</b>{language.name}</button>)}</div></div>
+          <div className={styles.controlGroup}><span>SAYFA</span><div className={styles.pageButtons}>{pages.map((page) => <button type="button" key={page.path} className={selectedPage.path === page.path ? styles.activeControl : ""} onClick={() => changePage(page)} aria-pressed={selectedPage.path === page.path}>{page.name}</button>)}</div></div>
         </section>
 
-        <section className={styles.toolbar} aria-label="İçerik arama"><label><span>{selectedSection} SAYFASINDA ARA</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`${activeLanguage.name} metinlerinde ara…`} /></label><div><span>GÖSTERİLEN METİN</span><strong>{visibleFields.length}</strong></div></section>
+        <section className={styles.modeBar} aria-label="Önizleme araçları">
+          <div><button type="button" className={mode === "edit" ? styles.activeMode : ""} onClick={() => setMode("edit")}>Metin seç</button><button type="button" className={mode === "browse" ? styles.activeMode : ""} onClick={() => setMode("browse")}>Sitede gezin</button></div>
+          <p>{mode === "edit" ? "Bir yazıya tıklayın; bağlantılar seçim sırasında açılmaz." : "Bağlantıları kullanarak başka sayfalara veya blog yazılarına gidebilirsiniz."}</p>
+          <div><button type="button" className={device === "desktop" ? styles.activeDevice : ""} onClick={() => setDevice("desktop")}>Masaüstü</button><button type="button" className={device === "mobile" ? styles.activeDevice : ""} onClick={() => setDevice("mobile")}>Mobil</button></div>
+        </section>
 
-        {loading ? <div className={styles.empty}><strong>İçerikler hazırlanıyor…</strong><span>Sayfa ve bölüm sırası yükleniyor.</span></div> : null}
-        {!loading && !visibleFields.length ? <div className={styles.empty}><strong>Eşleşen içerik bulunamadı.</strong><span>Arama kelimesini değiştirin veya başka bir sayfa seçin.</span></div> : null}
+        <div className={`${styles.workspace} ${device === "mobile" ? styles.mobileWorkspace : ""}`}>
+          <section className={styles.previewPanel} aria-label="Canlı site önizlemesi">
+            <header><div><span>CANLI ÖNİZLEME</span><strong>{currentPath}</strong></div><button type="button" onClick={reloadFrame}>Yenile</button></header>
+            <div className={styles.frameShell}>{frameLoading ? <div className={styles.frameLoading}>Sayfa hazırlanıyor…</div> : null}<iframe ref={iframeRef} src={selectedPage.path} title="Düzenlenebilir site önizlemesi" onLoad={handleFrameLoad} /></div>
+          </section>
 
-        <div className={styles.blockList}>
-          {contentBlocks.map((block, blockIndex) => (
-            <details className={styles.contentBlock} open={Boolean(query) || blockIndex === 0} key={block.name}>
-              <summary><div><span>{String(blockIndex + 1).padStart(2, "0")}</span><div><h2>{block.name}</h2><p>{block.description}</p></div></div><b>{block.fields.length} metin</b></summary>
-              <div className={styles.contentRows}>
-                {block.fields.map((field, fieldIndex) => {
-                  const current = values[field.contentKey] ?? field.defaults;
-                  const changed = dirtyKeys.has(field.contentKey);
-                  return (
-                    <article className={`${styles.contentRow} ${changed ? styles.changed : ""}`} key={`${field.contentKey}:${fieldIndex}`}>
-                      <header><div><span>SAYFADAKİ SIRA {String(fieldIndex + 1).padStart(2, "0")}</span><h3>{field.label}</h3>{selectedLanguage !== "tr" ? <p><b>Türkçe kaynak:</b> {field.source}</p> : null}</div><div>{changed ? <b>Kaydedilmedi</b> : null}<button type="button" onClick={() => restore(field)}>İlk metne dön</button></div></header>
-                      <label className={styles.editor}><span><b>{activeLanguage.short}</b>{activeLanguage.name} metni</span><textarea dir="auto" rows={current[selectedLanguage].length > 260 ? 7 : current[selectedLanguage].length > 120 ? 5 : 3} value={current[selectedLanguage]} onChange={(event) => updateValue(field.contentKey, selectedLanguage, event.target.value)} disabled={saving || setupRequired} /></label>
-                    </article>
-                  );
-                })}
-              </div>
-            </details>
-          ))}
+          <aside className={styles.editorPanel}>
+            <header><span>SEÇİLİ METİN</span><h2>{selection ? "Düzenlemeye hazır" : "Önizlemeden bir metin seçin"}</h2></header>
+            {selection ? <div className={styles.editorBody}><div className={styles.selectionInfo}><span>KONUM</span><strong>{selection.context}</strong><small>{currentPath}</small></div><label><span>{languages.find((item) => item.code === selectedLanguage)?.name} metni</span><textarea dir="auto" value={draft} onChange={(event) => setDraft(event.target.value)} rows={draft.length > 280 ? 12 : draft.length > 120 ? 8 : 5} /></label><div className={styles.original}><span>SEÇTİĞİNİZ METİN</span><p>{selection.shownText}</p></div><button className={styles.saveButton} type="button" onClick={() => void save()} disabled={saving || !draft.trim() || draft.trim() === savedValue.trim()}>{saving ? "Kaydediliyor…" : "Bu dilde kaydet"}</button><small className={styles.saveNote}>Diğer diller ve sitenin tasarımı değiştirilmez.</small></div> : <div className={styles.editorEmpty}><span>01</span><p><b>Metin seç</b> modu açıkken önizlemede bir başlığa, paragrafa veya buton yazısına tıklayın.</p></div>}
+            {loading ? <div className={styles.catalogStatus}>Veritabanındaki içerikler eşleştiriliyor…</div> : <div className={styles.catalogStatus}>{rows.length} veritabanı kaydı hazır</div>}
+          </aside>
         </div>
-
-        <div className={styles.saveBar}><div><strong>{dirtyKeys.size ? `${dirtyKeys.size} kaydedilmemiş alan` : "Tüm değişiklikler kayıtlı"}</strong><span>Sayfa veya dil değiştirdiğinizde yazdıklarınız korunur.</span></div><button type="button" onClick={() => void save()} disabled={!dirtyKeys.size || saving || setupRequired}>{saving ? "Kaydediliyor…" : "Değişiklikleri kaydet"}</button></div>
       </main>
     </div>
   );
