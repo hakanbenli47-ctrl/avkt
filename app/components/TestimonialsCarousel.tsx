@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSiteLanguage } from "./LanguageProvider";
 
 const googleMapsHref = "https://www.google.com/maps/place/%D0%90%D0%B4%D0%B2%D0%BE%D0%BA%D0%B0%D1%82+Avukat+Lawyer+Ruslana+Pasecinic/@36.8901531,30.6983124,17z/data=!4m8!3m7!1s0x14c38f05426f6c4d:0x2fc5d2d7c632aaff!8m2!3d36.8901531!4d30.6983124!9m1!1b1!16s%2Fg%2F11lrfz2hpn";
+const googleWriteReviewHref = "https://www.google.com/search?q=Ruslana+Pasecinic+Avukat#lrd=0x14c38f05426f6c4d:0x2fc5d2d7c632aaff,3,,,";
 
 const googleReviews = [
   { author: "Elif Ely", text: "Dürüst, profesyonel, çok ilgili ve çözüm odaklı. Avukat arayan herkese gönül rahatlığıyla tavsiye ederim." },
@@ -92,6 +93,9 @@ const content = {
     open: "Google Haritalar’da görüntüle",
     previous: "Önceki yorumu göster",
     next: "Sonraki yorumu göster",
+    requestTitle: "Deneyiminizi paylaşmak ister misiniz?",
+    requestText: "Görüşünüz, hukuki destek arayan kişilere yol gösterir.",
+    requestAction: "Google’da yorum yap",
   },
   ru: {
     kicker: "Опыт доверителей",
@@ -100,6 +104,9 @@ const content = {
     open: "Посмотреть в Google Картах",
     previous: "Показать предыдущий отзыв",
     next: "Показать следующий отзыв",
+    requestTitle: "Хотите поделиться своим опытом?",
+    requestText: "Ваш отзыв поможет людям, которым нужна юридическая поддержка.",
+    requestAction: "Оставить отзыв в Google",
   },
   en: {
     kicker: "Client experiences",
@@ -108,6 +115,9 @@ const content = {
     open: "View on Google Maps",
     previous: "Show previous review",
     next: "Show next review",
+    requestTitle: "Would you like to share your experience?",
+    requestText: "Your feedback can guide others looking for legal support.",
+    requestAction: "Review us on Google",
   },
   ro: {
     kicker: "Experiențele clienților",
@@ -116,6 +126,9 @@ const content = {
     open: "Vedeți pe Google Maps",
     previous: "Afișați recenzia precedentă",
     next: "Afișați recenzia următoare",
+    requestTitle: "Doriți să împărtășiți experiența dumneavoastră?",
+    requestText: "Opinia dumneavoastră îi poate ajuta pe cei care caută sprijin juridic.",
+    requestAction: "Scrieți o recenzie pe Google",
   },
 } as const;
 
@@ -155,6 +168,17 @@ export default function TestimonialsCarousel() {
         <button type="button" onClick={() => move(-1)} aria-label={copy.previous}><span aria-hidden="true">←</span></button>
         <span>{String(active + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
         <button type="button" onClick={() => move(1)} aria-label={copy.next}><span aria-hidden="true">→</span></button>
+      </div>
+      <div className="testimonial-review-request">
+        <div>
+          <h3>{copy.requestTitle}</h3>
+          <p>{copy.requestText}</p>
+        </div>
+        <a href={googleWriteReviewHref} target="_blank" rel="noreferrer">
+          <span className="testimonial-google-mark" aria-hidden="true">G</span>
+          {copy.requestAction}
+          <span aria-hidden="true">↗</span>
+        </a>
       </div>
     </section>
   );
