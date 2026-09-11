@@ -52,6 +52,9 @@ function contextFor(element: Element) {
 export default function SiteContentDashboard({ email, accessToken, onSignOut }: { email: string; accessToken: string; onSignOut: () => void }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const highlightedRef = useRef<Element | null>(null);
+  const rowsRef = useRef<StoredRow[]>([]);
+  const languageRef = useRef<Language>("tr");
+  const modeRef = useRef<Mode>("edit");
   const [rows, setRows] = useState<StoredRow[]>([]);
   const [selectedLanguage, setSelectedLanguage] = useState<Language>("tr");
   const [selectedPage, setSelectedPage] = useState(pages[0]);
@@ -63,6 +66,7 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
   const [savedValue, setSavedValue] = useState("");
   const [loading, setLoading] = useState(true);
   const [frameLoading, setFrameLoading] = useState(true);
+  const [previewReady, setPreviewReady] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -73,7 +77,8 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
       const response = await fetch("/api/admin/visual-content", { headers: { Authorization: `Bearer ${accessToken}` }, cache: "no-store" });
       const data = await response.json() as { rows?: StoredRow[]; error?: string };
       if (!response.ok) throw new Error(data.error || "İçerik kayıtları yüklenemedi.");
-      setRows(data.rows ?? []);
+      rowsRef.current = data.rows ?? [];
+      setRows(rowsRef.current);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "İçerik kayıtları yüklenemedi.");
     } finally {
@@ -82,6 +87,9 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
   }, [accessToken]);
 
   useEffect(() => { void loadRows(); }, [loadRows]);
+  useEffect(() => { window.localStorage.setItem("advocat-language", selectedLanguage); setPreviewReady(true); }, [selectedLanguage]);
+  useEffect(() => { languageRef.current = selectedLanguage; }, [selectedLanguage]);
+  useEffect(() => { modeRef.current = mode; }, [mode]);
 
   const clearHighlight = useCallback(() => {
     highlightedRef.current?.removeAttribute("data-visual-editor-selected");
@@ -96,13 +104,13 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
     clearHighlight();
     element.setAttribute("data-visual-editor-selected", "true");
     highlightedRef.current = element;
-    const stored = rows.find((row) => row.source_text === shownText || languages.some((language) => row[language.code] === shownText));
-    const value = stored?.[selectedLanguage]?.trim() || shownText;
+    const stored = rowsRef.current.find((row) => row.source_text === shownText || languages.some((language) => row[language.code] === shownText));
+    const value = stored?.[languageRef.current]?.trim() || shownText;
     setSelection({ contentKey: stored?.content_key, sourceText: stored?.source_text || shownText, shownText, context: contextFor(element) });
     setDraft(value);
     setSavedValue(value);
     setMessage("");
-  }, [clearHighlight, rows, selectedLanguage]);
+  }, [clearHighlight]);
 
   const handleFrameLoad = useCallback(() => {
     const frame = iframeRef.current;
@@ -116,7 +124,7 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
     style.textContent = '[data-visual-editor-selected="true"]{outline:3px solid #d4ae57!important;outline-offset:4px!important;background:rgba(255,238,184,.16)!important}';
     document.head.appendChild(style);
     document.addEventListener("click", (event) => {
-      if (mode === "browse") return;
+      if (modeRef.current === "browse") return;
       const mouseEvent = event as MouseEvent;
       const node = textNodeAtPoint(document, mouseEvent);
       if (!node) return;
@@ -157,7 +165,7 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
       const response = await fetch("/api/admin/visual-content", { method: "PUT", headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` }, body: JSON.stringify({ contentKey: selection.contentKey, sourceText: selection.sourceText, language: selectedLanguage, value: draft, page: currentPath, label: `${selection.context}: ${selection.sourceText.slice(0, 80)}` }) });
       const data = await response.json() as { row?: StoredRow; error?: string };
       if (!response.ok || !data.row) throw new Error(data.error || "Metin kaydedilemedi.");
-      setRows((current) => [data.row!, ...current.filter((row) => row.content_key !== data.row!.content_key)]);
+      setRows((current) => { const next = [data.row!, ...current.filter((row) => row.content_key !== data.row!.content_key)]; rowsRef.current = next; return next; });
       setSavedValue(draft.trim());
       setSelection((current) => current ? { ...current, contentKey: data.row!.content_key, sourceText: data.row!.source_text } : current);
       setMessage(`${languages.find((item) => item.code === selectedLanguage)?.name} metni kaydedildi.`);
@@ -195,7 +203,7 @@ export default function SiteContentDashboard({ email, accessToken, onSignOut }: 
         <div className={`${styles.workspace} ${device === "mobile" ? styles.mobileWorkspace : ""}`}>
           <section className={styles.previewPanel} aria-label="Canlı site önizlemesi">
             <header><div><span>CANLI ÖNİZLEME</span><strong>{currentPath}</strong></div><button type="button" onClick={reloadFrame}>Yenile</button></header>
-            <div className={styles.frameShell}>{frameLoading ? <div className={styles.frameLoading}>Sayfa hazırlanıyor…</div> : null}<iframe ref={iframeRef} src={selectedPage.path} title="Düzenlenebilir site önizlemesi" onLoad={handleFrameLoad} /></div>
+            <div className={styles.frameShell}>{frameLoading ? <div className={styles.frameLoading}>Sayfa hazırlanıyor…</div> : null}{previewReady ? <iframe ref={iframeRef} src={selectedPage.path} title="Düzenlenebilir site önizlemesi" onLoad={handleFrameLoad} /> : null}</div>
           </section>
 
           <aside className={styles.editorPanel}>
