@@ -530,3 +530,27 @@ html[lang="ru"] .slide-copy h1,html[lang="ro"] .slide-copy h1,html[lang="en"] .s
 @media(max-width:900px){.testimonials-section{padding:92px 28px}.testimonials-section>header{grid-template-columns:1fr;gap:25px;margin-bottom:56px}.testimonials-stage{grid-template-columns:.72fr 1.25fr .72fr;gap:12px}.testimonial-card{min-height:300px;padding:24px 20px}.testimonial-card.is-active{min-height:365px;padding:32px 26px}.testimonial-card footer{align-items:flex-start;flex-direction:column}.testimonial-card footer a{text-align:left}}
 @media(max-width:660px){.testimonials-section{padding:82px 20px}.testimonials-section:before{background-size:48px 48px}.testimonials-section>header{margin-bottom:42px}.testimonials-section>header h2{font-size:46px}.testimonials-stage{min-height:390px;display:block}.testimonial-card.is-side{display:none}.testimonial-card.is-active{width:100%;min-height:385px;padding:30px 25px}.testimonial-card blockquote{font-size:28px}.testimonial-card footer{flex-direction:row;align-items:end}.testimonial-card footer a{text-align:right}.testimonials-controls{margin-top:32px}}
 @media(prefers-reduced-motion:reduce){.testimonial-card{transition:none}.testimonial-card.is-active{animation:none}.testimonials-controls button{transition:none}}
+
+
+/* Scrollable full Google review text */
+.testimonial-card blockquote {
+  width: 100%;
+  max-height: 270px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 10px;
+  white-space: pre-line;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 107, 53, .5) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.testimonial-card blockquote:focus-visible {
+  outline: 2px solid #b08d4d;
+  outline-offset: 4px;
+}
+.testimonial-card blockquote::-webkit-scrollbar { width: 5px; }
+.testimonial-card blockquote::-webkit-scrollbar-track { background: transparent; }
+.testimonial-card blockquote::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(140, 107, 53, .5);
+}
